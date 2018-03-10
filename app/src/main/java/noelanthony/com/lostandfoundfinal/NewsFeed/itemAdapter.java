@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.NewsFeed;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,11 +11,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+
+import noelanthony.com.lostandfoundfinal.R;
+
 /**
  * Created by Noel on 16/02/2018.
  */
 
-public class itemAdapter extends ArrayAdapter<items> {
+public class
+itemAdapter extends ArrayAdapter<items> {
 
     private final Context context;
     private final ArrayList<items> values;
@@ -38,20 +42,12 @@ public class itemAdapter extends ArrayAdapter<items> {
         TextView locationTextView = (TextView) rowView.findViewById(R.id.locationTextView);
         TextView posterTextView = (TextView) rowView.findViewById(R.id.posterTextView);
         ImageView itemImageView = (ImageView) rowView.findViewById(R.id.itemImageView);
-
         //SET ITEM VALUES HERE
-        itemNameTextView.setText(values.get(position).getName());
-
-             //DATE
-       // calendar = Calendar.getInstance();
-        //simpleDateFormat = new SimpleDateFormat("dd-MM-yyyy HH:mm:ss");
-       // Date = simpleDateFormat.format(calendar.getTime());
-        datetimeTextView.setText(values.get(position).getTime());
-        locationTextView.setText(values.get(position).getLocation());
+        itemNameTextView.setText(values.get(position).getitemName());
+        datetimeTextView.setText(values.get(position).getdateSubmitted());
+        locationTextView.setText(values.get(position).getlastSeenLocation());
         posterTextView.setText(values.get(position).getPoster());
-
         //itemImageView.setImageResource(R.drawable.flashdrive);
-
         return rowView;
     }
 }

@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.Profile;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -39,6 +39,9 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+
+import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
+import noelanthony.com.lostandfoundfinal.R;
 
 /**
  * Created by Noel on 16/02/2018.
@@ -127,8 +130,6 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         emailverifyTextView = (TextView)myView.findViewById(R.id.emailverifyTextView);
         itemsreturnedTextView = (TextView)myView.findViewById(R.id.itemsreturnedTextView);
 
-
-
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance();
         myRef = mDatabase.getReference();
@@ -193,7 +194,6 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         }
     }
 
-
     //onstart
     @Override
     public void onResume() {
@@ -209,9 +209,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
 
     private void loadUserInformation() {
         final FirebaseUser user = mAuth.getCurrentUser();
-
         if(user!=null) {
-
             if (user.getPhotoUrl() != null) {
                 Glide.with(this).load(user.getPhotoUrl().toString()).into(uploadImageView);
             }
@@ -239,19 +237,16 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     }
 
     private void saveUserInformation() {
-            String displayName = nameEditText.getText().toString();
-            nameTextView.setText(displayName);
-
-            if (displayName.isEmpty()){
-                nameEditText.setError("Please enter your name");
-                nameEditText.requestFocus();
-                return;
-            }
+          //  String displayName = nameEditText.getText().toString();
+          //  nameTextView.setText(displayName);
+           // if (displayName.isEmpty()){
+          //      nameEditText.setError("Please enter your name");
+          //      nameEditText.requestFocus();
+         //       return;
+         //   }
         FirebaseUser user =mAuth.getCurrentUser();
-
             if(user!=null && profileImageURL !=null){
-                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setDisplayName(displayName).setPhotoUri(Uri.parse(profileImageURL)).build();
-
+                UserProfileChangeRequest profile = new UserProfileChangeRequest.Builder().setPhotoUri(Uri.parse(profileImageURL)).build();//.setDisplayName(displayName)
                 user.updateProfile(profile).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -268,28 +263,28 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(Intent.createChooser(intent, "Select Profile Image"), CHOOSE_IMAGE);
+        nameTextView.setVisibility(View.VISIBLE);
     }
 
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.updateinfoTextView:
-                updateinfoTextView.setVisibility(View.INVISIBLE);
-                nameTextView.setVisibility(View.INVISIBLE);
-                nameEditText.setVisibility(View.VISIBLE);
-                saveBtn.setVisibility(View.VISIBLE);
-                break;
+
+           // case R.id.updateinfoTextView:
+           //     updateinfoTextView.setVisibility(View.INVISIBLE);
+           //     nameTextView.setVisibility(View.INVISIBLE);
+           //    nameEditText.setVisibility(View.VISIBLE);
+           //     saveBtn.setVisibility(View.VISIBLE);
+          //      break;
 
             case R.id.saveBtn:
-                nameTextView.setVisibility(View.VISIBLE);
-                nameEditText.setVisibility(View.INVISIBLE);
+                nameEditText.setVisibility(View.GONE);
                 saveBtn.setVisibility(View.INVISIBLE);
                 updateinfoTextView.setVisibility(View.VISIBLE);
+                nameTextView.setVisibility(View.VISIBLE);
                 saveUserInformation();
                 break;
-
-
         }
     }
 }//END

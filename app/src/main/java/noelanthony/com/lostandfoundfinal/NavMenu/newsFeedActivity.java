@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.NavMenu;
 
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -16,6 +16,12 @@ import android.view.MenuItem;
 import android.view.View;
 
 import com.google.firebase.auth.FirebaseAuth;
+
+import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
+import noelanthony.com.lostandfoundfinal.NewsFeed.newsfeedFragment;
+import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.Profile.profileFragment;
+import noelanthony.com.lostandfoundfinal.mySubmissionsFragment;
 
 public class newsFeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -98,11 +104,14 @@ public class newsFeedActivity extends AppCompatActivity
 
         if (id == R.id.nav_newsfeed_layout) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new newsfeedFragment()).commit();
-
             //
         } else if (id == R.id.nav_profile) {
             fragmentManager.beginTransaction().replace(R.id.content_frame , new profileFragment()).commit();
-        } else if (id ==R.id.nav_logout){
+        } else if(id ==R.id.nav_submissions) {
+            fragmentManager.beginTransaction().replace(R.id.content_frame , new mySubmissionsFragment()).commit();
+        }
+
+        else if (id ==R.id.nav_logout){
             FirebaseAuth.getInstance().signOut();
             finish();
             startActivity(new Intent(this, MainActivity.class));

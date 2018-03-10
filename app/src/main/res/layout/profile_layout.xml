@@ -10,7 +10,8 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="Update Information" />
+        android:text="Update Information"
+        android:visibility="invisible"/>
 
     <TextView
         android:id="@+id/idnoTextView"
@@ -161,7 +162,8 @@
         android:layout_marginTop="27dp"
         android:text="ID Number:"
         android:textColor="#005880"
-        android:textSize="16sp" />
+        android:textSize="16sp"
+        />
 
     <TextView
         android:id="@+id/emailverifyTextView"

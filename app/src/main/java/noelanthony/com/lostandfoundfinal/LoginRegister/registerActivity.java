@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.LoginRegister;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -21,6 +21,9 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+
+import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
+import noelanthony.com.lostandfoundfinal.R;
 
 
 public class registerActivity extends AppCompatActivity implements View.OnClickListener{
