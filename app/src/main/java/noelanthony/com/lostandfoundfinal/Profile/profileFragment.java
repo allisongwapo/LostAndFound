@@ -63,10 +63,10 @@ public class profileFragment extends Fragment implements View.OnClickListener {
 
 
     //FIREBASE Stuff
-    private FirebaseDatabase mDatabase;
+    //private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
-    private DatabaseReference myRef;
+    private DatabaseReference myRef,mDatabase;
     private String userID;
 
 
@@ -119,22 +119,24 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         Firebase.setAndroidContext(applicationContext);
 
 
-        uploadImageView = (ImageView)myView.findViewById(R.id.uploadImageView);
-        nameTextView = (TextView)myView.findViewById(R.id.nameTextView);
-        updateinfoTextView = (TextView)myView.findViewById(R.id.updateinfoTextView);
-        idnoTextView = (TextView)myView.findViewById(R.id.idnoTextView);
-        datejoinedTextView=(TextView)myView.findViewById(R.id.datejoinedTextView);
-        progressBar=(ProgressBar)myView.findViewById(R.id.progressbar);
-        saveBtn = (Button)myView.findViewById(R.id.saveBtn);
-        nameEditText=(EditText)myView.findViewById(R.id.nameEditText);
-        emailverifyTextView = (TextView)myView.findViewById(R.id.emailverifyTextView);
-        itemsreturnedTextView = (TextView)myView.findViewById(R.id.itemsreturnedTextView);
+        uploadImageView = myView.findViewById(R.id.uploadImageView);
+        nameTextView = myView.findViewById(R.id.nameTextView);
+        updateinfoTextView = myView.findViewById(R.id.updateinfoTextView);
+        idnoTextView = myView.findViewById(R.id.idnoTextView);
+        datejoinedTextView= myView.findViewById(R.id.datejoinedTextView);
+        progressBar= myView.findViewById(R.id.progressbar);
+        saveBtn = myView.findViewById(R.id.saveBtn);
+        nameEditText= myView.findViewById(R.id.nameEditText);
+        emailverifyTextView = myView.findViewById(R.id.emailverifyTextView);
+        itemsreturnedTextView = myView.findViewById(R.id.itemsreturnedTextView);
+
 
         mAuth = FirebaseAuth.getInstance();
-        mDatabase = FirebaseDatabase.getInstance();
-        myRef = mDatabase.getReference();
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
+
+        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
+        myRef = mDatabase.child("users").child(userID);
 
         mAuthListener = new FirebaseAuth.AuthStateListener() {
             @Override
@@ -179,19 +181,21 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     }
 
     private void showData(DataSnapshot dataSnapshot) {
-        for(DataSnapshot ds:dataSnapshot.getChildren()){
-            UserInformation uInfo = new UserInformation();
-            uInfo.setName(ds.child(userID).getValue(UserInformation.class).getName());//sets name
+       // for(DataSnapshot ds:dataSnapshot.getChildren()){
+        //UserInformation facts = dataSnapshot.getValue(UserInformation.class);
+
+        UserInformation uInfo = new UserInformation();
+            uInfo.setName(dataSnapshot.getValue(UserInformation.class).getName());//sets name
             //uInfo.setEmail(ds.child(userID).getValue(UserInformation.class).getEmail());//sets email
-            uInfo.setDatejoined(ds.child(userID).getValue(UserInformation.class).getDatejoined());//sets name
-            uInfo.setItemsreturned(ds.child(userID).getValue(UserInformation.class).getItemsreturned());
-            uInfo.setIdnumber(ds.child(userID).getValue(UserInformation.class).getIdnumber());
+            uInfo.setDatejoined(dataSnapshot.getValue(UserInformation.class).getDatejoined());//sets name
+            uInfo.setItemsreturned(dataSnapshot.getValue(UserInformation.class).getItemsreturned());
+            uInfo.setIdnumber(dataSnapshot.getValue(UserInformation.class).getIdnumber());
 
             nameTextView.setText(uInfo.getName());
             datejoinedTextView.setText(uInfo.getDatejoined());
-            itemsreturnedTextView.setText(String.valueOf(uInfo.getItemsreturned()));
+            itemsreturnedTextView.setText(String.valueOf(uInfo.getItemsreturned()).toString());
             idnoTextView.setText(uInfo.getIdnumber());
-        }
+        //}
     }
 
     //onstart

@@ -17,6 +17,15 @@ public class UserInformation {
 
     }
 
+    public UserInformation(String name, String image, String email, String datejoined, int itemsreturned, String idnumber) {
+        this.name = name;
+        this.image = image;
+        this.email = email;
+        this.datejoined = datejoined;
+        this.itemsreturned = itemsreturned;
+        this.idnumber = idnumber;
+    }
+
     public String getName() {
         return name;
     }
