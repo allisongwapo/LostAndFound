@@ -1,9 +1,11 @@
 package noelanthony.com.lostandfoundfinal.NewsFeed;
 
+import com.google.firebase.database.IgnoreExtraProperties;
+
 /**
  * Created by Noel on 16/02/2018.
  */
-
+@IgnoreExtraProperties
 public class items {
     private String itemName;
     private String dateSubmitted;
@@ -12,6 +14,13 @@ public class items {
     //private boolean status;
 
     public items(){}
+
+    public items(String itemName, String dateSubmitted, String lastSeenLocation, String poster) {
+        this.itemName = itemName;
+        this.dateSubmitted = dateSubmitted;
+        this.lastSeenLocation = lastSeenLocation;
+        this.poster = poster;
+    }
 
     public String getitemName() {
         return itemName;

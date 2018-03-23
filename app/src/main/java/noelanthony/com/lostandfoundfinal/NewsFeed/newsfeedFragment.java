@@ -19,6 +19,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
 import noelanthony.com.lostandfoundfinal.R;
@@ -29,20 +30,16 @@ import noelanthony.com.lostandfoundfinal.R;
 
 public class newsfeedFragment extends Fragment {
 
-    itemAdapter adapter;
     ListView itemListView;
-    FirebaseHelper helper;
+    List<items> itemList;
     Context applicationContext = MainActivity.getContextOfApplication();
 
 
-
     View myView;
+
     private Button submitLostBtn;
     private Button foundItemBtn;
-    private Firebase rootRef;
-    private DatabaseReference dbReference;
-    private FirebaseDatabase database;
-    final ArrayList<items> list=new ArrayList<>();
+    private DatabaseReference dbReference,mDatabase;
 
 
     @Nullable
@@ -51,24 +48,24 @@ public class newsfeedFragment extends Fragment {
         myView = inflater.inflate(R.layout.newsfeed_layout, container, false);
 
         Firebase.setAndroidContext(applicationContext);
-        itemListView = (ListView) myView.findViewById(R.id.itemListView);;
-        submitLostBtn = (Button)myView.findViewById(R.id.submitLostBtn);
-        foundItemBtn = (Button)myView.findViewById(R.id.foundItemBtn);
-        final ArrayList<items> list=new ArrayList<items>();
+        itemListView =  myView.findViewById(R.id.itemListView);;
+        submitLostBtn = myView.findViewById(R.id.submitLostBtn);
+        foundItemBtn = myView.findViewById(R.id.foundItemBtn);
+        itemList = new ArrayList<>();
         //initialize firebase dn
-        rootRef= new Firebase("https://lostandfoundfinal.firebaseio.com/");
-        database = FirebaseDatabase.getInstance();
-        dbReference= database.getReference();//.child("lostItems");
-        dbReference.child("lostItems").addValueEventListener(new ValueEventListener() {
+        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
+        dbReference= mDatabase.child("lostItems");
+        dbReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
-                Iterable<DataSnapshot> children = dataSnapshot.getChildren();
-                //shake hands with each of them
-                for (DataSnapshot child:children) {
-                    items value = child.getValue(items.class);
-                    list.add(value);
+                itemList.clear();
+                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
+                    items Items = itemSnapshot.getValue(items.class);
+                    itemList.add(Items);
                 }
+                itemAdapter adapter = new itemAdapter(getActivity() ,itemList);
+                itemListView.setAdapter(adapter);
             }
 
             @Override
@@ -76,13 +73,6 @@ public class newsfeedFragment extends Fragment {
 
             }
         });
-
-        helper = new FirebaseHelper(dbReference);
-
-        //Adapter
-        adapter= new itemAdapter(applicationContext, helper.retrieve());
-        itemListView.setAdapter(adapter);
-
 
         submitLostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -93,4 +83,5 @@ public class newsfeedFragment extends Fragment {
         });
         return myView;
     }
+
 }//END

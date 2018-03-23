@@ -1,6 +1,6 @@
 package noelanthony.com.lostandfoundfinal.NewsFeed;
 
-import android.content.Context;
+import android.app.Activity;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.R;
 
@@ -18,35 +18,37 @@ import noelanthony.com.lostandfoundfinal.R;
  * Created by Noel on 16/02/2018.
  */
 
-public class
-itemAdapter extends ArrayAdapter<items> {
+public class itemAdapter extends ArrayAdapter<items> {
 
-    private final Context context;
-    private final ArrayList<items> values;
+    private Activity context;
+    private List<items> itemList;
 
-    public itemAdapter(@NonNull Context context, ArrayList<items> list) {
-        super(context, R.layout.itemslv_layout, list);
+    public itemAdapter(Activity context, List<items> itemList) {
+        super(context, R.layout.itemslv_layout, itemList);
         this.context = context;
-        this.values = list;
+        this.itemList = itemList;
     }
 
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
 
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View rowView = inflater.inflate(R.layout.itemslv_layout, parent, false);
+        LayoutInflater inflater = context.getLayoutInflater();
+        View rowView = inflater.inflate(R.layout.itemslv_layout, null, true);
 
-        TextView itemNameTextView = (TextView) rowView.findViewById(R.id.itemNameTextView);
-        TextView datetimeTextView = (TextView) rowView.findViewById(R.id.datetimeTextView);
-        TextView locationTextView = (TextView) rowView.findViewById(R.id.locationTextView);
-        TextView posterTextView = (TextView) rowView.findViewById(R.id.posterTextView);
-        ImageView itemImageView = (ImageView) rowView.findViewById(R.id.itemImageView);
+        TextView itemNameTextView = rowView.findViewById(R.id.itemNameTextView);
+        TextView datetimeTextView = rowView.findViewById(R.id.datetimeTextView);
+        TextView locationTextView = rowView.findViewById(R.id.locationTextView);
+        TextView posterTextView = rowView.findViewById(R.id.posterTextView);
+        ImageView itemImageView = rowView.findViewById(R.id.itemImageView);
+
         //SET ITEM VALUES HERE
-        itemNameTextView.setText(values.get(position).getitemName());
-        datetimeTextView.setText(values.get(position).getdateSubmitted());
-        locationTextView.setText(values.get(position).getlastSeenLocation());
-        posterTextView.setText(values.get(position).getPoster());
+        items Items = itemList.get(position);
+
+        itemNameTextView.setText(Items.getitemName());
+        datetimeTextView.setText(Items.getdateSubmitted());
+        locationTextView.setText(Items.getlastSeenLocation());
+        posterTextView.setText(Items.getPoster());
         //itemImageView.setImageResource(R.drawable.flashdrive);
         return rowView;
     }
