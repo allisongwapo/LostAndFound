@@ -16,6 +16,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -39,7 +40,7 @@ public class newsfeedFragment extends Fragment {
 
     private Button submitLostBtn;
     private Button foundItemBtn;
-    private DatabaseReference dbReference,mDatabase;
+    private DatabaseReference dbLostReference,mDatabase,dbFoundReference;
 
 
     @Nullable
@@ -49,23 +50,47 @@ public class newsfeedFragment extends Fragment {
 
         Firebase.setAndroidContext(applicationContext);
         itemListView =  myView.findViewById(R.id.itemListView);;
-        submitLostBtn = myView.findViewById(R.id.submitLostBtn);
+        submitLostBtn = myView.findViewById(R.id.submitFoundBtn);
         foundItemBtn = myView.findViewById(R.id.foundItemBtn);
         itemList = new ArrayList<>();
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
-        dbReference= mDatabase.child("lostItems");
-        dbReference.addValueEventListener(new ValueEventListener() {
+        dbLostReference= mDatabase.child("items").child("lostItems");
+        dbFoundReference=mDatabase.child("items").child("foundItems");
+        Query lostDateQuery = dbLostReference.orderByChild("dateSubmitted");
+        Query foundDateQuery = dbFoundReference.orderByChild("dateSubmitted");
+        lostDateQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
-                itemList.clear();
+
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
                     items Items = itemSnapshot.getValue(items.class);
                     itemList.add(Items);
                 }
                 itemAdapter adapter = new itemAdapter(getActivity() ,itemList);
                 itemListView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+        foundDateQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //gets all children
+
+                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
+                    items Items = itemSnapshot.getValue(items.class);
+                    itemList.add(Items);
+
+                }
+                itemAdapter adapter = new itemAdapter(getActivity() ,itemList);
+                itemListView.setAdapter(adapter);
+
+
             }
 
             @Override
@@ -81,7 +106,17 @@ public class newsfeedFragment extends Fragment {
                 startActivity(startIntent);
             }
         });
+        foundItemBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(applicationContext,submitFoundItemActivity.class);
+                startActivity(startIntent);
+            }
+        });
         return myView;
     }
 
 }//END
+
+/*NOTES Match 25,2018
+AND NEWS FEED KAY DAPAT LOST OG FOUND DILI LOST DAYON FOUND*/

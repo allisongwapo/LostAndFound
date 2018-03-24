@@ -14,7 +14,7 @@
         android:layout_marginTop="80dp" />
 
     <Button
-        android:id="@+id/submitLostBtn"
+        android:id="@+id/submitFoundBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
@@ -29,8 +29,8 @@
         android:id="@+id/foundItemBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/submitLostBtn"
-        android:layout_alignBottom="@+id/submitLostBtn"
+        android:layout_alignBaseline="@+id/submitFoundBtn"
+        android:layout_alignBottom="@+id/submitFoundBtn"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
         android:layout_marginEnd="39dp"

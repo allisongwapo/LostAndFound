@@ -23,13 +23,13 @@ import java.util.Date;
 import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.R;
 
-public class submitLostItemActivity extends AppCompatActivity {
+public class submitFoundItemActivity extends AppCompatActivity {
 
     private EditText itemnameEditText;
-    private EditText lastseenEditText;
+    private EditText locationdescEditText;
     private EditText descriptionEditText;
     private ImageButton uploadImageButton;
-    private Button submitLostButton;
+    private Button submitFoundButton;
     private ProgressBar progressBar;
     private DatabaseReference mDatabase;
     private FirebaseAuth mAuth;
@@ -37,17 +37,17 @@ public class submitLostItemActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_submit_lost_item);
+        setContentView(R.layout.activity_submit_found_item);
 
         itemnameEditText = findViewById(R.id.itemnameEditText);
-        lastseenEditText = findViewById(R.id.locationdescEditText);
+        locationdescEditText = findViewById(R.id.locationdescEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
         uploadImageButton = findViewById(R.id.uploadImageButton);
-        submitLostButton = findViewById(R.id.submitFoundBtn);
+        submitFoundButton = findViewById(R.id.submitFoundBtn);
         progressBar = findViewById(R.id.progressbar);
         mAuth = FirebaseAuth.getInstance();
 
-        submitLostButton.setOnClickListener(new View.OnClickListener() {
+        submitFoundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showAlertDialog(v);
@@ -59,7 +59,7 @@ public class submitLostItemActivity extends AppCompatActivity {
 
     public void showAlertDialog(View v){
         final String itemName = itemnameEditText.getText().toString().trim();
-        final String lastSeen = lastseenEditText.getText().toString().trim();
+        final String lastSeen = locationdescEditText.getText().toString().trim();
         final String description = descriptionEditText.getText().toString().trim();
         final String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
@@ -81,18 +81,18 @@ public class submitLostItemActivity extends AppCompatActivity {
         }
         AlertDialog.Builder alert= new AlertDialog.Builder(this);
         alert.setTitle("Confirm");
-        alert.setMessage("Item Name: " + itemnameEditText.getText() + "\n Last Seen in: " + lastseenEditText.getText() + "\n Description: " + descriptionEditText.getText());
+        alert.setMessage("Item Name: " + itemnameEditText.getText() + "\n Location Description" + locationdescEditText.getText() + "\n Description: " + descriptionEditText.getText());
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items").child("lostItems");
-                DatabaseReference item = mDatabase.child(mAuth.getCurrentUser().getUid() + "Lost" + itemName);
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items").child("foundItems");
+                DatabaseReference item = mDatabase.child(mAuth.getCurrentUser().getUid() + "Found" +itemName);
                 item.child("itemName").setValue(itemName);
                 item.child("lastSeenLocation").setValue(lastSeen);
                 item.child("description").setValue(description);
                 item.child("poster").setValue(currentUserName);
                 item.child("dateSubmitted").setValue(currentDateTimeString);
-                item.child("status").setValue("Lost");
+                item.child("status").setValue("Found");
                 Toast.makeText(getApplicationContext(), "Submission Successful", Toast.LENGTH_SHORT).show();
                 Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);
                 startActivity(startIntent);
@@ -107,5 +107,4 @@ public class submitLostItemActivity extends AppCompatActivity {
         });
         alert.create().show();
     }
-
-} // END
+}
