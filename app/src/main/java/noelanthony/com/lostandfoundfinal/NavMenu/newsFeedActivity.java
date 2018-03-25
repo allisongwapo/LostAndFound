@@ -21,7 +21,7 @@ import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
 import noelanthony.com.lostandfoundfinal.NewsFeed.newsfeedFragment;
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.Profile.profileFragment;
-import noelanthony.com.lostandfoundfinal.mySubmissionsFragment;
+import noelanthony.com.lostandfoundfinal.MySubmissions.mySubmissionsFragment;
 
 public class newsFeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {

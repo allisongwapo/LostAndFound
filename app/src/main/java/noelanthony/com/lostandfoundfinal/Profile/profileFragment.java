@@ -61,17 +61,12 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     Button saveBtn;
     EditText nameEditText;
 
-
     //FIREBASE Stuff
     //private FirebaseDatabase mDatabase;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthListener;
     private DatabaseReference myRef,mDatabase;
     private String userID;
-
-
-
-
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {

@@ -14,13 +14,17 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.DateFormat;
 import java.util.Date;
 
 import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
+import noelanthony.com.lostandfoundfinal.Profile.UserInformation;
 import noelanthony.com.lostandfoundfinal.R;
 
 public class submitFoundItemActivity extends AppCompatActivity {
@@ -31,8 +35,9 @@ public class submitFoundItemActivity extends AppCompatActivity {
     private ImageButton uploadImageButton;
     private Button submitFoundButton;
     private ProgressBar progressBar;
-    private DatabaseReference mDatabase;
+    private DatabaseReference mDatabase, nameRef;
     private FirebaseAuth mAuth;
+    private String userID, poster;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,6 +51,9 @@ public class submitFoundItemActivity extends AppCompatActivity {
         submitFoundButton = findViewById(R.id.submitFoundBtn);
         progressBar = findViewById(R.id.progressbar);
         mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
 
         submitFoundButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -62,10 +70,6 @@ public class submitFoundItemActivity extends AppCompatActivity {
         final String lastSeen = locationdescEditText.getText().toString().trim();
         final String description = descriptionEditText.getText().toString().trim();
         final String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
-
-
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        final String currentUserName = user.getDisplayName();
 
         //check if name is empty
         if(itemName.isEmpty()){
@@ -86,11 +90,23 @@ public class submitFoundItemActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items").child("foundItems");
-                DatabaseReference item = mDatabase.child(mAuth.getCurrentUser().getUid() + "Found" +itemName);
+                DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID);//to get the poster name
+                final DatabaseReference item = mDatabase.child(mAuth.getCurrentUser().getUid() + "Found" +itemName);
                 item.child("itemName").setValue(itemName);
                 item.child("lastSeenLocation").setValue(lastSeen);
                 item.child("description").setValue(description);
-                item.child("poster").setValue(currentUserName);
+                nameRef.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        showData(dataSnapshot);
+                        item.child("poster").setValue(poster);
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+
+                    }
+                });
                 item.child("dateSubmitted").setValue(currentDateTimeString);
                 item.child("status").setValue("Found");
                 Toast.makeText(getApplicationContext(), "Submission Successful", Toast.LENGTH_SHORT).show();
@@ -107,4 +123,11 @@ public class submitFoundItemActivity extends AppCompatActivity {
         });
         alert.create().show();
     }
+    private void showData(DataSnapshot dataSnapshot) {
+        UserInformation uInfo = new UserInformation();
+        uInfo.setName(dataSnapshot.getValue(UserInformation.class).getName());//sets name
+        poster = uInfo.getName();
+
+    }
+
 }
