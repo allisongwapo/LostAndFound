@@ -89,9 +89,9 @@ public class submitFoundItemActivity extends AppCompatActivity {
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items").child("foundItems");
+                DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items");
                 DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID);//to get the poster name
-                final DatabaseReference item = mDatabase.child(mAuth.getCurrentUser().getUid() + "Found" +itemName);
+                final DatabaseReference item = mDatabase.push();
                 item.child("itemName").setValue(itemName);
                 item.child("lastSeenLocation").setValue(lastSeen);
                 item.child("description").setValue(description);
@@ -109,6 +109,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 });
                 item.child("dateSubmitted").setValue(currentDateTimeString);
                 item.child("status").setValue("Found");
+                item.child("uid").setValue(userID); //for mySubmissions Filter
                 Toast.makeText(getApplicationContext(), "Submission Successful", Toast.LENGTH_SHORT).show();
                 Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);
                 startActivity(startIntent);

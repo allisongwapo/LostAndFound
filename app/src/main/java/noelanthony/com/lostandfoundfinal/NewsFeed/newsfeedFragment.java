@@ -41,7 +41,7 @@ public class newsfeedFragment extends Fragment {
 
     private Button submitLostBtn;
     private Button foundItemBtn;
-    private DatabaseReference dbLostReference,mDatabase,dbFoundReference;
+    private DatabaseReference dbLostReference,mDatabase;
 
 
     @Nullable
@@ -56,15 +56,13 @@ public class newsfeedFragment extends Fragment {
         itemList = new ArrayList<>();
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
-        dbLostReference= mDatabase.child("items").child("lostItems");
-        dbFoundReference=mDatabase.child("items").child("foundItems");
-        Query lostDateQuery = dbLostReference.orderByChild("dateSubmitted");
-        Query foundDateQuery = dbFoundReference.orderByChild("dateSubmitted");
-        lostDateQuery.addValueEventListener(new ValueEventListener() {
+        dbLostReference= mDatabase.child("items");
+        Query DescendingDateQuery = dbLostReference.orderByChild("dateSubmitted"); //Orders items by Descending date
+        DescendingDateQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
-
+                itemList.clear(); //clear listview before populate
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
                     items Items = itemSnapshot.getValue(items.class);
                     itemList.add(Items);
@@ -74,27 +72,6 @@ public class newsfeedFragment extends Fragment {
                     Collections.reverse(itemList); //to order by descending
                     itemListView.setAdapter(adapter);
                 }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-        foundDateQuery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //gets all children
-
-                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
-                    items Items = itemSnapshot.getValue(items.class);
-                    itemList.add(Items);
-
-                }
-                itemAdapter adapter = new itemAdapter(getActivity() ,itemList);
-                itemListView.setAdapter(adapter);
-
-
             }
 
             @Override

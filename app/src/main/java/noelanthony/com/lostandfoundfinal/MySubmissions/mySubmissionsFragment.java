@@ -20,7 +20,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
@@ -40,7 +39,7 @@ public class mySubmissionsFragment extends Fragment{
 
     private FirebaseAuth mAuth;
     private String userID;
-    private DatabaseReference dbLostReference,mDatabase,dbFoundReference;
+    private DatabaseReference dbLostReference,mDatabase;
     View myView;
     @Nullable
     @Override
@@ -56,23 +55,22 @@ public class mySubmissionsFragment extends Fragment{
         itemList = new ArrayList<>();
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
-        dbLostReference= mDatabase.child("items").child("lostItems");
-        dbFoundReference=mDatabase.child("items").child("foundItems");
-        Query lostDateQuery = dbLostReference.orderByChild("dateSubmitted").startAt(userID);
-        Query foundDateQuery = dbFoundReference.orderByChild("dateSubmitted").startAt(userID);
-        lostDateQuery.addValueEventListener(new ValueEventListener() {
+        dbLostReference= mDatabase.child("items");
+        Query DescendingDateQuery = dbLostReference.orderByChild("uid").equalTo(userID); //Orders items by Descending date
+        DescendingDateQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
-
+                itemList.clear();
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
                     items Items = itemSnapshot.getValue(items.class);
                     itemList.add(Items);
                 }
                 if(getActivity()!=null) {
-                itemAdapter adapter = new itemAdapter(getActivity() ,itemList);
-                Collections.reverse(itemList); //to order by descending
-                itemListView.setAdapter(adapter);
+
+                    itemAdapter adapter = new itemAdapter(getActivity(), itemList);
+                    //to order by descending
+                    itemListView.setAdapter(adapter);
                 }
             }
 
@@ -81,27 +79,7 @@ public class mySubmissionsFragment extends Fragment{
 
             }
         });
-        foundDateQuery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                //gets all children
 
-                for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
-                    items Items = itemSnapshot.getValue(items.class);
-                    itemList.add(Items);
-
-                }
-                itemAdapter adapter = new itemAdapter(getActivity() ,itemList);
-                itemListView.setAdapter(adapter);
-
-
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
 
         return myView;
     }
