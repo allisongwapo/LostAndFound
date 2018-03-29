@@ -11,15 +11,17 @@ public class items {
     private String dateSubmitted;
     private String lastSeenLocation;
     private String poster;
+    private String status;
     //private boolean status;
 
     public items(){}
 
-    public items(String itemName, String dateSubmitted, String lastSeenLocation, String poster) {
+    public items(String itemName, String dateSubmitted, String lastSeenLocation, String poster,String status) {
         this.itemName = itemName;
         this.dateSubmitted = dateSubmitted;
         this.lastSeenLocation = lastSeenLocation;
         this.poster = poster;
+        this.status = status;
     }
 
     public String getitemName() {
@@ -36,6 +38,14 @@ public class items {
 
     public String getPoster() {
         return poster;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
     //public boolean isFound(){
       //  return status;

@@ -10,6 +10,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+
 import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.R;
@@ -22,6 +25,9 @@ public class itemAdapter extends ArrayAdapter<items> {
 
     private Activity context;
     private List<items> itemList;
+    private DatabaseReference mDatabase,nameRef;
+    private FirebaseAuth mAuth;
+    private String userID,status;
 
     public itemAdapter(Activity context, List<items> itemList) {
         super(context, R.layout.itemslv_layout, itemList);
@@ -40,7 +46,9 @@ public class itemAdapter extends ArrayAdapter<items> {
         TextView datetimeTextView = rowView.findViewById(R.id.datetimeTextView);
         TextView locationTextView = rowView.findViewById(R.id.locationTextView);
         TextView posterTextView = rowView.findViewById(R.id.posterTextView);
+        TextView statusTextView = rowView.findViewById(R.id.statusTextView);
         ImageView itemImageView = rowView.findViewById(R.id.itemImageView);
+
 
         //SET ITEM VALUES HERE
         items Items = itemList.get(position);
@@ -48,8 +56,21 @@ public class itemAdapter extends ArrayAdapter<items> {
         itemNameTextView.setText(Items.getitemName());
         datetimeTextView.setText(Items.getdateSubmitted());
         locationTextView.setText(Items.getlastSeenLocation());
-        posterTextView.setText(Items.getPoster());
+        posterTextView.setText("Posted By " + Items.getPoster());
+        statusTextView.setText(Items.getStatus());
         //itemImageView.setImageResource(R.drawable.flashdrive);
+
+        //FOR COLOR CHANGING OF LIST VIEW BASED ON LOST OR FOUND STATUS
+        status = Items.getStatus();
+        if( status.equals("Found")){
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.foundItemColor));
+        } else if(status.equals("Lost")){
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.lostItemColor));
+        }
+        //END COLOR CHANGER
         return rowView;
     }
-}
+
+
+}//END OF CLASS
+

@@ -3,4 +3,6 @@
     <color name="colorPrimary">#0670ad</color>
     <color name="colorPrimaryDark">#303f9f</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="lostItemColor">#BFd35467</color>
+    <color name="foundItemColor">#BF0670AD</color>
 </resources>

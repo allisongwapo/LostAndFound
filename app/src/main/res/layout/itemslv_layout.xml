@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/itemNameTextView"
-                android:layout_width="match_parent"
+                android:layout_width="97dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
@@ -46,15 +46,21 @@
                 android:id="@+id/locationTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView" />
+                android:text="Location" />
 
             <TextView
                 android:id="@+id/posterTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
-                android:text="TextView"
+                android:text="Poster Name"
                 android:textSize="13sp" />
+
+            <TextView
+                android:id="@+id/statusTextView"
+                android:layout_width="92dp"
+                android:layout_height="wrap_content"
+                android:text="Status" />
 
         </LinearLayout>
     </LinearLayout>
