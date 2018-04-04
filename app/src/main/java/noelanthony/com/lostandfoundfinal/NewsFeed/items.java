@@ -12,16 +12,18 @@ public class items {
     private String lastSeenLocation;
     private String poster;
     private String status;
-    //private boolean status;
+    private String imageID;
+
 
     public items(){}
 
-    public items(String itemName, String dateSubmitted, String lastSeenLocation, String poster,String status) {
+    public items(String itemName, String dateSubmitted, String lastSeenLocation, String poster,String status, String imageID) {
         this.itemName = itemName;
         this.dateSubmitted = dateSubmitted;
         this.lastSeenLocation = lastSeenLocation;
         this.poster = poster;
         this.status = status;
+        this.imageID = imageID;
     }
 
     public String getitemName() {
@@ -47,7 +49,13 @@ public class items {
     public void setStatus(String status) {
         this.status = status;
     }
-    //public boolean isFound(){
-      //  return status;
-    //}
+
+    public String getImageID() {
+        return imageID;
+    }
+
+    public void setImageID(String imageID) {
+        this.imageID = imageID;
+    }
+
 }

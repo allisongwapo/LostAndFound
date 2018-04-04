@@ -44,6 +44,8 @@ public class newsfeedFragment extends Fragment {
     private DatabaseReference dbLostReference,mDatabase;
 
 
+
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
@@ -68,8 +70,9 @@ public class newsfeedFragment extends Fragment {
                     itemList.add(Items);
                 }
                 if(getActivity()!=null) {
+
                     itemAdapter adapter = new itemAdapter(getActivity(), itemList);
-                    Collections.reverse(itemList); //to order by descending
+                     Collections.reverse(itemList); //to order by descending
                     itemListView.setAdapter(adapter);
                 }
             }
