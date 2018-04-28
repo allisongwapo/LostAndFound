@@ -22,7 +22,7 @@ public class items {
         this.dateSubmitted = dateSubmitted;
         this.lastSeenLocation = lastSeenLocation;
         this.poster = poster;
-        this.status = status;
+        //this.status = status;
         this.imageID = imageID;
     }
 

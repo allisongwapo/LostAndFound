@@ -2,9 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="noelanthony.com.lostandfoundfinal">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
 
     <application
         android:allowBackup="true"
@@ -29,7 +28,8 @@
         <activity
             android:name=".NewsFeed.lostConfirmPopUp"
             android:theme="@style/AppTheme.PopMe" />
-        <activity android:name=".NewsFeed.submitFoundItemActivity"></activity>
+        <activity android:name=".NewsFeed.submitFoundItemActivity" />
+        <activity android:name=".Admin.adminApprove"></activity>
     </application>
 
 </manifest>

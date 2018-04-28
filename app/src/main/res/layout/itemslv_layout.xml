@@ -57,12 +57,6 @@
                 android:text="Poster Name"
                 android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/statusTextView"
-                android:layout_width="92dp"
-                android:layout_height="wrap_content"
-                android:text="Status" />
-
         </LinearLayout>
     </LinearLayout>
 

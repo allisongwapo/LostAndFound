@@ -153,6 +153,7 @@ public class submitLostItemActivity extends AppCompatActivity {
                 item.child("dateSubmitted").setValue(currentDateTimeString);
                 item.child("status").setValue("Lost");
                 item.child("uid").setValue(userID); //for mySubmissions Filter
+                item.child("approvalStatus").setValue(0);
 
                 //this block of code prevents multiple image upload
                 if(mUploadTask!=null && mUploadTask.isInProgress()){

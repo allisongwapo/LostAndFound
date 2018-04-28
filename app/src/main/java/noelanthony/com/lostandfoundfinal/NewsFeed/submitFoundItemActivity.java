@@ -148,6 +148,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 item.child("dateSubmitted").setValue(currentDateTimeString);
                 item.child("status").setValue("Found");
                 item.child("uid").setValue(userID); //for mySubmissions Filter
+                item.child("approvalStatus").setValue(0);
                 //this block of code prevents multiple image upload
                 if(mUploadTask!=null && mUploadTask.isInProgress()){
                     Toast.makeText(applicationContext, "Upload in progress", Toast.LENGTH_SHORT).show();

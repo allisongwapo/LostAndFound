@@ -52,7 +52,7 @@ public class itemAdapter extends ArrayAdapter<items> {
         TextView datetimeTextView = rowView.findViewById(R.id.datetimeTextView);
         TextView locationTextView = rowView.findViewById(R.id.locationTextView);
         TextView posterTextView = rowView.findViewById(R.id.posterTextView);
-        TextView statusTextView = rowView.findViewById(R.id.statusTextView);
+        //TextView statusTextView = rowView.findViewById(R.id.statusTextView);
         ImageView itemImageView = rowView.findViewById(R.id.itemImageView);
 
         //SET ITEM VALUES HERE
@@ -62,7 +62,7 @@ public class itemAdapter extends ArrayAdapter<items> {
         datetimeTextView.setText(Items.getdateSubmitted());
         locationTextView.setText(Items.getlastSeenLocation());
         posterTextView.setText("Posted By " + Items.getPoster());
-        statusTextView.setText(Items.getStatus());
+        //statusTextView.setText(Items.getStatus());
 
         Glide.with(applicationContext).load(Items.getImageID()).into(itemImageView); // IMAGE VIEW
        /* Picasso.get()

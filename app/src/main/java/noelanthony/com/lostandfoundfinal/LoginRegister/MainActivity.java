@@ -18,6 +18,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import noelanthony.com.lostandfoundfinal.Admin.adminApprove;
 import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.R;
 
@@ -55,7 +56,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void userLogin() {
 
-        String email = emailEditText.getText().toString().trim();
+        final String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
 
         if (email.isEmpty()) {
@@ -87,10 +88,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                    finish();
-                    Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);
-                    startIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(startIntent);
+                    if(email.equals("admin@admin.com")){
+                        finish();
+                        Intent startIntent = new Intent(getApplicationContext(), adminApprove.class);
+                        startIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(startIntent);
+                    }
+                    else{
+                        finish();
+                        Intent startIntent = new Intent(getApplicationContext(), newsFeedActivity.class);
+                        startIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(startIntent);
+                    }
                 }else{
                     Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();
                 }

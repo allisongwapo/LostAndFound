@@ -59,8 +59,10 @@ public class newsfeedFragment extends Fragment {
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         dbLostReference= mDatabase.child("items");
-        Query DescendingDateQuery = dbLostReference.orderByChild("dateSubmitted"); //Orders items by Descending date
-        DescendingDateQuery.addValueEventListener(new ValueEventListener() {
+       // Query DescendingDateQuery = dbLostReference.orderByChild("dateSubmitted"); //Orders items by Descending date
+        Query ApprovedQuery = dbLostReference.orderByChild("approvalStatus").equalTo(1); //Only displays approved items 1
+
+        ApprovedQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
@@ -70,9 +72,8 @@ public class newsfeedFragment extends Fragment {
                     itemList.add(Items);
                 }
                 if(getActivity()!=null) {
-
                     itemAdapter adapter = new itemAdapter(getActivity(), itemList);
-                     Collections.reverse(itemList); //to order by descending
+                    Collections.reverse(itemList); //to order by descending
                     itemListView.setAdapter(adapter);
                 }
             }
