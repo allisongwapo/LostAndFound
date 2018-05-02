@@ -13,17 +13,23 @@ public class items {
     private String poster;
     private String status;
     private String imageID;
+    private boolean isSelected;
+    private int approvalStatus;
+    private String itemID;
 
 
     public items(){}
 
-    public items(String itemName, String dateSubmitted, String lastSeenLocation, String poster,String status, String imageID) {
+    public items(String itemName, String dateSubmitted, String lastSeenLocation, String poster,String status, String imageID,boolean isSelected,int approvalStatus,String itemID) {
         this.itemName = itemName;
         this.dateSubmitted = dateSubmitted;
         this.lastSeenLocation = lastSeenLocation;
         this.poster = poster;
         //this.status = status;
         this.imageID = imageID;
+        this.isSelected = isSelected;
+        this.approvalStatus = approvalStatus;
+        this.itemID = itemID;
     }
 
     public String getitemName() {
@@ -58,4 +64,29 @@ public class items {
         this.imageID = imageID;
     }
 
+    public boolean isSelected() {
+        return isSelected;
+    }
+
+    public void setSelected(boolean selected) {
+        isSelected = selected;
+    }
+
+    public int getApprovalStatus() {
+        return approvalStatus;
+    }
+
+    public void setApprovalStatus(int approvalStatus) {
+        this.approvalStatus = approvalStatus;
+    }
+
+    public String getItemID() {
+        return itemID;
+    }
+
+    public void setItemID(String itemID) {
+        this.itemID = itemID;
+    }
 }
+
+

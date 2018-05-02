@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.NewsFeed;
+package noelanthony.com.lostandfoundfinal.Admin;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,20 +12,20 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
+import noelanthony.com.lostandfoundfinal.NewsFeed.items;
 import noelanthony.com.lostandfoundfinal.R;
 
 /**
  * Created by Noel on 16/02/2018.
  */
 
-public class itemAdapter extends ArrayAdapter<items> {
+public class approveItemAdapter extends ArrayAdapter<items> {
 
     private Activity context;
     private List<items> itemList;
@@ -34,8 +34,8 @@ public class itemAdapter extends ArrayAdapter<items> {
     private String userID,status;
     Context applicationContext = MainActivity.getContextOfApplication();
 
-    public itemAdapter(Activity context, List<items> itemList) {
-        super(context, R.layout.itemslv_layout, itemList);
+    public approveItemAdapter(Activity context, List<items> itemList) {
+        super(context, R.layout.approveitemslistview_layout, itemList);
         this.context = context;
         this.itemList = itemList;
     }
@@ -46,7 +46,7 @@ public class itemAdapter extends ArrayAdapter<items> {
 
         LayoutInflater inflater = context.getLayoutInflater();
 
-        View rowView = inflater.inflate(R.layout.itemslv_layout, null, true);
+        View rowView = inflater.inflate(R.layout.approveitemslistview_layout, null, true);
 
 
         TextView itemNameTextView = rowView.findViewById(R.id.itemNameTextView);
@@ -65,20 +65,18 @@ public class itemAdapter extends ArrayAdapter<items> {
         posterTextView.setText("Posted By " + Items.getPoster());
         //statusTextView.setText(Items.getStatus());
 
-        RequestOptions options = new RequestOptions();
-        options.fitCenter();
+       // RequestOptions options = new RequestOptions().placeholder(R.drawable.ic_noimageb).error(R.drawable.ic_noimageb); .apply(options)
+
         if(Items.getImageID()==null){
-            Glide.with(applicationContext).load(R.mipmap.ic_noimage).apply(options).into(itemImageView);
+            Glide.with(applicationContext).load(R.drawable.ic_noimageb).into(itemImageView);
         }else {
             Glide.with(applicationContext).load(Items.getImageID()).into(itemImageView); // IMAGE VIEW
         }
-       /* Picasso.get()
+        /* Picasso.get()
                 .load(Items.getImageID())
                 .fit().centerCrop()
                 .into(itemImageView);
                 PICASSO DOESNT WORK*/
-
-        //itemImageView.setImageResource(R.drawable.flashdrive);
 
         //FOR COLOR CHANGING OF LIST VIEW BASED ON LOST OR FOUND STATUS
         status = Items.getStatus();

@@ -134,6 +134,7 @@ public class submitLostItemActivity extends AppCompatActivity {
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items");
                 DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
                 final DatabaseReference item = mDatabase.push();
+                String key = item.getKey();
                 item.child("itemName").setValue(itemName);
                 item.child("lastSeenLocation").setValue(lastSeen);
                 item.child("description").setValue(description);
@@ -154,6 +155,7 @@ public class submitLostItemActivity extends AppCompatActivity {
                 item.child("status").setValue("Lost");
                 item.child("uid").setValue(userID); //for mySubmissions Filter
                 item.child("approvalStatus").setValue(0);
+                item.child("itemID").setValue(key);
 
                 //this block of code prevents multiple image upload
                 if(mUploadTask!=null && mUploadTask.isInProgress()){

@@ -130,6 +130,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items");
                 DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID);//to get the poster name
                 final DatabaseReference item = mDatabase.push();
+                String key = item.getKey();
                 item.child("itemName").setValue(itemName);
                 item.child("lastSeenLocation").setValue(lastSeen);
                 item.child("description").setValue(description);
@@ -149,6 +150,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 item.child("status").setValue("Found");
                 item.child("uid").setValue(userID); //for mySubmissions Filter
                 item.child("approvalStatus").setValue(0);
+                item.child("itemID").setValue(key);
                 //this block of code prevents multiple image upload
                 if(mUploadTask!=null && mUploadTask.isInProgress()){
                     Toast.makeText(applicationContext, "Upload in progress", Toast.LENGTH_SHORT).show();

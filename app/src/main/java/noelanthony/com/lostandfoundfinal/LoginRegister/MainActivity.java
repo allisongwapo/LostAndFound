@@ -62,24 +62,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (email.isEmpty()) {
             emailEditText.setError("Please enter your email address");
             emailEditText.requestFocus();
+            progressbar.setVisibility(View.GONE);
             return;
         }
 
         if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             emailEditText.setError("Please enter a valid email");
             emailEditText.requestFocus();
+            progressbar.setVisibility(View.GONE);
             return;
         }
 
         if (password.isEmpty()) {
             passwordEditText.setError("Password is required");
             passwordEditText.requestFocus();
+            progressbar.setVisibility(View.GONE);
             return;
         }
 
         if (password.length() < 6) {
             passwordEditText.setError("Password is more than 6 characters");
             passwordEditText.requestFocus();
+            progressbar.setVisibility(View.GONE);
             return;
         }
         progressbar.setVisibility(View.VISIBLE);
