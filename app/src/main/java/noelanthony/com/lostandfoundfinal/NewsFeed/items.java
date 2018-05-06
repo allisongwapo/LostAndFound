@@ -16,11 +16,13 @@ public class items {
     private boolean isSelected;
     private int approvalStatus;
     private String itemID;
+    private String description;
+    private String uid;
 
 
     public items(){}
 
-    public items(String itemName, String dateSubmitted, String lastSeenLocation, String poster,String status, String imageID,boolean isSelected,int approvalStatus,String itemID) {
+    public items(String itemName, String dateSubmitted, String lastSeenLocation, String poster,String status, String imageID,boolean isSelected,int approvalStatus,String itemID, String description,String uid) {
         this.itemName = itemName;
         this.dateSubmitted = dateSubmitted;
         this.lastSeenLocation = lastSeenLocation;
@@ -30,10 +32,16 @@ public class items {
         this.isSelected = isSelected;
         this.approvalStatus = approvalStatus;
         this.itemID = itemID;
+        this.description = description;
+        this.uid = uid;
     }
 
     public String getitemName() {
         return itemName;
+    }
+
+    public void setItemName(String itemName) {
+        this.itemName = itemName;
     }
 
     public String getdateSubmitted() {
@@ -87,6 +95,23 @@ public class items {
     public void setItemID(String itemID) {
         this.itemID = itemID;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getUid() {
+        return uid;
+    }
+
+    public void setUid(String uid) {
+        this.uid = uid;
+    }
 }
+
 
 

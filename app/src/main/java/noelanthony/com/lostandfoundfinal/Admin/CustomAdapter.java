@@ -76,9 +76,9 @@ public class CustomAdapter extends BaseAdapter {
             //statusTextView.setText(Items.getStatus());
             status = Items.getStatus();
             if( status.equals("Found")){
-                view.setBackgroundColor(activity.getResources().getColor(R.color.foundItemColor));
+                view.setBackgroundColor(activity.getResources().getColor(R.color.foundItemColorApproved));
             } else if(status.equals("Lost")){
-                view.setBackgroundColor(activity.getResources().getColor(R.color.lostItemColor));
+                view.setBackgroundColor(activity.getResources().getColor(R.color.lostItemColorApproved));
             }
 
             //FOR DEFAULT IMAGE

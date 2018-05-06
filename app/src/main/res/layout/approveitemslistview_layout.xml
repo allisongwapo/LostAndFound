@@ -50,14 +50,6 @@
                 android:layout_height="wrap_content"
                 android:text="Location" />
 
-            <TextView
-                android:id="@+id/posterTextView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:text="Poster Name"
-                android:textSize="13sp" />
-
             <ImageView
                 android:id="@+id/checkboxImageView"
                 android:layout_width="match_parent"
@@ -65,6 +57,14 @@
                 android:layout_marginLeft="177dp"
                 android:layout_weight="2"
                 app:srcCompat="@drawable/ic_check_box_outline_blank_black_24dp" />
+
+            <TextView
+                android:id="@+id/posterTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:text="Poster Name"
+                android:textSize="13sp" />
 
 
         </LinearLayout>

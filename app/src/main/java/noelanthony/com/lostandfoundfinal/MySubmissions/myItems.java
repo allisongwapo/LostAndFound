@@ -9,6 +9,7 @@ public class myItems {
     private String dateSubmitted;
     private String lastSeenLocation;
     private String poster;
+
     //private boolean status;
 
     public myItems(){}

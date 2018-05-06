@@ -39,7 +39,6 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
-import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.Profile.UserInformation;
 import noelanthony.com.lostandfoundfinal.R;
 
@@ -198,8 +197,10 @@ public class submitLostItemActivity extends AppCompatActivity {
                     Toast.makeText(applicationContext,"No file selected", Toast.LENGTH_SHORT).show();
                 }
                 Toast.makeText(getApplicationContext(), "Submission Successful", Toast.LENGTH_SHORT).show();
-                Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);
+                Intent startIntent = new Intent(getApplicationContext(),newsfeedFragment.class);
                 startActivity(startIntent);
+                // FragmentManager fragmentManager = getFragmentManager();
+                //fragmentManager.beginTransaction().replace(R.id.content_frame, new mySubmissionsFragment()).commit();
 
             }
         });

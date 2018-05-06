@@ -23,7 +23,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
-import noelanthony.com.lostandfoundfinal.NewsFeed.itemAdapter;
 import noelanthony.com.lostandfoundfinal.NewsFeed.items;
 import noelanthony.com.lostandfoundfinal.R;
 
@@ -56,19 +55,19 @@ public class mySubmissionsFragment extends Fragment{
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         dbLostReference= mDatabase.child("items");
-        Query DescendingDateQuery = dbLostReference.orderByChild("uid").equalTo(userID); //Orders items by Descending date
-        DescendingDateQuery.addValueEventListener(new ValueEventListener() {
+        Query UserSubmissionsOnly = dbLostReference.orderByChild("uid").equalTo(userID); //only displays user submissions
+        UserSubmissionsOnly.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
                 itemList.clear();
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
                     items Items = itemSnapshot.getValue(items.class);
-                    itemList.add(Items);
+                    itemList.add(0,Items);
                 }
                 if(getActivity()!=null) {
 
-                    itemAdapter adapter = new itemAdapter(getActivity(), itemList);
+                    mySubmissionsList adapter = new mySubmissionsList(getActivity(), itemList);
                     //to order by descending
                     itemListView.setAdapter(adapter);
                 }

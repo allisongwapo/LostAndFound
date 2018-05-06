@@ -81,9 +81,9 @@ public class approveItemAdapter extends ArrayAdapter<items> {
         //FOR COLOR CHANGING OF LIST VIEW BASED ON LOST OR FOUND STATUS
         status = Items.getStatus();
         if( status.equals("Found")){
-            rowView.setBackgroundColor(context.getResources().getColor(R.color.foundItemColor));
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.foundItemColorApproved));
         } else if(status.equals("Lost")){
-            rowView.setBackgroundColor(context.getResources().getColor(R.color.lostItemColor));
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.lostItemColorApproved));
         }
         //END COLOR CHANGER
         return rowView;

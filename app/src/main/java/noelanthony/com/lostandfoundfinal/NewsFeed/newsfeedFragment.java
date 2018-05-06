@@ -20,7 +20,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
@@ -67,13 +66,14 @@ public class newsfeedFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
                 itemList.clear(); //clear listview before populate
+
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
                     items Items = itemSnapshot.getValue(items.class);
-                    itemList.add(Items);
+                    itemList.add(0,Items);//remove 0 if ma guba
                 }
                 if(getActivity()!=null) {
-                    itemAdapter adapter = new itemAdapter(getActivity(), itemList);
-                    Collections.reverse(itemList); //to order by descending
+                     itemAdapter adapter = new itemAdapter(getActivity(), itemList);
+                   // Collections.reverse(itemList); //to order by descending
                     itemListView.setAdapter(adapter);
                 }
             }
@@ -81,6 +81,12 @@ public class newsfeedFragment extends Fragment {
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+        itemListView.post(new Runnable() {
+            @Override
+            public void run() {
+                itemListView.smoothScrollToPosition(0);
             }
         });
 
@@ -100,6 +106,7 @@ public class newsfeedFragment extends Fragment {
         });
         return myView;
     }
+
 
 }//END
 
