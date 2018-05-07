@@ -16,6 +16,10 @@
             android:id="@+id/nav_submissions"
             android:icon="@drawable/ic_menu_gallery"
             android:title="My Submissions" />
+        <item
+            android:id="@+id/nav_messages"
+            android:icon="@drawable/ic_menu_gallery"
+            android:title="Messages" />
     </group>
 
     <group android:checkableBehavior="single">

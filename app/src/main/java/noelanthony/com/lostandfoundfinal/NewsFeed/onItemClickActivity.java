@@ -1,0 +1,179 @@
+package noelanthony.com.lostandfoundfinal.NewsFeed;
+
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatActivity;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
+import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
+import noelanthony.com.lostandfoundfinal.R;
+
+public class onItemClickActivity extends AppCompatActivity{
+
+    private ImageView itemImageView;
+    private TextView lostorfoundStatusTextView,itemNameTextView,dateandtimeTextView,locationTextView,descriptionTextView,posterTextView,clicktomessageTextView,setToFoundTextView;
+    private String userID;
+
+    //FOR MYSUBMISSIONS
+    private FirebaseAuth mAuth;
+    private DatabaseReference dbReference,mDatabase;
+
+    //FIREBASE STUFF
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_on_item_click);
+
+        String itemName = "";
+        String lostOrFoundStatus= "";
+        String date = "";
+        String location = "";
+        String description = "";
+        String poster = "";
+        String imageId = "";
+        String uid = "";
+        String isVisible =""; //this variable to to set the setToFoundTextView to Visible
+        Intent intent = getIntent();
+        if (null!= intent){
+            itemName = intent.getStringExtra("item_name");
+            lostOrFoundStatus = intent.getStringExtra("item_status");
+            date = intent.getStringExtra("item_date_time");
+            location = intent.getStringExtra("item_location");
+            description = intent.getStringExtra("item_description");
+            poster = intent.getStringExtra("item_poster");
+            imageId = intent.getStringExtra("item_image_id");
+            uid = intent.getStringExtra("item_uid");
+            isVisible = intent.getStringExtra("VisibilityOwn");
+
+
+        }
+            //itemposition = getIntent().getExtras().getInt("position");
+        itemImageView = findViewById(R.id.itemImageView);
+        lostorfoundStatusTextView = findViewById(R.id.lostorfoundStatusTextView);
+        itemNameTextView = findViewById(R.id.itemNameTextView);
+        dateandtimeTextView = findViewById(R.id.dateandtimeTextView);
+        locationTextView = findViewById(R.id.locationTextView);
+        descriptionTextView = findViewById(R.id.descriptionTextView);
+        posterTextView = findViewById(R.id.posterTextView);
+        clicktomessageTextView = findViewById(R.id.clicktomessageTextView);
+        setToFoundTextView = findViewById(R.id.setToFoundTextView);
+        if (isVisible !=null){
+            setToFoundTextView.setVisibility(View.VISIBLE);
+            clicktomessageTextView.setVisibility(View.INVISIBLE);
+        }else {
+            setToFoundTextView.setVisibility(View.INVISIBLE);
+        }
+
+        RequestOptions options = new RequestOptions();
+        options.fitCenter();
+        if(imageId==null){
+            Glide.with(onItemClickActivity.this).load(R.mipmap.ic_noimage).apply(options).into(itemImageView);
+        }else {
+            Glide.with(onItemClickActivity.this).load(imageId).into(itemImageView); // IMAGE VIEW
+        }
+
+
+        lostorfoundStatusTextView.setText(lostOrFoundStatus);
+        itemNameTextView.setText(itemName);
+        dateandtimeTextView.setText(date);
+        locationTextView.setText("Location: " + location);
+        descriptionTextView.setText("Description: " + description);
+        posterTextView.setText("Posted by " + poster);
+
+        //FOR OWNER OF USER TO SET TO FOUND
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
+        if(lostOrFoundStatus=="Lost" && uid== userID){
+            clicktomessageTextView.setVisibility(View.INVISIBLE);
+            setToFoundTextView.setVisibility(View.VISIBLE);
+
+        }
+
+
+
+
+    }//ONCREATE END
+    public void onClick(View v)
+    {
+        switch (v.getId()) {
+            case R.id.setToFoundTextView:
+                showAlertDialog(v);
+                break;
+        }
+    }
+
+    private void showAlertDialog(View v) {
+        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
+        dbReference= mDatabase.child("items");
+        final String itemId;
+        Intent intent = getIntent();
+        itemId = intent.getStringExtra("item_id");
+        AlertDialog.Builder alert= new AlertDialog.Builder(this);
+        alert.setCancelable(true);
+        alert.setTitle("Set item from lost to found");
+        alert.setMessage("Confirm " + itemNameTextView.getText() + " is now found");
+        alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //MOVE A CHILD TO A NEW NODE
+                DatabaseReference fromPath = dbReference.child(itemId); //WHICH CHILD TO COPY FROM
+                DatabaseReference toPath = mDatabase.child("ClaimedItems"); //WHICH CHILD IT GOES
+                String key = fromPath.getKey().toString();
+                moveFirebaseRecord(fromPath,toPath,key);
+                Toast.makeText(onItemClickActivity.this, "Lost "+ itemNameTextView.getText() +" Set to found", Toast.LENGTH_SHORT).show();
+                Intent startIntent = new Intent(onItemClickActivity.this,newsFeedActivity.class);
+                startActivity(startIntent);
+
+            }
+        });
+        alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+            }
+        });
+        alert.create().show();
+    }
+
+    public void moveFirebaseRecord(final DatabaseReference fromPath, final DatabaseReference toPath, final String key) {
+        fromPath.addListenerForSingleValueEvent(new com.google.firebase.database.ValueEventListener() {
+            @Override
+            public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
+                toPath.child(dataSnapshot.getKey())
+                        .setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener() {
+                    @Override
+                    public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
+                        if (firebaseError != null) {
+                            System.out.println("Copy failed");
+
+                        } else {
+                            System.out.println("Success");
+                            fromPath.setValue(null);
+                        }
+                    }
+                });
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                System.out.println("Copy failed");
+            }
+        });
+    }
+
+}//END OF ACTIVITY

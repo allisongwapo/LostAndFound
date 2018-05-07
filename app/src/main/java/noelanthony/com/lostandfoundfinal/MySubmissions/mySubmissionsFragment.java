@@ -2,11 +2,13 @@ package noelanthony.com.lostandfoundfinal.MySubmissions;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.firebase.client.Firebase;
@@ -24,6 +26,7 @@ import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
 import noelanthony.com.lostandfoundfinal.NewsFeed.items;
+import noelanthony.com.lostandfoundfinal.NewsFeed.onItemClickActivity;
 import noelanthony.com.lostandfoundfinal.R;
 
 /**
@@ -39,6 +42,19 @@ public class mySubmissionsFragment extends Fragment{
     private FirebaseAuth mAuth;
     private String userID;
     private DatabaseReference dbLostReference,mDatabase;
+
+    //FOR ON ITEM CLICK LIST
+    public static final String KEY_ITEM_NAME="item_name";
+    public static final String KEY_STATUS="item_status";
+    public static final String KEY_DATE = "item_date_time";
+    public static final String KEY_LOCATION = "item_location";
+    public static final String KEY_DESCRIPTION = "item_description";
+    public static final String KEY_POSTER = "item_poster";
+    public static final String KEY_IMAGE_ID= "item_image_id";
+    public static final String KEY_USER_ID= "item_uid";
+    public static final String KEY_ITEM_ID= "item_id";
+
+
     View myView;
     @Nullable
     @Override
@@ -67,15 +83,41 @@ public class mySubmissionsFragment extends Fragment{
                 }
                 if(getActivity()!=null) {
 
-                    mySubmissionsList adapter = new mySubmissionsList(getActivity(), itemList);
+                    final mySubmissionsList adapter = new mySubmissionsList(getActivity(), itemList);
                     //to order by descending
                     itemListView.setAdapter(adapter);
+                    itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            items item =  adapter.getItem(position);
+
+                            Intent intent = new Intent(applicationContext,onItemClickActivity.class);
+                            intent.putExtra(KEY_ITEM_NAME,item.getitemName());
+                            intent.putExtra(KEY_STATUS,item.getStatus());
+                            intent.putExtra(KEY_DATE,item.getdateSubmitted());
+                            intent.putExtra(KEY_LOCATION,item.getlastSeenLocation());
+                            intent.putExtra(KEY_DESCRIPTION,item.getDescription());
+                            intent.putExtra(KEY_POSTER,item.getPoster());
+                            intent.putExtra(KEY_IMAGE_ID,item.getImageID());
+                            intent.putExtra(KEY_USER_ID,item.getUid());
+                            intent.putExtra(KEY_ITEM_ID,item.getItemID());
+                            intent.putExtra("VisibilityOwn", "visible"); //this extra to to set the setToFoundTextView to Visible
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
 
+            }
+        });
+        itemListView.post(new Runnable() {
+            @Override
+            public void run() {
+                itemListView.smoothScrollToPosition(0);
             }
         });
 

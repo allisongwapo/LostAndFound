@@ -34,6 +34,7 @@ public class mySubmissionsList extends ArrayAdapter<items> {
         this.itemList = itemList;
     }
 
+
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
@@ -50,7 +51,7 @@ public class mySubmissionsList extends ArrayAdapter<items> {
 
         //SET ITEM VALUES HERE
         items Items = itemList.get(position);
-
+       
         itemNameTextView.setText(Items.getitemName());
         datetimeTextView.setText(Items.getdateSubmitted());
         locationTextView.setText(Items.getlastSeenLocation());
@@ -69,6 +70,10 @@ public class mySubmissionsList extends ArrayAdapter<items> {
             rowView.setBackgroundColor(context.getResources().getColor(R.color.lostItemColorApproved));
             Glide.with(getContext()).load(R.drawable.ic_check_circle_black_24dp).into(approvalStatusImageView);
             approvalStatusTextView.setText("Approved");
+        }else if(status.equals("Lost then Found") && approvalStatus==1){
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.lostthenfoundItemColor));
+            Glide.with(getContext()).load(R.drawable.ic_clear_black_24dp).into(approvalStatusImageView);
+            approvalStatusTextView.setText("Approved");
         } else if(status.equals("Found") && approvalStatus==0){
             rowView.setBackgroundColor(context.getResources().getColor(R.color.foundItemColorPending));
             Glide.with(getContext()).load(R.drawable.ic_loop_black_24dp).into(approvalStatusImageView);
@@ -76,6 +81,10 @@ public class mySubmissionsList extends ArrayAdapter<items> {
         } else if(status.equals("Lost") && approvalStatus==0){
             rowView.setBackgroundColor(context.getResources().getColor(R.color.lostItemColorPending));
             Glide.with(getContext()).load(R.drawable.ic_loop_black_24dp).into(approvalStatusImageView);
+            approvalStatusTextView.setText("Pending Approval");
+        }else if(status.equals("Lost then Found") && approvalStatus==0){
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.lostthenfoundItemColor));
+            Glide.with(getContext()).load(R.drawable.ic_clear_black_24dp).into(approvalStatusImageView);
             approvalStatusTextView.setText("Pending Approval");
         }else if(status.equals("Found") && approvalStatus==2){
             rowView.setBackgroundColor(context.getResources().getColor(R.color.foundItemColorDeclined));
@@ -85,10 +94,18 @@ public class mySubmissionsList extends ArrayAdapter<items> {
             rowView.setBackgroundColor(context.getResources().getColor(R.color.lostItemColorDeclined));
             Glide.with(getContext()).load(R.drawable.ic_clear_black_24dp).into(approvalStatusImageView);
             approvalStatusTextView.setText("Declined");
+        }else if(status.equals("Lost then Found") && approvalStatus==2){
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.lostthenfoundItemColor));
+            Glide.with(getContext()).load(R.drawable.ic_clear_black_24dp).into(approvalStatusImageView);
+            approvalStatusTextView.setText("Declined");
         }
+
 
 
         return rowView;
 
     }
+
 }
+
+

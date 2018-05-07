@@ -90,7 +90,7 @@ public class adminApprove extends AppCompatActivity {
                             final items item = itemApproveList.get(position);
                             if( item.isSelected()){
                                 item.setSelected(false);
-                                selectedApprove.add(item.getItemID());
+                                selectedApprove.remove(item.getItemID());
                             }
                             else{ item.setSelected(true);
                             selectedApprove.add(item.getItemID());
@@ -104,8 +104,11 @@ public class adminApprove extends AppCompatActivity {
                                     for (int i = 0; i < selectedApprove.size(); i++) {
                                         dbReference.child(selectedApprove.get(i)).child("approvalStatus").setValue(1);
                                     }
+                                    if (selectedApprove.isEmpty()) {
+                                        Toast.makeText(getApplicationContext(), "Please select an item", Toast.LENGTH_SHORT).show();
+                                    } else { Toast.makeText(getApplicationContext(), "Items approved", Toast.LENGTH_SHORT).show(); }
+                                    selectedApprove.clear();
 
-                                    Toast.makeText(getApplicationContext(), "Items approved",Toast.LENGTH_SHORT).show();
                                 }
                             });
                             declineButton.setOnClickListener(new View.OnClickListener() {
@@ -132,8 +135,12 @@ public class adminApprove extends AppCompatActivity {
                                         }FOR ITEM REMOVAL*/
                                         dbReference.child(selectedApprove.get(i)).child("approvalStatus").setValue(2);
                                     }
+                                    if (selectedApprove.isEmpty()) {
+                                        Toast.makeText(getApplicationContext(), "Please select an item", Toast.LENGTH_SHORT).show();
 
-                                    Toast.makeText(getApplicationContext(), "Items declined",Toast.LENGTH_SHORT).show();
+                                    } else { Toast.makeText(getApplicationContext(), "Items declined", Toast.LENGTH_SHORT).show(); }
+                                    selectedApprove.clear();
+
                                 }
                             });
                         }
@@ -149,7 +156,11 @@ public class adminApprove extends AppCompatActivity {
 
             }
         });
-
+        /*
+        0 - PENDING
+        1 - APPROVED
+        2 - DECLINED
+         */
 
 
     }

@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -42,7 +43,15 @@ public class newsfeedFragment extends Fragment {
     private Button foundItemBtn;
     private DatabaseReference dbLostReference,mDatabase;
 
-
+    //FOR ON ITEM CLICK LIST
+    public static final String KEY_ITEM_NAME="item_name";
+    public static final String KEY_STATUS="item_status";
+    public static final String KEY_DATE = "item_date_time";
+    public static final String KEY_LOCATION = "item_location";
+    public static final String KEY_DESCRIPTION = "item_description";
+    public static final String KEY_POSTER = "item_poster";
+    public static final String KEY_IMAGE_ID= "item_image_id";
+    public static final String KEY_USER_ID= "item_uid";
 
 
     @Nullable
@@ -72,9 +81,27 @@ public class newsfeedFragment extends Fragment {
                     itemList.add(0,Items);//remove 0 if ma guba
                 }
                 if(getActivity()!=null) {
-                     itemAdapter adapter = new itemAdapter(getActivity(), itemList);
+                     final itemAdapter adapter = new itemAdapter(getActivity(), itemList);
                    // Collections.reverse(itemList); //to order by descending
                     itemListView.setAdapter(adapter);
+                    itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+                        @Override
+                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                            items item =  adapter.getItem(position);
+
+                            Intent intent = new Intent(applicationContext,onItemClickActivity.class);
+                            intent.putExtra(KEY_ITEM_NAME,item.getitemName());
+                            intent.putExtra(KEY_STATUS,item.getStatus());
+                            intent.putExtra(KEY_DATE,item.getdateSubmitted());
+                            intent.putExtra(KEY_LOCATION,item.getlastSeenLocation());
+                            intent.putExtra(KEY_DESCRIPTION,item.getDescription());
+                            intent.putExtra(KEY_POSTER,item.getPoster());
+                            intent.putExtra(KEY_IMAGE_ID,item.getImageID());
+                            intent.putExtra(KEY_USER_ID,item.getUid());
+                            startActivity(intent);
+                        }
+                    });
                 }
             }
 
@@ -89,6 +116,7 @@ public class newsfeedFragment extends Fragment {
                 itemListView.smoothScrollToPosition(0);
             }
         });
+
 
         submitLostBtn.setOnClickListener(new View.OnClickListener() {
             @Override

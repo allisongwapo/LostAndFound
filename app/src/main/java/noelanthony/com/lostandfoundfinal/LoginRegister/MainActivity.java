@@ -42,11 +42,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         contextOfApplication = getApplicationContext();
         mAuth = FirebaseAuth.getInstance();
-        emailEditText = (EditText) findViewById(R.id.emailEditText);
-        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
-        loginButton = (Button)  findViewById(R.id.loginButton);
-        registerTextView = (TextView) findViewById(R.id.registerTextView);
-        progressbar = (ProgressBar)findViewById(R.id.progressbar);
+        emailEditText = findViewById(R.id.emailEditText);
+        passwordEditText = findViewById(R.id.passwordEditText);
+        loginButton = findViewById(R.id.loginButton);
+        registerTextView = findViewById(R.id.registerTextView);
+        progressbar = findViewById(R.id.progressbar);
 
         findViewById(R.id.loginButton).setOnClickListener(this);
         findViewById(R.id.registerTextView).setOnClickListener(this);

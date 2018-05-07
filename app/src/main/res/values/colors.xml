@@ -9,4 +9,5 @@
     <color name="foundItemColorPending">#800670AD</color>
     <color name="lostItemColorDeclined">#BFd35467</color>
     <color name="foundItemColorDeclined">#BF0670AD</color>
+    <color name="lostthenfoundItemColor">#bf8cd22a</color>
 </resources>

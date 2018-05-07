@@ -52,7 +52,7 @@
         android:layout_alignStart="@+id/itemnameEditText"
         android:layout_below="@+id/itemnameEditText"
         android:layout_marginTop="13dp"
-        android:text="Last seen in" />
+        android:text="Probable Location (optional)" />
 
     <EditText
         android:id="@+id/locationdescEditText"

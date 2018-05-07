@@ -19,6 +19,7 @@ import noelanthony.com.lostandfoundfinal.MySubmissions.mySubmissionsFragment;
 import noelanthony.com.lostandfoundfinal.NewsFeed.newsfeedFragment;
 import noelanthony.com.lostandfoundfinal.Profile.profileFragment;
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.messegesFragment;
 
 public class newsFeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -96,7 +97,9 @@ public class newsFeedActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame , new profileFragment()).commit();
         } else if(id ==R.id.nav_submissions) {
             fragmentManager.beginTransaction().replace(R.id.content_frame , new mySubmissionsFragment()).commit();
-        }
+        } else if(id ==R.id.nav_messages) {
+        fragmentManager.beginTransaction().replace(R.id.content_frame , new messegesFragment()).commit();
+    }
 
         else if (id ==R.id.nav_logout){
             FirebaseAuth.getInstance().signOut();

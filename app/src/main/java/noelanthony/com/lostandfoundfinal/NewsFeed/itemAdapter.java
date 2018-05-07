@@ -39,6 +39,15 @@ public class itemAdapter extends ArrayAdapter<items> {
         this.context = context;
         this.itemList = itemList;
     }
+    @Override
+    public int getCount() {
+        return itemList.size();
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
+    }
 
     @NonNull
     @Override
@@ -47,7 +56,6 @@ public class itemAdapter extends ArrayAdapter<items> {
         LayoutInflater inflater = context.getLayoutInflater();
 
         View rowView = inflater.inflate(R.layout.itemslv_layout, null, true);
-
 
         TextView itemNameTextView = rowView.findViewById(R.id.itemNameTextView);
         TextView datetimeTextView = rowView.findViewById(R.id.datetimeTextView);
