@@ -87,8 +87,7 @@
         android:onClick="onClick"
         android:text="Did you find your item? Set it to found"
         android:textAppearance="@style/TextAppearance.AppCompat"
-        android:textColor="@color/colorPrimary"
-        android:visibility="visible" />
+        android:textColor="@color/colorPrimary" />
 
 
 </LinearLayout>

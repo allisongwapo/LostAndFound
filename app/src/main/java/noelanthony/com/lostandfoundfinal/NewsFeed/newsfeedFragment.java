@@ -99,6 +99,11 @@ public class newsfeedFragment extends Fragment {
                             intent.putExtra(KEY_POSTER,item.getPoster());
                             intent.putExtra(KEY_IMAGE_ID,item.getImageID());
                             intent.putExtra(KEY_USER_ID,item.getUid());
+                            if(item.getStatus().equals("Lost")) {
+                                intent.putExtra("visibility", "newsLost"); //this extra to to set the setToFoundTextView to Visible
+                            }else if(item.getStatus().equals("Found")) {
+                                intent.putExtra("visibility", "newsFound"); //this extra to to set the setToFoundTextView to Visible
+                            }
                             startActivity(intent);
                         }
                     });

@@ -45,7 +45,8 @@ public class onItemClickActivity extends AppCompatActivity{
         String poster = "";
         String imageId = "";
         String uid = "";
-        String isVisible =""; //this variable to to set the setToFoundTextView to Visible
+
+        String visibility ="";
         Intent intent = getIntent();
         if (null!= intent){
             itemName = intent.getStringExtra("item_name");
@@ -56,7 +57,7 @@ public class onItemClickActivity extends AppCompatActivity{
             poster = intent.getStringExtra("item_poster");
             imageId = intent.getStringExtra("item_image_id");
             uid = intent.getStringExtra("item_uid");
-            isVisible = intent.getStringExtra("VisibilityOwn");
+            visibility = intent.getStringExtra("visibility");
 
 
         }
@@ -70,11 +71,29 @@ public class onItemClickActivity extends AppCompatActivity{
         posterTextView = findViewById(R.id.posterTextView);
         clicktomessageTextView = findViewById(R.id.clicktomessageTextView);
         setToFoundTextView = findViewById(R.id.setToFoundTextView);
-        if (isVisible !=null){
+
+        //setToFoundTextView is visible is item is lost,  clicktomessageTextView is invisible if launched from mySubmissions
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
+
+        //if isVisible!=null then it is from my submissions page
+        //NEWS FEED ONCLICK
+        if(visibility.equals("newsLost")) {
+            clicktomessageTextView.setText("Were you able to find this item? Click to contact the poster");
+            clicktomessageTextView.setVisibility(View.VISIBLE);
+            setToFoundTextView.setVisibility(View.INVISIBLE);
+        } else if (visibility.equals("newsFound")){
+            clicktomessageTextView.setText("Do you own this item? Click to message poster");
+            clicktomessageTextView.setVisibility(View.VISIBLE);
+            setToFoundTextView.setVisibility(View.INVISIBLE);
+        }else if (visibility.equals("myLost")){
             setToFoundTextView.setVisibility(View.VISIBLE);
             clicktomessageTextView.setVisibility(View.INVISIBLE);
-        }else {
-            setToFoundTextView.setVisibility(View.INVISIBLE);
+        }else if(visibility.equals("myFound")){
+            setToFoundTextView.setText("Is this item already claimed by owner? Set to Claimed");
+            setToFoundTextView.setVisibility(View.VISIBLE);
+            clicktomessageTextView.setVisibility(View.INVISIBLE);
         }
 
         RequestOptions options = new RequestOptions();
@@ -93,10 +112,7 @@ public class onItemClickActivity extends AppCompatActivity{
         descriptionTextView.setText("Description: " + description);
         posterTextView.setText("Posted by " + poster);
 
-        //FOR OWNER OF USER TO SET TO FOUND
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        userID = user.getUid();
+
         if(lostOrFoundStatus=="Lost" && uid== userID){
             clicktomessageTextView.setVisibility(View.INVISIBLE);
             setToFoundTextView.setVisibility(View.VISIBLE);
@@ -134,6 +150,7 @@ public class onItemClickActivity extends AppCompatActivity{
                 DatabaseReference toPath = mDatabase.child("ClaimedItems"); //WHICH CHILD IT GOES
                 String key = fromPath.getKey().toString();
                 moveFirebaseRecord(fromPath,toPath,key);
+
                 Toast.makeText(onItemClickActivity.this, "Lost "+ itemNameTextView.getText() +" Set to found", Toast.LENGTH_SHORT).show();
                 Intent startIntent = new Intent(onItemClickActivity.this,newsFeedActivity.class);
                 startActivity(startIntent);
@@ -158,11 +175,13 @@ public class onItemClickActivity extends AppCompatActivity{
                     @Override
                     public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
                         if (firebaseError != null) {
+
                             System.out.println("Copy failed");
 
                         } else {
                             System.out.println("Success");
                             fromPath.setValue(null);
+                            toPath.child(key).child("Owner").setValue(userID); //THIS SETS THE FOUNDER TO USER SELF
                         }
                     }
                 });

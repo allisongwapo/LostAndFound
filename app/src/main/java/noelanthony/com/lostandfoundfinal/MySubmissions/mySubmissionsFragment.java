@@ -102,7 +102,11 @@ public class mySubmissionsFragment extends Fragment{
                             intent.putExtra(KEY_IMAGE_ID,item.getImageID());
                             intent.putExtra(KEY_USER_ID,item.getUid());
                             intent.putExtra(KEY_ITEM_ID,item.getItemID());
-                            intent.putExtra("VisibilityOwn", "visible"); //this extra to to set the setToFoundTextView to Visible
+                            if(item.getStatus().equals("Lost")) {
+                                intent.putExtra("visibility", "myLost"); //this extra to to set the setToFoundTextView to Visible
+                            }else if(item.getStatus().equals("Found")) {
+                                intent.putExtra("visibility", "myFound"); //this extra to to set the setToFoundTextView to Visible
+                            }
                             startActivity(intent);
                         }
                     });

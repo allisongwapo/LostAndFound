@@ -18,6 +18,7 @@
             android:id="@+id/itemImageView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
             android:layout_weight="2"
             android:visibility="visible"
             app:srcCompat="@android:drawable/ic_menu_report_image" />
