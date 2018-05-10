@@ -39,6 +39,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
+import noelanthony.com.lostandfoundfinal.MapsActivity;
 import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.Profile.UserInformation;
 import noelanthony.com.lostandfoundfinal.R;
@@ -48,7 +49,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
     private EditText itemnameEditText;
     private EditText locationdescEditText;
     private EditText descriptionEditText;
-    private ImageButton uploadImageButton;
+    private ImageButton uploadImageButton,googleMapImageButton;
     private Button submitFoundButton;
     private ProgressBar progressBar;
     private DatabaseReference mDatabase, nameRef;
@@ -77,12 +78,21 @@ public class submitFoundItemActivity extends AppCompatActivity {
         submitFoundButton = findViewById(R.id.submitFoundBtn);
         mProgressBar = findViewById(R.id.progressbar);
         displayImageView = findViewById(R.id.displayImageView);
+        googleMapImageButton  = findViewById(R.id.googleMapImageButton);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("lostItemImage/");
         mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
+
+        googleMapImageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(submitFoundItemActivity.this,MapsActivity.class);
+                startActivity(startIntent);
+            }
+        });
 
         //UPLOAD IMAGE
         uploadImageButton.setOnClickListener(new View.OnClickListener() {

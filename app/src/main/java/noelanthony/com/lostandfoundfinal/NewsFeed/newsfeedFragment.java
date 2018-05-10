@@ -5,11 +5,14 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import com.firebase.client.Firebase;
@@ -21,7 +24,6 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
 import noelanthony.com.lostandfoundfinal.R;
@@ -33,15 +35,14 @@ import noelanthony.com.lostandfoundfinal.R;
 public class newsfeedFragment extends Fragment {
 
     ListView itemListView;
-    List<items> itemList;
+    ArrayList<items> itemList;
     Context applicationContext = MainActivity.getContextOfApplication();
-
-
     View myView;
-
     private Button submitLostBtn;
     private Button foundItemBtn;
+    private EditText theFilterEditText;
     private DatabaseReference dbLostReference,mDatabase;
+    private itemAdapter adapter;
 
     //FOR ON ITEM CLICK LIST
     public static final String KEY_ITEM_NAME="item_name";
@@ -60,9 +61,11 @@ public class newsfeedFragment extends Fragment {
         myView = inflater.inflate(R.layout.newsfeed_layout, container, false);
 
         Firebase.setAndroidContext(applicationContext);
-        itemListView =  myView.findViewById(R.id.itemListView);;
+        itemListView =  myView.findViewById(R.id.itemListView);
         submitLostBtn = myView.findViewById(R.id.submitFoundBtn);
         foundItemBtn = myView.findViewById(R.id.foundItemBtn);
+        theFilterEditText = myView.findViewById(R.id.theFilterEditText);
+
         itemList = new ArrayList<>();
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
@@ -81,9 +84,28 @@ public class newsfeedFragment extends Fragment {
                     itemList.add(0,Items);//remove 0 if ma guba
                 }
                 if(getActivity()!=null) {
-                     final itemAdapter adapter = new itemAdapter(getActivity(), itemList);
+                      adapter = new itemAdapter(getActivity(), itemList);
                    // Collections.reverse(itemList); //to order by descending
                     itemListView.setAdapter(adapter);
+
+                    theFilterEditText.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+                        }
+
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            adapter.getFilter().filter(s);
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+
+                        }
+                    });
+
                     itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                         @Override
@@ -107,7 +129,9 @@ public class newsfeedFragment extends Fragment {
                             startActivity(intent);
                         }
                     });
+
                 }
+
             }
 
             @Override
@@ -115,13 +139,14 @@ public class newsfeedFragment extends Fragment {
 
             }
         });
+
+
         itemListView.post(new Runnable() {
             @Override
             public void run() {
                 itemListView.smoothScrollToPosition(0);
             }
         });
-
 
         submitLostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -137,11 +162,15 @@ public class newsfeedFragment extends Fragment {
                 startActivity(startIntent);
             }
         });
+
+
+
+
         return myView;
     }
 
 
+
 }//END
 
-/*NOTES Match 25,2018
-AND NEWS FEED KAY DAPAT LOST OG FOUND DILI LOST DAYON FOUND*/
+/*NOTES Match 25,2018*/

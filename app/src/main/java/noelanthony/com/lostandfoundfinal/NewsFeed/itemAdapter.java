@@ -4,18 +4,20 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
@@ -25,19 +27,22 @@ import noelanthony.com.lostandfoundfinal.R;
  * Created by Noel on 16/02/2018.
  */
 
-public class itemAdapter extends ArrayAdapter<items> {
+public class itemAdapter extends ArrayAdapter<items> implements Filterable {
 
     private Activity context;
-    private List<items> itemList;
-    private DatabaseReference mDatabase,nameRef;
-    private FirebaseAuth mAuth;
-    private String userID,status;
-    Context applicationContext = MainActivity.getContextOfApplication();
+    private ArrayList<items> itemList;
+    private ArrayList<items> filterList;
+    private Context applicationContext = MainActivity.getContextOfApplication();
+    private ItemsFilter mItemsFilter;
+    //Two data sources, the original data and filtered data
 
-    public itemAdapter(Activity context, List<items> itemList) {
+    public itemAdapter(Activity context, ArrayList<items> itemList) {
         super(context, R.layout.itemslv_layout, itemList);
         this.context = context;
         this.itemList = itemList;
+        this.filterList = itemList;
+
+
     }
     @Override
     public int getCount() {
@@ -89,7 +94,7 @@ public class itemAdapter extends ArrayAdapter<items> {
         //itemImageView.setImageResource(R.drawable.flashdrive);
 
         //FOR COLOR CHANGING OF LIST VIEW BASED ON LOST OR FOUND STATUS
-        status = Items.getStatus();
+        String status = Items.getStatus();
         if( status.equals("Found")){
             rowView.setBackgroundColor(context.getResources().getColor(R.color.foundItemColorApproved));
         } else if(status.equals("Lost")){
@@ -99,6 +104,58 @@ public class itemAdapter extends ArrayAdapter<items> {
         return rowView;
     }
 
+    private class ItemsFilter extends Filter{
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint) {
+            // Create a FilterResults object
+            FilterResults results = new FilterResults();
 
+            if (constraint == null || constraint.length() == 0) {
+                constraint = constraint.toString().toUpperCase();
+                List<items> filters = new ArrayList<>();
+                results.count = itemList.size();
+                results.values = itemList;
+
+            }else {
+                // Some search constraint has been passed
+                // so let's filter accordingly
+                ArrayList<items> filteredItems = new ArrayList<>();
+                // We'll go through all the contacts and see
+                // if they contain the supplied string
+                for (items c : itemList ) {
+                    if (c.getitemName().toUpperCase().contains( constraint.toString().toUpperCase() )) {
+                        // if `contains` == true then add it
+                        // to our filtered list
+                        filteredItems.add(c);
+                    }
+                }
+                // Finally set the filtered values and size/count
+                results.values = filteredItems;
+                results.count = filteredItems.size();
+            }
+            Log.e("VALUES", results.values.toString());
+
+            return results;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results) {
+            if (results.count == 0) {
+                itemList.clear();
+                notifyDataSetInvalidated();
+            } else {
+                itemList = (ArrayList<items>) results.values;
+                notifyDataSetChanged();
+            }
+
+        }
+    }
+    @Override
+    public Filter getFilter() {
+        if(mItemsFilter==null)
+            mItemsFilter = new ItemsFilter();
+
+        return mItemsFilter;
+    }
 }//END OF CLASS
 
