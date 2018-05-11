@@ -15,7 +15,7 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="39dp"
         android:contentDescription="logo"
-        app:srcCompat="@drawable/applogo" />
+        android:src="@drawable/applogo" />
 
     <EditText
         android:id="@+id/emailEditText"
