@@ -53,7 +53,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     private static final int CHOOSE_IMAGE = 101;
     View myView;
     ImageView uploadImageView;
-    TextView nameTextView, updateinfoTextView, idnoTextView, datejoinedTextView, emailverifyTextView, itemsreturnedTextView;
+    TextView nameTextView, idnoTextView, datejoinedTextView, emailverifyTextView, itemsreturnedTextView;
     Uri uriProfileImage;
     Context applicationContext = MainActivity.getContextOfApplication();
     ProgressBar progressBar;
@@ -116,8 +116,8 @@ public class profileFragment extends Fragment implements View.OnClickListener {
 
         uploadImageView = myView.findViewById(R.id.uploadImageView);
         nameTextView = myView.findViewById(R.id.nameTextView);
-        updateinfoTextView = myView.findViewById(R.id.updateinfoTextView);
-        idnoTextView = myView.findViewById(R.id.idnoTextView);
+        //updateinfoTextView = myView.findViewById(R.id.updateinfoTextView);
+        //idnoTextView = myView.findViewById(R.id.idnoTextView);
         datejoinedTextView= myView.findViewById(R.id.datejoinedTextView);
         progressBar= myView.findViewById(R.id.progressbar);
         saveBtn = myView.findViewById(R.id.saveBtn);
@@ -170,7 +170,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         loadUserInformation();
 
         myView.findViewById(R.id.saveBtn).setOnClickListener(this);
-        myView.findViewById(R.id.updateinfoTextView).setOnClickListener(this);
+        //myView.findViewById(R.id.updateinfoTextView).setOnClickListener(this);
 
         return myView;
     }
@@ -184,12 +184,12 @@ public class profileFragment extends Fragment implements View.OnClickListener {
             //uInfo.setEmail(ds.child(userID).getValue(UserInformation.class).getEmail());//sets email
             uInfo.setDatejoined(dataSnapshot.getValue(UserInformation.class).getDatejoined());//sets name
             uInfo.setItemsreturned(dataSnapshot.getValue(UserInformation.class).getItemsreturned());
-            uInfo.setIdnumber(dataSnapshot.getValue(UserInformation.class).getIdnumber());
+           // uInfo.setIdnumber(dataSnapshot.getValue(UserInformation.class).getIdnumber());
 
             nameTextView.setText(uInfo.getName());
-            datejoinedTextView.setText(uInfo.getDatejoined());
-            itemsreturnedTextView.setText(String.valueOf(uInfo.getItemsreturned()).toString());
-            idnoTextView.setText(uInfo.getIdnumber());
+            datejoinedTextView.setText("Date Joined: " + uInfo.getDatejoined());
+            itemsreturnedTextView.setText("Items Returned: "+ String.valueOf(uInfo.getItemsreturned()).toString());
+           // idnoTextView.setText(uInfo.getIdnumber());
         //}
     }
 
@@ -212,9 +212,9 @@ public class profileFragment extends Fragment implements View.OnClickListener {
             if (user.getPhotoUrl() != null) {
                 Glide.with(this).load(user.getPhotoUrl().toString()).into(uploadImageView);
             }
-            if (user.getDisplayName() != null) {
-                nameEditText.setText(user.getDisplayName());
-            }
+           // if (user.getDisplayName() != null) {
+             //   nameEditText.setText(user.getDisplayName());
+           // }
             if(user.isEmailVerified()){
                 emailverifyTextView.setText("Email Verified");
             }else{
@@ -278,9 +278,10 @@ public class profileFragment extends Fragment implements View.OnClickListener {
           //      break;
 
             case R.id.saveBtn:
-                nameEditText.setVisibility(View.GONE);
+                //onameEditText.setVisibility(View.GONE);
                 saveBtn.setVisibility(View.INVISIBLE);
-                updateinfoTextView.setVisibility(View.VISIBLE);
+                 progressBar.setVisibility(View.GONE);
+                //updateinfoTextView.setVisibility(View.VISIBLE);
                 nameTextView.setVisibility(View.VISIBLE);
                 saveUserInformation();
                 break;

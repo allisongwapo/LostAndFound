@@ -28,7 +28,7 @@
         android:layout_below="@+id/textView2"
         android:layout_marginLeft="15dp"
         android:layout_marginStart="15dp"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="11dp"
         android:text="Item Name" />
 
     <EditText
@@ -38,7 +38,7 @@
         android:layout_alignLeft="@+id/textView9"
         android:layout_alignStart="@+id/textView9"
         android:layout_below="@+id/textView9"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="9dp"
         android:background="@drawable/registrationeditext"
         android:ems="10"
         android:hint="(wallet, flash drive)"
@@ -52,7 +52,7 @@
         android:layout_alignLeft="@+id/textview123"
         android:layout_alignStart="@+id/textview123"
         android:layout_below="@+id/googleMapImageButton"
-        android:layout_marginTop="9dp"
+        android:layout_marginTop="11dp"
         android:text="Location Description" />
 
     <EditText
@@ -62,7 +62,7 @@
         android:layout_alignLeft="@+id/textView10"
         android:layout_alignStart="@+id/textView10"
         android:layout_below="@+id/textView10"
-        android:layout_marginTop="13dp"
+        android:layout_marginTop="9dp"
         android:background="@drawable/registrationeditext"
         android:ems="10"
         android:hint="(LB443, LRC 3rd Floor)"
@@ -73,11 +73,11 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/locationdescEditText"
-        android:layout_alignStart="@+id/locationdescEditText"
-        android:layout_below="@+id/locationdescEditText"
-        android:layout_marginTop="16dp"
-        android:text="Description" />
+        android:layout_alignLeft="@+id/itemnameEditText"
+        android:layout_alignStart="@+id/itemnameEditText"
+        android:layout_below="@+id/itemnameEditText"
+        android:layout_marginTop="11dp"
+        android:text="Item Description" />
 
     <EditText
         android:id="@+id/descriptionEditText"
@@ -86,7 +86,7 @@
         android:layout_alignLeft="@+id/textView11"
         android:layout_alignStart="@+id/textView11"
         android:layout_below="@+id/textView11"
-        android:layout_marginTop="12dp"
+        android:layout_marginTop="9dp"
         android:background="@drawable/registrationeditext"
         android:ems="10"
         android:gravity="top"
@@ -98,10 +98,10 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/descriptionEditText"
-        android:layout_alignStart="@+id/descriptionEditText"
-        android:layout_below="@+id/descriptionEditText"
-        android:layout_marginTop="19dp"
+        android:layout_alignLeft="@+id/locationdescEditText"
+        android:layout_alignStart="@+id/locationdescEditText"
+        android:layout_below="@+id/locationdescEditText"
+        android:layout_marginTop="11dp"
         android:text="Upload a photo (optional)" />
 
     <ImageButton
@@ -121,6 +121,8 @@
         android:layout_height="40dp"
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="13dp"
         android:background="@drawable/blueroundedbtn"
         android:text="Submit"
         android:textColor="@android:color/background_light"
@@ -130,10 +132,10 @@
         android:id="@+id/textview123"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/itemnameEditText"
-        android:layout_alignStart="@+id/itemnameEditText"
-        android:layout_below="@+id/itemnameEditText"
-        android:layout_marginTop="9dp"
+        android:layout_alignLeft="@+id/descriptionEditText"
+        android:layout_alignStart="@+id/descriptionEditText"
+        android:layout_below="@+id/descriptionEditText"
+        android:layout_marginTop="11dp"
         android:text="Location" />
 
     <ImageView
@@ -145,6 +147,12 @@
         android:layout_marginLeft="74dp"
         android:layout_marginRight="122dp"
         android:visibility="visible" />
+    <ImageView
+        android:id="@+id/expanded_image"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:contentDescription="Touch Zoom Close" />
 
     <ProgressBar
         android:id="@+id/progressbar"
@@ -163,6 +171,7 @@
         android:layout_alignEnd="@+id/textview123"
         android:layout_alignRight="@+id/textview123"
         android:layout_below="@+id/textview123"
+        android:layout_marginTop="6dp"
         android:padding="1dp"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/googlemapicon" />

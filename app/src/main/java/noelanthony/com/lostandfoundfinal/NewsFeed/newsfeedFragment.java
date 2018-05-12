@@ -87,7 +87,6 @@ public class newsfeedFragment extends Fragment {
                       adapter = new itemAdapter(getActivity(), itemList);
                    // Collections.reverse(itemList); //to order by descending
                     itemListView.setAdapter(adapter);
-
                     theFilterEditText.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {

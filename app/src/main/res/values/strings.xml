@@ -7,5 +7,6 @@
 
     <string name="action_settings">Settings</string>
     <string name="title_activity_maps">Map</string>
+    <string name="default_notification_channel_id">Lost or Found item submitted</string>
 
 </resources>

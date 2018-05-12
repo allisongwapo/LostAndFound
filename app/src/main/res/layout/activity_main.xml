@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/common_google_signin_btn_text_dark_default"
+    android:background="@drawable/loginbg"
     tools:context="noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity">
 
     <ImageView
@@ -49,14 +49,14 @@
 
     <Button
         android:id="@+id/loginButton"
-        android:layout_width="250dp"
+        android:layout_width="220dp"
         android:layout_height="40dp"
-        android:layout_above="@+id/registerTextView"
+        android:layout_below="@+id/passwordEditText"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="21dp"
-        android:background="@drawable/roundedrectangle"
+        android:layout_marginTop="30dp"
+        android:background="@color/fui_bgTwitter"
         android:text="Login"
-        android:textColor="@android:color/background_dark" />
+        android:textColor="@android:color/background_light" />
 
     <TextView
         android:id="@+id/registerTextView"

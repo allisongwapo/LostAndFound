@@ -108,8 +108,8 @@ public class onItemClickActivity extends AppCompatActivity{
         lostorfoundStatusTextView.setText(lostOrFoundStatus);
         itemNameTextView.setText(itemName);
         dateandtimeTextView.setText(date);
-        locationTextView.setText("Location: " + location);
-        descriptionTextView.setText("Description: " + description);
+        locationTextView.setText(location);
+        descriptionTextView.setText(description);
         posterTextView.setText("Posted by " + poster);
 
 

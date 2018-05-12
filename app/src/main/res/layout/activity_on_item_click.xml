@@ -1,72 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/graylight">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="300dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="405dp"
+            android:background="@drawable/gradientbackground"
+            android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/lostorfoundStatusTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
+            <ImageView
+                android:id="@+id/itemImageView"
+                android:layout_width="165dp"
+                android:layout_height="165dp"
+                android:layout_gravity="center_horizontal"
+                android:scaleType="centerCrop"
+                android:layout_marginTop="10dp" />
+            <TextView
+                android:id="@+id/itemNameTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:text="Name of Item"
+                android:textColor="#fff"
+                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        </LinearLayout>
+
+        <android.support.v7.widget.CardView
+            android:layout_width="320dp"
+            android:layout_height="100dp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="230dp">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                android:weightSum="3">
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="Status:"
+                   />
+                    <TextView
+                        android:id="@+id/lostorfoundStatusTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Lost or Found"
+
+                        android:textColor="@color/startblue"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Location:"
+                        />
+                    <TextView
+                        android:id="@+id/locationTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Location"
+                        android:textColor="@color/startblue"
+                        android:textStyle="bold"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:gravity="center"
+                    android:orientation="vertical"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:text="Date and Time:"
+                         />
+                    <TextView
+                        android:id="@+id/dateandtimeTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="DateTime"
+
+                        android:textColor="@color/startblue"
+                        android:textStyle="bold"/>
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </RelativeLayout>
+
+    <LinearLayout
         android:layout_marginTop="30dp"
-        android:text="Lost or Found"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-    <ImageView
-        android:id="@+id/itemImageView"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp" />
-
-    <TextView
-        android:id="@+id/itemNameTextView"
-        android:layout_width="wrap_content"
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:text="Name of Item"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="44dp">
 
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:src="@drawable/ic_chat_bubble_black_24dp" />
+
+            <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:text="Description"
+                android:textColor="#09c6df"
+                android:textSize="16sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="44dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:src="@drawable/ic_person_outline_black_24dp" />
+
+            <TextView
+                android:id="@+id/posterTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="4dp"
+                android:text="Poster"
+                android:textColor="#09c6df"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
     <TextView
-        android:id="@+id/dateandtimeTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_gravity="center"
-        android:layout_marginBottom="40dp"
-        android:text="date and time"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-    <TextView
-        android:id="@+id/locationTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="100dp"
-        android:text="location"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-    <TextView
-        android:id="@+id/descriptionTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="50dp"
-        android:layout_marginLeft="100dp"
-        android:text="description "
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-    <TextView
-        android:id="@+id/posterTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="left"
-        android:layout_marginBottom="40dp"
-        android:layout_marginLeft="66dp"
-        android:text="poster"
-        android:textAppearance="@style/TextAppearance.AppCompat.Medium" />
-
-    <TextView
+        android:layout_marginTop="50dp"
         android:id="@+id/clicktomessageTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -78,6 +176,7 @@
         android:textColor="@color/colorPrimary" />
 
     <TextView
+        android:layout_marginTop="1dp"
         android:id="@+id/setToFoundTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

@@ -37,7 +37,7 @@
         android:layout_height="33dp"
         android:layout_below="@+id/textView9"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="10dp"
+        android:layout_marginTop="13dp"
         android:background="@drawable/submitlostitemsedittext"
         android:ems="10"
         android:hint="(wallet, flash drive)"
@@ -52,19 +52,19 @@
         android:layout_alignStart="@+id/itemnameEditText"
         android:layout_below="@+id/itemnameEditText"
         android:layout_marginTop="13dp"
-        android:text="Probable Location (optional)" />
+        android:text="Item Description" />
 
     <EditText
         android:id="@+id/locationdescEditText"
         android:layout_width="221dp"
         android:layout_height="33dp"
-        android:layout_alignLeft="@+id/textView10"
-        android:layout_alignStart="@+id/textView10"
-        android:layout_below="@+id/textView10"
-        android:layout_marginTop="14dp"
+        android:layout_alignLeft="@+id/textView9"
+        android:layout_alignStart="@+id/textView9"
+        android:layout_below="@+id/textView11"
+        android:layout_marginTop="13dp"
         android:background="@drawable/submitlostitemsedittext"
         android:ems="10"
-        android:hint="(LB443, LRC 3rd Floor)"
+        android:hint="(e.g. LB443, LRC)"
         android:inputType="text"
         android:padding="2dp" />
 
@@ -72,20 +72,21 @@
         android:id="@+id/textView11"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/locationdescEditText"
-        android:layout_alignStart="@+id/locationdescEditText"
-        android:layout_below="@+id/locationdescEditText"
-        android:layout_marginTop="16dp"
-        android:text="Description" />
+        android:layout_alignLeft="@+id/descriptionEditText"
+        android:layout_alignStart="@+id/descriptionEditText"
+        android:layout_below="@+id/descriptionEditText"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="13dp"
+        android:text="Probable Location (optional)" />
 
     <EditText
         android:id="@+id/descriptionEditText"
         android:layout_width="221dp"
         android:layout_height="79dp"
-        android:layout_alignLeft="@+id/textView11"
-        android:layout_alignStart="@+id/textView11"
-        android:layout_below="@+id/textView11"
-        android:layout_marginTop="12dp"
+        android:layout_alignLeft="@+id/locationdescEditText"
+        android:layout_alignStart="@+id/locationdescEditText"
+        android:layout_below="@+id/textView10"
+        android:layout_marginTop="13dp"
         android:background="@drawable/submitlostitemsedittext"
         android:ems="10"
         android:gravity="top"
@@ -97,18 +98,18 @@
         android:id="@+id/textView12"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/descriptionEditText"
-        android:layout_alignStart="@+id/descriptionEditText"
-        android:layout_below="@+id/descriptionEditText"
-        android:layout_marginTop="19dp"
+        android:layout_alignLeft="@+id/textView10"
+        android:layout_alignStart="@+id/textView10"
+        android:layout_below="@+id/locationdescEditText"
+        android:layout_marginTop="13dp"
         android:text="Upload a photo (optional)" />
 
     <ImageButton
         android:id="@+id/uploadImageButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/submitFoundBtn"
-        android:layout_alignRight="@+id/submitFoundBtn"
+        android:layout_alignEnd="@+id/locationdescEditText"
+        android:layout_alignRight="@+id/locationdescEditText"
         android:layout_alignTop="@+id/textView12"
         app:srcCompat="@android:drawable/ic_menu_upload" />
 

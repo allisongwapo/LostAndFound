@@ -1,8 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:focusable="true"
+    android:focusableInTouchMode="true">
 
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout">
+
+        <Button
+            android:id="@+id/submitFoundBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#F9C6A4"
+            android:text="Report Lost Item"
+            android:textColor="@android:color/background_dark" />
+
+        <Button
+            android:id="@+id/foundItemBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#DEFFB1"
+            android:text="Report Found Item"
+            android:textColor="@android:color/background_dark" />
+
+    </LinearLayout>
+
+    <EditText
+        android:id="@+id/theFilterEditText"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/linearLayout"
+        android:drawableLeft="@android:drawable/ic_menu_search"
+        android:drawableStart="@android:drawable/ic_menu_search"
+        android:ems="10"
+        android:hint="Search items"
+        android:inputType="textPersonName"
+        android:nextFocusUp="@id/theFilterEditText"
+        android:nextFocusLeft="@id/theFilterEditText"/>
 
     <ListView
         android:id="@+id/itemListView"
@@ -10,42 +53,7 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="80dp" />
+        android:layout_below="@+id/theFilterEditText" />
 
-    <Button
-        android:id="@+id/submitFoundBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginLeft="42dp"
-        android:layout_marginStart="42dp"
-        android:text="Lost an Item" />
-
-    <Button
-        android:id="@+id/foundItemBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/submitFoundBtn"
-        android:layout_alignBottom="@+id/submitFoundBtn"
-        android:layout_alignParentEnd="true"
-        android:layout_alignParentRight="true"
-        android:layout_marginEnd="39dp"
-        android:layout_marginRight="39dp"
-        android:text="Found Item" />
-
-    <EditText
-        android:id="@+id/theFilterEditText"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="39dp"
-        android:layout_toLeftOf="@+id/foundItemBtn"
-        android:layout_toStartOf="@+id/foundItemBtn"
-        android:ems="10"
-        android:hint="Search items"
-        android:inputType="textPersonName" />
 
 </RelativeLayout>

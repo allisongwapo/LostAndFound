@@ -96,9 +96,9 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
         //FOR COLOR CHANGING OF LIST VIEW BASED ON LOST OR FOUND STATUS
         String status = Items.getStatus();
         if( status.equals("Found")){
-            rowView.setBackgroundColor(context.getResources().getColor(R.color.foundItemColorApproved));
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.foundItemColor));
         } else if(status.equals("Lost")){
-            rowView.setBackgroundColor(context.getResources().getColor(R.color.lostItemColorApproved));
+            rowView.setBackgroundColor(context.getResources().getColor(R.color.lostItemColor));
         }
         //END COLOR CHANGER
         return rowView;

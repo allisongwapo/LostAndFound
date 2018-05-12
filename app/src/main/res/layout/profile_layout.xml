@@ -1,181 +1,172 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/graylight"
+    android:orientation="vertical">
 
-
-    <TextView
-        android:id="@+id/updateinfoTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="Update Information"
-        android:visibility="invisible"/>
-
-    <TextView
-        android:id="@+id/idnoTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
-        android:layout_alignBaseline="@+id/textView5"
-        android:layout_alignBottom="@+id/textView5"
-        android:layout_alignLeft="@+id/datejoinedTextView"
-        android:layout_alignStart="@+id/datejoinedTextView"
-        android:layout_marginBottom="20dp"
-        android:text="idno"
-        android:textColor="#005880"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/datejoinedTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView6"
-        android:layout_alignBottom="@+id/textView6"
-        android:layout_alignEnd="@+id/saveBtn"
-        android:layout_alignRight="@+id/saveBtn"
-        android:layout_marginBottom="20dp"
-        android:text="datejoined"
-        android:textColor="#005880"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/itemsreturnedTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/textView7"
-        android:layout_alignBottom="@+id/textView7"
-        android:layout_alignLeft="@+id/datejoinedTextView"
-        android:layout_alignStart="@+id/datejoinedTextView"
-        android:text="itemsreturned"
-        android:textColor="#005880"
-        android:textSize="16sp" />
-
-
-    <RelativeLayout
-        android:id="@+id/relativeLayout"
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="255dp">
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_alignParentTop="true"
-        android:layout_marginTop="18dp">
+        android:layout_height="200dp"
+        android:background="@drawable/gradientbackground"
+        android:orientation="vertical">
 
         <ImageView
+            android:layout_marginTop="35dp"
             android:id="@+id/uploadImageView"
-            android:layout_width="155dp"
-            android:layout_height="155dp"
-            android:layout_alignParentTop="true"
-            android:layout_centerHorizontal="true"
+            android:layout_width="122dp"
+            android:layout_height="122dp"
             android:scaleType="centerCrop"
+            android:layout_gravity="center_horizontal"
             app:srcCompat="@android:drawable/ic_menu_upload" />
-
         <ProgressBar
             android:id="@+id/progressbar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_centerVertical="true"
+            android:layout_gravity="center_horizontal"
             android:visibility="gone" />
-
-    </RelativeLayout>
-
-    <Button
-        android:id="@+id/saveBtn"
-        android:layout_width="200dp"
-        android:layout_height="40dp"
-        android:layout_above="@+id/emailverifyTextView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="14dp"
-        android:text="Save"
-        android:visibility="invisible" />
-
-    <TextView
-        android:id="@+id/textView6"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView5"
-        android:layout_alignRight="@+id/textView5"
-        android:layout_below="@+id/textView5"
-        android:layout_marginTop="25dp"
-        android:text="Date Joined:"
-        android:textColor="#005880"
-        android:textSize="16sp" />
-
-    <TextView
-        android:id="@+id/textView7"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/textView6"
-        android:layout_marginEnd="24dp"
-        android:layout_marginRight="24dp"
-        android:layout_marginTop="22dp"
-        android:layout_toLeftOf="@+id/itemsreturnedTextView"
-        android:layout_toStartOf="@+id/itemsreturnedTextView"
-        android:text="Items Returned:"
-        android:textColor="#005880"
-        android:textSize="16sp" />
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_below="@+id/relativeLayout"
-        android:layout_marginTop="7dp">
-
         <TextView
             android:id="@+id/nameTextView"
+            android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="17dp"
+            android:layout_marginTop="10dp"
             android:text="Name Goes Here"
-            android:textColor="#005880"
-            android:textSize="22sp"
-            android:visibility="visible" />
-
-        <EditText
-            android:id="@+id/nameEditText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-
-            android:layout_alignParentBottom="true"
-            android:layout_centerHorizontal="true"
-            android:ems="10"
-            android:hint="Enter your name"
-            android:inputType="textPersonName"
-            android:textColor="#005880"
-            android:textSize="18sp"
-            android:visibility="invisible" />
-
+            android:textColor="#fff"
+            android:textStyle="bold"
+            android:textSize="21sp" />
+    </LinearLayout>
     </RelativeLayout>
 
-    <TextView
-        android:id="@+id/textView5"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="360dp"
         android:layout_height="wrap_content"
-        android:layout_alignEnd="@+id/textView7"
-        android:layout_alignRight="@+id/textView7"
-        android:layout_below="@+id/updateinfoTextView"
-        android:layout_marginTop="27dp"
-        android:text="ID Number:"
-        android:textColor="#005880"
-        android:textSize="16sp"
-        />
+        android:layout_gravity="center"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="44dp">
+
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:src="@android:drawable/star_off" />
+
+            <TextView
+                android:id="@+id/itemsreturnedTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:text="itemsreturned"
+                android:textColor="#09c6df"
+                android:textSize="16sp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="44dp"
+            android:layout_marginTop="10dp">
+
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:src="@android:drawable/ic_menu_my_calendar" />
+
+            <TextView
+                android:id="@+id/datejoinedTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:text="datejoined"
+                android:textColor="#09c6df"
+                android:textSize="16sp" />
+        </LinearLayout>
+    </LinearLayout>
+
 
     <TextView
         android:id="@+id/emailverifyTextView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        android:layout_marginBottom="10dp"
-        android:layout_marginLeft="12dp"
-        android:layout_marginStart="12dp"
         android:text="Verified"
+        android:layout_marginTop="80dp"
+        android:paddingStart="42dp"
+        android:paddingLeft="42dp"
         android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+    <Button
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/saveBtn"
+        android:layout_width="200dp"
+        android:layout_height="40dp"
+        android:text="Save"
+        android:visibility="gone"
+        />
+</LinearLayout>
 
-</RelativeLayout>
+
+
+<!--
+    <TextView
+        android:id="@+id/textView6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_alignLeft="@+id/saveBtn"
+        android:layout_alignStart="@+id/saveBtn"
+        android:layout_below="@+id/updateinfoTextView"
+        android:layout_marginTop="45dp"
+        android:text="Date Joined:"
+        android:textColor="#005880"
+        android:textSize="16sp" />
+    <TextView
+        android:id="@+id/textView7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@+id/textView6"
+        android:layout_alignRight="@+id/textView6"
+        android:layout_below="@+id/datejoinedTextView"
+        android:text="Items Returned:"
+        android:textColor="#005880"
+        android:textSize="16sp" /> -->
+    <!--
+ <TextView
+     android:id="@+id/updateinfoTextView"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_centerHorizontal="true"
+     android:layout_centerVertical="true"
+     android:text="Update Information"
+     android:visibility="invisible"/>
+ <TextView
+     android:id="@+id/idnoTextView"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_alignBaseline="@+id/textView5"
+     android:layout_alignBottom="@+id/textView5"
+     android:layout_alignLeft="@+id/datejoinedTextView"
+     android:layout_alignStart="@+id/datejoinedTextView"
+     android:layout_marginBottom="20dp"
+     android:text="idno"
+     android:textColor="#005880"
+     android:textSize="16sp" />
+
+       <TextView
+     android:id="@+id/textView5"
+     android:layout_width="wrap_content"
+     android:layout_height="wrap_content"
+     android:layout_alignEnd="@+id/textView7"
+     android:layout_alignRight="@+id/textView7"
+     android:layout_below="@+id/updateinfoTextView"
+     android:layout_marginTop="27dp"
+     android:text="ID Number:"
+     android:textColor="#005880"
+     android:textSize="16sp"
+     />-->
+
