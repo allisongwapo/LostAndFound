@@ -38,7 +38,8 @@
             android:name=".NewsFeed.lostConfirmPopUp"
             android:theme="@style/AppTheme.PopMe" />
         <activity android:name=".NewsFeed.submitFoundItemActivity" />
-        <activity android:name=".Admin.adminApprove" />
+        <activity android:name=".Admin.adminApprove"
+            android:theme="@style/AppTheme.Admin"/>
         <activity android:name=".NewsFeed.onItemClickActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
@@ -74,7 +75,10 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
         <!--END NOTIFICATIONS-->
+        <activity android:name=".NewsFeed.PopupImage"
+            android:theme="@style/AppTheme.PopupImage">
 
+        </activity>
     </application>
 
 </manifest>

@@ -45,7 +45,6 @@ public class onItemClickActivity extends AppCompatActivity{
         String poster = "";
         String imageId = "";
         String uid = "";
-
         String visibility ="";
         Intent intent = getIntent();
         if (null!= intent){
@@ -104,6 +103,22 @@ public class onItemClickActivity extends AppCompatActivity{
             Glide.with(onItemClickActivity.this).load(imageId).into(itemImageView); // IMAGE VIEW
         }
 
+        itemImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String imageId2 = "";
+                Intent intentFromClick = getIntent();
+                if (null!= intentFromClick) {
+                    imageId2 = intentFromClick.getStringExtra("item_image_id");
+                }
+                //startActivity(new Intent(onItemClickActivity.this, PopupImage.class));
+                Intent intent = new Intent(onItemClickActivity.this,PopupImage.class);
+                intent.putExtra("image_id",imageId2);
+                startActivity(intent);
+            }
+        });
+
+
 
         lostorfoundStatusTextView.setText(lostOrFoundStatus);
         itemNameTextView.setText(itemName);
@@ -113,7 +128,7 @@ public class onItemClickActivity extends AppCompatActivity{
         posterTextView.setText("Posted by " + poster);
 
 
-        if(lostOrFoundStatus=="Lost" && uid== userID){
+        if(lostOrFoundStatus.equals("Lost") && uid.equals(userID)){
             clicktomessageTextView.setVisibility(View.INVISIBLE);
             setToFoundTextView.setVisibility(View.VISIBLE);
 

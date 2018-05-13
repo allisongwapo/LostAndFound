@@ -121,19 +121,7 @@ public class adminApprove extends AppCompatActivity {
                                             DatabaseReference decDatabase = mDatabase.child("declinedItems");
                                             DatabaseReference declinedItem = decDatabase.push();
                                             items Item = new items();
-                                            declinedItem.child("itemName").setValue((dataSnapshot.getValue(items.class).getitemName()));
-                                            declinedItem.child("lastSeenLocation").setValue(dataSnapshot.getValue(items.class).getlastSeenLocation());
-                                            declinedItem.child("description").setValue(Item.getDescription());
-                                            declinedItem.child("poster").setValue(Item.getPoster());
-                                            declinedItem.child("dateSubmitted").setValue(Item.getdateSubmitted());
-                                            declinedItem.child("status").setValue(Item.getStatus());
-                                            declinedItem.child("uid").setValue(Item.getUid()); //for mySubmissions Filter
-                                            declinedItem.child("approvalStatus").setValue(2);
-                                            declinedItem.child("itemID").setValue(Item.getItemID());
-                                            */
-                                        /*if(dataSnapshot.child(selectedApprove.get(i)).getValue()!= null) {
-                                           dbReference.child(selectedApprove.get(i)).removeValue();
-                                        }FOR ITEM REMOVAL*/
+                                            declinedItem.child("itemName").setValue((dataSnapshot.getValue(items.class).getitemName()));*/
                                         dbReference.child(selectedApprove.get(i)).child("approvalStatus").setValue(2);
                                     }
                                     if (selectedApprove.isEmpty()) {
