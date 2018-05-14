@@ -9,7 +9,7 @@ import com.google.firebase.database.IgnoreExtraProperties;
 public class items {
     private String itemName;
     private String dateSubmitted;
-    private String lastSeenLocation;
+    private String locationDescription;
     private String poster;
     private String status;
     private String imageID;
@@ -18,22 +18,29 @@ public class items {
     private String itemID;
     private String description;
     private String uid;
+    private Double latitude;
+    private Double longitude;
+
 
 
     public items(){}
 
-    public items(String itemName, String dateSubmitted, String lastSeenLocation, String poster,String status, String imageID,boolean isSelected,int approvalStatus,String itemID, String description,String uid) {
+    public items(String itemName, String dateSubmitted, String locationDescription, String poster,String status,
+                 String imageID,boolean isSelected,int approvalStatus,String itemID, String description,String uid, Double latitude, Double longitude) {
         this.itemName = itemName;
         this.dateSubmitted = dateSubmitted;
-        this.lastSeenLocation = lastSeenLocation;
+        this.locationDescription = locationDescription;
         this.poster = poster;
-        //this.status = status;
+        this.status = status;
         this.imageID = imageID;
         this.isSelected = isSelected;
         this.approvalStatus = approvalStatus;
         this.itemID = itemID;
         this.description = description;
         this.uid = uid;
+        this.latitude = latitude;
+        this.longitude = longitude;
+
     }
 
     public String getitemName() {
@@ -48,8 +55,8 @@ public class items {
         return dateSubmitted;
     }
 
-    public String getlastSeenLocation() {
-        return lastSeenLocation;
+    public String getlocationDescription() {
+        return locationDescription;
     }
 
     public String getPoster() {
@@ -110,6 +117,22 @@ public class items {
 
     public void setUid(String uid) {
         this.uid = uid;
+    }
+
+    public Double getLatitude() {
+        return latitude;
+    }
+
+    public void setLatitude(Double latitude) {
+        this.latitude = latitude;
+    }
+
+    public Double getLongitude() {
+        return longitude;
+    }
+
+    public void setLongitude(Double longitude) {
+        this.longitude = longitude;
     }
 }
 

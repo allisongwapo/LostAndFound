@@ -135,7 +135,7 @@ public class submitLostItemActivity extends AppCompatActivity {
                 final DatabaseReference item = mDatabase.push();
                 String key = item.getKey();
                 item.child("itemName").setValue(itemName);
-                item.child("lastSeenLocation").setValue(lastSeen);
+                item.child("locationDescription").setValue(lastSeen);
                 item.child("description").setValue(description);
                 nameRef.addValueEventListener(new ValueEventListener() {
                     @Override

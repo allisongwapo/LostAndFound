@@ -58,7 +58,7 @@ public class mySubmissionsList extends ArrayAdapter<items> {
        
         itemNameTextView.setText(Items.getitemName());
         datetimeTextView.setText(Items.getdateSubmitted());
-        locationTextView.setText(Items.getlastSeenLocation());
+        locationTextView.setText(Items.getlocationDescription());
         posterTextView.setText(Items.getPoster());
         RequestOptions options = new RequestOptions();
         options.fitCenter();

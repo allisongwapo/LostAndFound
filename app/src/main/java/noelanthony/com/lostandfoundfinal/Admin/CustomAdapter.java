@@ -71,7 +71,7 @@ public class CustomAdapter extends BaseAdapter {
 
             holder.itemNameTextView.setText(Items.getitemName());
             holder.datetimeTextView.setText(Items.getdateSubmitted());
-            holder.locationTextView.setText(Items.getlastSeenLocation());
+            holder.locationTextView.setText(Items.getlocationDescription());
             holder.posterTextView.setText("Posted By " + Items.getPoster());
             //statusTextView.setText(Items.getStatus());
             status = Items.getStatus();

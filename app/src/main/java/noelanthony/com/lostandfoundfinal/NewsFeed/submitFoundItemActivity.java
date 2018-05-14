@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
@@ -39,7 +40,7 @@ import java.text.DateFormat;
 import java.util.Date;
 
 import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
-import noelanthony.com.lostandfoundfinal.MapsActivity;
+import noelanthony.com.lostandfoundfinal.Maps.LocationTrack;
 import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.Profile.UserInformation;
 import noelanthony.com.lostandfoundfinal.R;
@@ -50,11 +51,12 @@ public class submitFoundItemActivity extends AppCompatActivity {
     private EditText locationdescEditText;
     private EditText descriptionEditText;
     private ImageButton uploadImageButton,googleMapImageButton;
-    private Button submitFoundButton;
+    private Button submitFoundButton, cancelLocationBtn;
     private ProgressBar progressBar;
     private DatabaseReference mDatabase, nameRef;
     private FirebaseAuth mAuth;
-    private String userID, poster;
+    private String userID, poster, locationSelection;
+    private Double longitude,latitude;
     private ProgressBar mProgressBar;
     private ImageView displayImageView;
     Context applicationContext = MainActivity.getContextOfApplication();
@@ -64,7 +66,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
     private Uri mImageUri;
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
-
+    private TextView currentLocationTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,18 +81,43 @@ public class submitFoundItemActivity extends AppCompatActivity {
         mProgressBar = findViewById(R.id.progressbar);
         displayImageView = findViewById(R.id.displayImageView);
         googleMapImageButton  = findViewById(R.id.googleMapImageButton);
+        currentLocationTextView = findViewById(R.id.currentLocationTextView);
+        cancelLocationBtn = findViewById(R.id.cancelLocationBtn);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("lostItemImage/");
         mAuth = FirebaseAuth.getInstance();
 
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
-
+        locationSelection="None";
         googleMapImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(submitFoundItemActivity.this,MapsActivity.class);
-                startActivity(startIntent);
+                //Intent startIntent = new Intent(submitFoundItemActivity.this,MapsActivity.class);
+                //startActivity(startIntent);
+               final  LocationTrack locationTrack = new LocationTrack(submitFoundItemActivity.this);
+                if (locationTrack.canGetLocation()) {
+                            longitude = locationTrack.getLongitude();
+                            latitude = locationTrack.getLatitude();
+                            locationSelection= "Current Location";
+                            currentLocationTextView.setText("Current Location");
+                            Toast.makeText(submitFoundItemActivity.this, "Item Location set to current location", Toast.LENGTH_SHORT).show();
+                    cancelLocationBtn.setVisibility(View.VISIBLE );
+                    cancelLocationBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            locationSelection="None";
+                            longitude = null;
+                            latitude = null;
+                            Toast.makeText(submitFoundItemActivity.this, "Canceled", Toast.LENGTH_SHORT).show();
+                            cancelLocationBtn.setVisibility(View.GONE);
+                            currentLocationTextView.setText("(Click to get current location)");
+                        }
+                    });
+
+                } else {
+                    locationTrack.showSettingsAlert();
+                }
             }
         });
 
@@ -114,7 +141,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
 
     public void showAlertDialog(View v){
         final String itemName = itemnameEditText.getText().toString().trim();
-        final String lastSeen = locationdescEditText.getText().toString().trim();
+        final String locationDescription = locationdescEditText.getText().toString().trim();
         final String description = descriptionEditText.getText().toString().trim();
         final String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
@@ -133,7 +160,8 @@ public class submitFoundItemActivity extends AppCompatActivity {
         AlertDialog.Builder alert= new AlertDialog.Builder(this);
         alert.setCancelable(true);
         alert.setTitle("Confirm");
-        alert.setMessage("Item Name: " + itemnameEditText.getText() + "\n Location Description" + locationdescEditText.getText() + "\n Description: " + descriptionEditText.getText());
+        alert.setMessage("Item Name: " + itemnameEditText.getText() + "\n Item Description: " + descriptionEditText.getText()+ "\n Location Description: "
+                        + locationdescEditText.getText() +"\n Location: " + locationSelection);
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -142,7 +170,14 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 final DatabaseReference item = mDatabase.push();
                 String key = item.getKey();
                 item.child("itemName").setValue(itemName);
-                item.child("lastSeenLocation").setValue(lastSeen);
+                item.child("locationDescription").setValue(locationDescription);
+
+                if(longitude != null && latitude != null ) {
+                   // item.child("location").child("longitude").setValue(longitude);
+                    //item.child("location").child("latitude").setValue(latitude);
+                    item.child("longitude").setValue(longitude);
+                    item.child("latitude").setValue(latitude);
+                }
                 item.child("description").setValue(description);
                 nameRef.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -163,7 +198,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 item.child("itemID").setValue(key);
                 //this block of code prevents multiple image upload
                 if(mUploadTask!=null && mUploadTask.isInProgress()){
-                    Toast.makeText(applicationContext, "Upload in progress", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(submitFoundItemActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
                 }
                 else if(mImageUri!=null){
                     StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()+"."+getFileExtension(mImageUri));
@@ -179,7 +214,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                                             mProgressBar.setProgress(0);
                                         }
                                     },500);
-                                    Toast.makeText(applicationContext,"Upload successful", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(submitFoundItemActivity.this,"Upload successful", Toast.LENGTH_LONG).show();
                                     // items upload = new items (itemnameEditText.getText().toString().trim(),taskSnapshot.getDownloadUrl().toString());
                                     // String uploadId = mDatabaseRef.push().getKey();
                                     item.child("imageID").setValue(taskSnapshot.getDownloadUrl().toString());
@@ -188,7 +223,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(applicationContext, e.getMessage(),Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(submitFoundItemActivity.this, e.getMessage(),Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -199,7 +234,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                                 }
                             });
                 }else{
-                    Toast.makeText(applicationContext,"No file selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(submitFoundItemActivity.this,"No file selected", Toast.LENGTH_SHORT).show();
                 }
                 Toast.makeText(getApplicationContext(), "Submission Successful", Toast.LENGTH_SHORT).show();
                 Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);

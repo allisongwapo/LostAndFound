@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:background="@color/colorPrimary"
         android:gravity="center"
-        android:text="Submit Found Item"
+        android:text="Report Found Item"
         android:textColor="@android:color/background_light"
         android:textSize="30sp" />
 
@@ -175,5 +175,25 @@
         android:padding="1dp"
         android:scaleType="fitCenter"
         app:srcCompat="@drawable/googlemapicon" />
+
+    <TextView
+        android:id="@+id/currentLocationTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/googleMapImageButton"
+        android:layout_marginTop="9dp"
+        android:layout_toEndOf="@+id/googleMapImageButton"
+        android:layout_toRightOf="@+id/googleMapImageButton"
+        android:text="(Click to get current location)" />
+
+    <Button
+        android:id="@+id/cancelLocationBtn"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignTop="@+id/currentLocationTextView"
+        android:layout_toEndOf="@+id/currentLocationTextView"
+        android:layout_toRightOf="@+id/currentLocationTextView"
+        android:background="@android:drawable/ic_menu_close_clear_cancel"
+        android:visibility="invisible" />
 
 </RelativeLayout>

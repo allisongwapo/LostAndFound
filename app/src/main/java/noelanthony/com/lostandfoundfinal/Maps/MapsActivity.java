@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.Maps;
 
 import android.content.pm.PackageManager;
 import android.location.Address;
@@ -20,9 +20,12 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
+import noelanthony.com.lostandfoundfinal.R;
+
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
     private GoogleMap mMap;
+    private String str;
 
     LocationManager locationManager;
 
@@ -30,6 +33,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_maps);
+
+
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -51,19 +56,35 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onLocationChanged(Location location) {
                     //get the latitude
-                    double latitude = location.getLatitude();
+                    //double latitude = location.getLatitude();
+                    double latitude = getIntent().getDoubleExtra("item_latitudeMap", 0.0);
                     //get the longitude
-                    double longitude = location.getLongitude();
+                    //double longitude = location.getLongitude();
+                    double longitude = getIntent().getDoubleExtra("item_longitudeMap", 0.0);
                     //instantiate the class, LatLng
                     LatLng latLng = new LatLng(latitude, longitude);
                     //instantiate the class, Geocoder
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
                         List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
-                        String str = addressList.get(0).getPremises() + ",";
-                        str += addressList.get(0).getLocality();
+
+
+
+                        if(addressList.get(0).getPremises()==null) {
+                            str = addressList.get(0).getFeatureName() + ",";
+                            str += addressList.get(0).getLocality();
+                        }else {
+                            str = addressList.get(0).getPremises() + ",";
+                            str += addressList.get(0).getLocality();
+                        }
+
                         mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 17.2f));
+
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19.5f));
+                        // mMap.animateCamera(CameraUpdateFactory.zoomTo(20.2f), 4000, null);
+                        // Zoom in, animating the camera.
+
+
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -89,19 +110,24 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 @Override
                 public void onLocationChanged(Location location) {
                     //get the latitude
-                    double latitude = location.getLatitude();
+                    //double latitude = location.getLatitude();
+                    double latitude = getIntent().getDoubleExtra("item_latitudeMap", 0.0);
                     //get the longitude
-                    double longitude = location.getLongitude();
+                    //double longitude = location.getLongitude();
+                    double longitude = getIntent().getDoubleExtra("item_longitudeMap", 0.0);
                     //instantiate the class, LatLng
                     LatLng latLng = new LatLng(latitude, longitude);
                     //instantiate the class, Geocoder
                     Geocoder geocoder = new Geocoder(getApplicationContext());
                     try {
+
                         List<Address> addressList = geocoder.getFromLocation(latitude, longitude, 1);
                         String str = addressList.get(0).getPremises()+",";
                         str += addressList.get(0).getLocality();
                         mMap.addMarker(new MarkerOptions().position(latLng).title(str));
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 30.2f));
+
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19.5f));
+                       // mMap.animateCamera(CameraUpdateFactory.zoomTo(16.2f), 4000, null);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
@@ -123,6 +149,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 }
             });
         }
+
 
     }
 

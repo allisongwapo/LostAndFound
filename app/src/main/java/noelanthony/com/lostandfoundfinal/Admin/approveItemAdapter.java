@@ -61,7 +61,7 @@ public class approveItemAdapter extends ArrayAdapter<items> {
 
         itemNameTextView.setText(Items.getitemName());
         datetimeTextView.setText(Items.getdateSubmitted());
-        locationTextView.setText(Items.getlastSeenLocation());
+        locationTextView.setText(Items.getlocationDescription());
         posterTextView.setText("Posted By " + Items.getPoster());
         //statusTextView.setText(Items.getStatus());
 

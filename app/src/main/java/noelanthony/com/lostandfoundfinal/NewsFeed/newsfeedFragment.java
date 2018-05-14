@@ -41,7 +41,7 @@ public class newsfeedFragment extends Fragment {
     private Button submitLostBtn;
     private Button foundItemBtn;
     private EditText theFilterEditText;
-    private DatabaseReference dbLostReference,mDatabase;
+    private DatabaseReference dbLostReference,mDatabase, coordsRef;
     private itemAdapter adapter;
 
     //FOR ON ITEM CLICK LIST
@@ -70,6 +70,7 @@ public class newsfeedFragment extends Fragment {
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         dbLostReference= mDatabase.child("items");
+
        // Query DescendingDateQuery = dbLostReference.orderByChild("dateSubmitted"); //Orders items by Descending date
         Query ApprovedQuery = dbLostReference.orderByChild("approvalStatus").equalTo(1); //Only displays approved items 1
 
@@ -115,11 +116,14 @@ public class newsfeedFragment extends Fragment {
                             intent.putExtra(KEY_ITEM_NAME,item.getitemName());
                             intent.putExtra(KEY_STATUS,item.getStatus());
                             intent.putExtra(KEY_DATE,item.getdateSubmitted());
-                            intent.putExtra(KEY_LOCATION,item.getlastSeenLocation());
+                            intent.putExtra(KEY_LOCATION,item.getlocationDescription());
                             intent.putExtra(KEY_DESCRIPTION,item.getDescription());
                             intent.putExtra(KEY_POSTER,item.getPoster());
                             intent.putExtra(KEY_IMAGE_ID,item.getImageID());
                             intent.putExtra(KEY_USER_ID,item.getUid());
+                            intent.putExtra("item_latitude", item.getLatitude());
+                            intent.putExtra("item_longitude", item.getLongitude());
+
                             if(item.getStatus().equals("Lost")) {
                                 intent.putExtra("visibility", "newsLost"); //this extra to to set the setToFoundTextView to Visible
                             }else if(item.getStatus().equals("Found")) {
