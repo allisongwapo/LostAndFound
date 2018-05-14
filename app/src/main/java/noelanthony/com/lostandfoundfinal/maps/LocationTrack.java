@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.Maps;
+package noelanthony.com.lostandfoundfinal.maps;
 
 import android.Manifest;
 import android.app.AlertDialog;

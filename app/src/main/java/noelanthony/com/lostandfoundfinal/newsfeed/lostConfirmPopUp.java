@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.NewsFeed;
+package noelanthony.com.lostandfoundfinal.newsfeed;
 
 import android.app.Activity;
 import android.os.Bundle;

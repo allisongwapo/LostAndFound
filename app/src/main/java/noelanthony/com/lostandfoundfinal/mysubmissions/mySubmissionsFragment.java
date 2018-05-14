@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.MySubmissions;
+package noelanthony.com.lostandfoundfinal.mysubmissions;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -24,9 +24,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
-import noelanthony.com.lostandfoundfinal.NewsFeed.items;
-import noelanthony.com.lostandfoundfinal.NewsFeed.onItemClickActivity;
+import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.newsfeed.items;
+import noelanthony.com.lostandfoundfinal.newsfeed.onItemClickActivity;
 import noelanthony.com.lostandfoundfinal.R;
 
 /**
@@ -61,7 +61,7 @@ public class mySubmissionsFragment extends Fragment{
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.mysubmissions_layout, container, false);
 
-        Firebase.setAndroidContext(applicationContext);
+        Firebase.setAndroidContext(getActivity());
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
@@ -92,7 +92,7 @@ public class mySubmissionsFragment extends Fragment{
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             items item =  adapter.getItem(position);
 
-                            Intent intent = new Intent(applicationContext,onItemClickActivity.class);
+                            Intent intent = new Intent(getActivity(),onItemClickActivity.class);
                             intent.putExtra(KEY_ITEM_NAME,item.getitemName());
                             intent.putExtra(KEY_STATUS,item.getStatus());
                             intent.putExtra(KEY_DATE,item.getdateSubmitted());

@@ -13,7 +13,11 @@ import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 
-import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import noelanthony.com.lostandfoundfinal.admin.adminApprove;
+import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
 
 /**
  * Created by Noel on 12/05/2018.
@@ -28,11 +32,39 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
+
+        /*
         String title = remoteMessage.getNotification().getTitle();
         String message = remoteMessage.getNotification().getBody();
         Log.d(TAG,"onMessageReceived: Message Received: \n" + "Title: " + title + "\n" + "Message: " + message);
+        sendNotification(title,message);*/
 
-        sendNotification(title,message);
+        //Check if message contains a data payload
+        if(remoteMessage.getData().size() > 0){
+            Log.d(TAG,"Message data payload: " + remoteMessage.getData());
+            try{
+                JSONObject data = new JSONObject(remoteMessage.getData());
+                String jsonMessage = data.getString("extra_information");
+                Log.d(TAG,"onMessageReceived: \n" + "Extra Information: " +jsonMessage);
+            }catch(JSONException e){
+                e.printStackTrace();
+            }
+
+        }
+        //check if message contains a notification payload
+        if(remoteMessage.getNotification() != null){
+            String title = remoteMessage.getNotification().getTitle(); //get title
+            String message = remoteMessage.getNotification().getBody(); //get message
+            String click_action = remoteMessage.getNotification().getClickAction(); //get click_action
+
+            Log.d(TAG, "Message Notification Title: " + title);
+            Log.d(TAG, "Message Notification Body: " + message);
+            Log.d(TAG, "Message Notification click_action: " + click_action);
+
+            sendNotification(title,message,click_action);
+
+        }
+
 
     }
 
@@ -41,10 +73,29 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public void onDeletedMessages() {
 
     }
-    private void sendNotification(String title, String messageBody) {
+    private void sendNotification(String title, String messageBody, String click_action) {
+        /*
         Intent intent = new Intent(this, MainActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 /* Request code */, intent,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
+                PendingIntent.FLAG_ONE_SHOT);*/
+
+        Intent intent;
+
+        if (click_action.equals("adminApprove")) {
+            intent = new Intent (this, adminApprove.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }else if (click_action.equals("newsfeed")){
+           //intent = new Intent (this, newsFeedActivity.class);
+            intent = new Intent (this, MainActivity.class);
+           intent.putExtra("From", "notifyFrag");
+          // intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+          // startActivity(intent);
+        }else{
+            intent = new Intent (this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
         String channelId = getString(R.string.default_notification_channel_id);

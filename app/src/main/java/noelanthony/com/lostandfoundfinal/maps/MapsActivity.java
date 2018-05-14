@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.Maps;
+package noelanthony.com.lostandfoundfinal.maps;
 
 import android.content.pm.PackageManager;
 import android.location.Address;

@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.NewsFeed;
+package noelanthony.com.lostandfoundfinal.newsfeed;
 
 import android.app.Activity;
 import android.content.Context;
@@ -20,8 +20,8 @@ import com.bumptech.glide.request.RequestOptions;
 import java.util.ArrayList;
 import java.util.List;
 
-import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
 
 /**
  * Created by Noel on 16/02/2018.
@@ -81,9 +81,9 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
         RequestOptions options = new RequestOptions();
         options.fitCenter();
         if(Items.getImageID()==null){
-            Glide.with(applicationContext).load(R.mipmap.ic_noimage).apply(options).into(itemImageView);
+            Glide.with(getContext()).load(R.mipmap.ic_noimage).apply(options).into(itemImageView);
         }else {
-            Glide.with(applicationContext).load(Items.getImageID()).into(itemImageView); // IMAGE VIEW
+            Glide.with(getContext()).load(Items.getImageID()).into(itemImageView); // IMAGE VIEW
         }
        /* Picasso.get()
                 .load(Items.getImageID())

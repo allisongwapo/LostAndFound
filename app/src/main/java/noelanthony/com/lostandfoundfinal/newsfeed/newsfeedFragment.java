@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.NewsFeed;
+package noelanthony.com.lostandfoundfinal.newsfeed;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -22,11 +22,12 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
-import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
 
 /**
  * Created by Noel on 16/02/2018.
@@ -60,7 +61,12 @@ public class newsfeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.newsfeed_layout, container, false);
 
-        Firebase.setAndroidContext(applicationContext);
+        Firebase.setAndroidContext(getActivity());
+
+
+        //FOR ADMIN NOTIFICATION
+        FirebaseMessaging.getInstance().subscribeToTopic("NEWSFEED");
+
         itemListView =  myView.findViewById(R.id.itemListView);
         submitLostBtn = myView.findViewById(R.id.submitFoundBtn);
         foundItemBtn = myView.findViewById(R.id.foundItemBtn);
@@ -112,7 +118,7 @@ public class newsfeedFragment extends Fragment {
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                             items item =  adapter.getItem(position);
 
-                            Intent intent = new Intent(applicationContext,onItemClickActivity.class);
+                            Intent intent = new Intent(getActivity(),onItemClickActivity.class);
                             intent.putExtra(KEY_ITEM_NAME,item.getitemName());
                             intent.putExtra(KEY_STATUS,item.getStatus());
                             intent.putExtra(KEY_DATE,item.getdateSubmitted());

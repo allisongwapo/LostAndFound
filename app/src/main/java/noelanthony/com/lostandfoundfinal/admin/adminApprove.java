@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.Admin;
+package noelanthony.com.lostandfoundfinal.admin;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,13 +18,14 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
-import noelanthony.com.lostandfoundfinal.NewsFeed.items;
+import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.newsfeed.items;
 import noelanthony.com.lostandfoundfinal.R;
 
 public class adminApprove extends AppCompatActivity {
@@ -62,6 +63,9 @@ public class adminApprove extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_admin_approve);
+
+        //FOR ADMIN NOTIFICATION
+        FirebaseMessaging.getInstance().subscribeToTopic("ADMIN");
         declineButton = findViewById(R.id.declineButton);
         approveButton = findViewById(R.id.approveButton);
         final List<items> itemApproveList = new ArrayList<>();

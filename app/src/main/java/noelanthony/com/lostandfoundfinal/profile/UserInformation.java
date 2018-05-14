@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.Profile;
+package noelanthony.com.lostandfoundfinal.profile;
 
 /**
  * Created by Noel on 27/02/2018.

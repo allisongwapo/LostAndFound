@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.NavMenu;
+package noelanthony.com.lostandfoundfinal.navmenu;
 
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -14,10 +14,10 @@ import android.view.MenuItem;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
-import noelanthony.com.lostandfoundfinal.MySubmissions.mySubmissionsFragment;
-import noelanthony.com.lostandfoundfinal.NewsFeed.newsfeedFragment;
-import noelanthony.com.lostandfoundfinal.Profile.profileFragment;
+import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.mysubmissions.mySubmissionsFragment;
+import noelanthony.com.lostandfoundfinal.newsfeed.newsfeedFragment;
+import noelanthony.com.lostandfoundfinal.profile.profileFragment;
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.messegesFragment;
 
@@ -93,7 +93,7 @@ public class newsFeedActivity extends AppCompatActivity
 
         if (id == R.id.nav_newsfeed_layout) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new newsfeedFragment()).commit();
-            //
+
         } else if (id == R.id.nav_profile) {
             fragmentManager.beginTransaction().replace(R.id.content_frame , new profileFragment()).commit();
         } else if(id ==R.id.nav_submissions) {

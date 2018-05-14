@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.NewsFeed;
+package noelanthony.com.lostandfoundfinal.newsfeed;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -20,8 +20,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import noelanthony.com.lostandfoundfinal.Maps.MapsActivity;
-import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
+import noelanthony.com.lostandfoundfinal.maps.MapsActivity;
+import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.R;
 
 public class onItemClickActivity extends AppCompatActivity{

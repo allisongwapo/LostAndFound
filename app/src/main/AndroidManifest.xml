@@ -22,26 +22,39 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".LoginRegister.MainActivity">
+        <activity android:name=".loginregister.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LoginRegister.registerActivity" />
+        <activity android:name=".loginregister.registerActivity" />
         <activity
-            android:name=".NavMenu.newsFeedActivity"
+            android:name=".navmenu.newsFeedActivity"
             android:label="@string/title_activity_news_feed"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity android:name=".NewsFeed.submitLostItemActivity" />
+            android:theme="@style/AppTheme.NoActionBar">
+            <intent-filter>
+                <action android:name="newsfeed"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+        </activity>
+
+        <activity android:name=".newsfeed.submitLostItemActivity" />
         <activity
-            android:name=".NewsFeed.lostConfirmPopUp"
+            android:name=".newsfeed.lostConfirmPopUp"
             android:theme="@style/AppTheme.PopMe" />
-        <activity android:name=".NewsFeed.submitFoundItemActivity" />
-        <activity android:name=".Admin.adminApprove"
-            android:theme="@style/AppTheme.Admin"/>
-        <activity android:name=".NewsFeed.onItemClickActivity" />
+        <activity android:name=".newsfeed.submitFoundItemActivity" />
+        <activity android:name=".admin.adminApprove"
+            android:theme="@style/AppTheme.Admin">
+            <intent-filter>
+                <action android:name="adminApprove"></action>
+                <category android:name="android.intent.category.DEFAULT"></category>
+            </intent-filter>
+
+
+        </activity>
+        <activity android:name=".newsfeed.onItemClickActivity" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -55,7 +68,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".Maps.MapsActivity"
+            android:name=".maps.MapsActivity"
             android:label="@string/title_activity_maps"></activity>
         <service android:name=".FirebaseMessagingService">
 
@@ -76,7 +89,7 @@
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
         <!--END NOTIFICATIONS-->
-        <activity android:name=".NewsFeed.PopupImage"
+        <activity android:name=".newsfeed.PopupImage"
             android:theme="@style/AppTheme.PopupImage">
 
         </activity>

@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.Admin;
+package noelanthony.com.lostandfoundfinal.admin;
 
 import android.app.Activity;
 import android.content.Context;
@@ -17,8 +17,8 @@ import com.google.firebase.database.DatabaseReference;
 
 import java.util.List;
 
-import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
-import noelanthony.com.lostandfoundfinal.NewsFeed.items;
+import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.newsfeed.items;
 import noelanthony.com.lostandfoundfinal.R;
 
 /**

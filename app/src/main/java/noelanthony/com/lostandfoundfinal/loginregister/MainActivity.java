@@ -1,5 +1,6 @@
-package noelanthony.com.lostandfoundfinal.LoginRegister;
+package noelanthony.com.lostandfoundfinal.loginregister;
 
+import android.app.FragmentManager;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,9 +19,10 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
-import noelanthony.com.lostandfoundfinal.Admin.adminApprove;
-import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.admin.adminApprove;
+import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
+import noelanthony.com.lostandfoundfinal.newsfeed.newsfeedFragment;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
     public static Context contextOfApplication;
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     Button loginButton;
     TextView registerTextView;
     ProgressBar progressbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +53,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         findViewById(R.id.loginButton).setOnClickListener(this);
         findViewById(R.id.registerTextView).setOnClickListener(this);
+
+        String type = getIntent().getStringExtra("From");
+        if (type != null) {
+            switch (type) {
+                case "notifyFrag":
+                    FragmentManager fragmentManager = getFragmentManager();
+                    fragmentManager.beginTransaction().replace(R.id.content_frame, new newsfeedFragment()).commit();
+                    break;
+            }
+        }
 
 
     }

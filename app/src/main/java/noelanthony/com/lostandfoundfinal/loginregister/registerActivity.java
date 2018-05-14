@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.LoginRegister;
+package noelanthony.com.lostandfoundfinal.loginregister;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,7 +22,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import noelanthony.com.lostandfoundfinal.NavMenu.newsFeedActivity;
+import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.R;
 
 

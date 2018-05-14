@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.NewsFeed;
+package noelanthony.com.lostandfoundfinal.newsfeed;
 
 import com.google.firebase.database.IgnoreExtraProperties;
 

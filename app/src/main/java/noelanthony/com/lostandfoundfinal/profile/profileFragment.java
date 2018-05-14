@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal.Profile;
+package noelanthony.com.lostandfoundfinal.profile;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -40,7 +40,7 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
-import noelanthony.com.lostandfoundfinal.LoginRegister.MainActivity;
+import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
 import noelanthony.com.lostandfoundfinal.R;
 
 /**
@@ -111,7 +111,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.profile_layout,container,false);
-        Firebase.setAndroidContext(applicationContext);
+        Firebase.setAndroidContext(getActivity());
 
 
         uploadImageView = myView.findViewById(R.id.uploadImageView);
