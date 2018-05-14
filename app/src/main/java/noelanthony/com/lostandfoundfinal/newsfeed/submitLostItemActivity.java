@@ -1,7 +1,6 @@
 package noelanthony.com.lostandfoundfinal.newsfeed;
 
 import android.content.ContentResolver;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -38,10 +37,9 @@ import com.squareup.picasso.Picasso;
 import java.text.DateFormat;
 import java.util.Date;
 
-import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.profile.UserInformation;
-import noelanthony.com.lostandfoundfinal.R;
 
 public class submitLostItemActivity extends AppCompatActivity {
 
@@ -54,7 +52,7 @@ public class submitLostItemActivity extends AppCompatActivity {
     private String userID, poster;
     private ProgressBar mProgressBar;
     private ImageView displayImageView;
-    Context applicationContext = MainActivity.getContextOfApplication();
+   // Context applicationContext = MainActivity.getContextOfApplication();
 
     //for image storage
     private StorageReference mStorage;
@@ -158,7 +156,7 @@ public class submitLostItemActivity extends AppCompatActivity {
 
                 //this block of code prevents multiple image upload
                 if(mUploadTask!=null && mUploadTask.isInProgress()){
-                    Toast.makeText(applicationContext, "Upload in progress", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(submitLostItemActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
                 }
                 else if(mImageUri!=null){
                     StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()+"."+getFileExtension(mImageUri));
@@ -174,7 +172,7 @@ public class submitLostItemActivity extends AppCompatActivity {
                                             mProgressBar.setProgress(0);
                                         }
                                     },500);
-                                    Toast.makeText(applicationContext,"Upload successful", Toast.LENGTH_LONG).show();
+                                    Toast.makeText(submitLostItemActivity.this,"Upload successful", Toast.LENGTH_LONG).show();
                                    // items upload = new items (itemnameEditText.getText().toString().trim(),taskSnapshot.getDownloadUrl().toString());
                                    // String uploadId = mDatabaseRef.push().getKey();
                                     item.child("imageID").setValue(taskSnapshot.getDownloadUrl().toString());
@@ -183,7 +181,7 @@ public class submitLostItemActivity extends AppCompatActivity {
                             .addOnFailureListener(new OnFailureListener() {
                                 @Override
                                 public void onFailure(@NonNull Exception e) {
-                                    Toast.makeText(applicationContext, e.getMessage(),Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(submitLostItemActivity.this, e.getMessage(),Toast.LENGTH_SHORT).show();
                                 }
                             })
                             .addOnProgressListener(new OnProgressListener<UploadTask.TaskSnapshot>() {
@@ -194,15 +192,17 @@ public class submitLostItemActivity extends AppCompatActivity {
                                 }
                             });
                 }else{
-                    Toast.makeText(applicationContext,"No file selected", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(submitLostItemActivity.this,"No file selected", Toast.LENGTH_SHORT).show();
                 }
                 Toast.makeText(getApplicationContext(), "Submission Successful", Toast.LENGTH_SHORT).show();
                 Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);
+                startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(startIntent);
                 // FragmentManager fragmentManager = getFragmentManager();
                 //fragmentManager.beginTransaction().replace(R.id.content_frame, new mySubmissionsFragment()).commit();
 
             }
+
         });
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
             @Override

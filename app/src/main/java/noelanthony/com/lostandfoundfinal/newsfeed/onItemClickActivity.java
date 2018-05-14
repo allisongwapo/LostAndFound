@@ -20,9 +20,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.maps.MapsActivity;
 import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
-import noelanthony.com.lostandfoundfinal.R;
 
 public class onItemClickActivity extends AppCompatActivity{
 
@@ -86,7 +86,7 @@ public class onItemClickActivity extends AppCompatActivity{
 
 
 
-        if (lostOrFoundStatus.equals("Found")) {
+        if (lostOrFoundStatus.equals("Found") && latitude!=0.0 && longitude!=0.0) {
             foundOnlyFrame.setVisibility(View.VISIBLE);
             googleMapImageButton.setOnClickListener(new View.OnClickListener() {
                 @Override

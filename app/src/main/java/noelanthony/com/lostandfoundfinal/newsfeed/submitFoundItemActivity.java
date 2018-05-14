@@ -238,6 +238,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 }
                 Toast.makeText(getApplicationContext(), "Submission Successful", Toast.LENGTH_SHORT).show();
                 Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);
+                startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(startIntent);
 
             }

@@ -1,7 +1,6 @@
 package noelanthony.com.lostandfoundfinal.admin;
 
 import android.app.Activity;
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,9 +13,8 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
-import noelanthony.com.lostandfoundfinal.newsfeed.items;
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.newsfeed.items;
 
 /**
  * Created by Noel on 30/04/2018.
@@ -27,7 +25,7 @@ public class CustomAdapter extends BaseAdapter {
     List<items> items;
     LayoutInflater inflater;
     String status;
-    Context applicationContext = MainActivity.getContextOfApplication();
+    //Context applicationContext = adminApprove.getContextOfApplication();
 
     public CustomAdapter(Activity activity) {
         this.activity = activity;
@@ -85,9 +83,9 @@ public class CustomAdapter extends BaseAdapter {
             RequestOptions options = new RequestOptions();
             options.fitCenter();
             if(Items.getImageID()==null){
-                Glide.with(applicationContext).load(R.mipmap.ic_noimage).apply(options).into(holder.itemImageView);
+                Glide.with(view.getContext()).load(R.mipmap.ic_noimage).apply(options).into(holder.itemImageView);
             }else {
-                Glide.with(applicationContext).load(Items.getImageID()).into(holder.itemImageView); // IMAGE VIEW
+                Glide.with(view.getContext()).load(Items.getImageID()).into(holder.itemImageView); // IMAGE VIEW
             }
 
             view.setTag(holder);

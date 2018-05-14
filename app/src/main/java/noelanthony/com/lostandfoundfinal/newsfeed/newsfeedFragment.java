@@ -1,7 +1,6 @@
 package noelanthony.com.lostandfoundfinal.newsfeed;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -27,7 +26,6 @@ import com.google.firebase.messaging.FirebaseMessaging;
 import java.util.ArrayList;
 
 import noelanthony.com.lostandfoundfinal.R;
-import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
 
 /**
  * Created by Noel on 16/02/2018.
@@ -37,7 +35,7 @@ public class newsfeedFragment extends Fragment {
 
     ListView itemListView;
     ArrayList<items> itemList;
-    Context applicationContext = MainActivity.getContextOfApplication();
+    //Context applicationContext = MainActivity.getContextOfApplication();
     View myView;
     private Button submitLostBtn;
     private Button foundItemBtn;
@@ -160,14 +158,14 @@ public class newsfeedFragment extends Fragment {
         submitLostBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(applicationContext,submitLostItemActivity.class);
+                Intent startIntent = new Intent(getActivity(),submitLostItemActivity.class);
                 startActivity(startIntent);
             }
         });
         foundItemBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(applicationContext,submitFoundItemActivity.class);
+                Intent startIntent = new Intent(getActivity(),submitFoundItemActivity.class);
                 startActivity(startIntent);
             }
         });

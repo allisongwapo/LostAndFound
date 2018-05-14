@@ -1,7 +1,6 @@
 package noelanthony.com.lostandfoundfinal.mysubmissions;
 
 import android.app.Activity;
-import android.content.Context;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -16,9 +15,8 @@ import com.bumptech.glide.request.RequestOptions;
 
 import java.util.List;
 
-import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
-import noelanthony.com.lostandfoundfinal.newsfeed.items;
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.newsfeed.items;
 
 /**
  * Created by Noel on 25/03/2018.
@@ -30,7 +28,7 @@ public class mySubmissionsList extends ArrayAdapter<items> {
     private List<items> itemList;
     private int approvalStatus;
     private String status;
-    private Context applicationContext = MainActivity.getContextOfApplication();
+    //private Context applicationContext = MainActivity.getContextOfApplication();
 
     public mySubmissionsList(Activity context, List<items> itemList){
         super(context, R.layout.mysubmissions_listview, itemList);
@@ -63,7 +61,7 @@ public class mySubmissionsList extends ArrayAdapter<items> {
         RequestOptions options = new RequestOptions();
         options.fitCenter();
         if(Items.getImageID()==null){
-            Glide.with(getContext()).load(R.mipmap.ic_noimage).apply(options).into(itemImageView);
+            Glide.with(getContext()).load(R.mipmap.ic_noimagea).apply(options).into(itemImageView);
         }else {
             Glide.with(getContext()).load(Items.getImageID()).into(itemImageView); // IMAGE VIEW
         }

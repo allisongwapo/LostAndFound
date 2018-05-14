@@ -2,7 +2,6 @@ package noelanthony.com.lostandfoundfinal.profile;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -40,8 +39,8 @@ import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
 
-import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
 
 /**
  * Created by Noel on 16/02/2018.
@@ -55,7 +54,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     ImageView uploadImageView;
     TextView nameTextView, idnoTextView, datejoinedTextView, emailverifyTextView, itemsreturnedTextView;
     Uri uriProfileImage;
-    Context applicationContext = MainActivity.getContextOfApplication();
+    //Context applicationContext = MainActivity.getContextOfApplication();
     ProgressBar progressBar;
     String profileImageURL;
     Button saveBtn;
@@ -75,7 +74,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         if(requestCode==CHOOSE_IMAGE && resultCode ==  Activity.RESULT_OK && data != null && data.getData()!=null){
             uriProfileImage = data.getData();
             try {
-                Bitmap bitmap = MediaStore.Images.Media.getBitmap(applicationContext.getContentResolver(), uriProfileImage);
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getActivity().getContentResolver(), uriProfileImage);
                 uploadImageView.setImageBitmap(bitmap);
                 uploadImageToFirebaseStorage();
             } catch (IOException e) {
@@ -100,7 +99,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
                 @Override
                 public void onFailure(@NonNull Exception e) {
                     progressBar.setVisibility(View.GONE);
-                    Toast.makeText(applicationContext, e.getMessage(), Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     //change applicationContext if mu error //profileFragment.this
                 }
             });
@@ -139,10 +138,10 @@ public class profileFragment extends Fragment implements View.OnClickListener {
                 FirebaseUser user = firebaseAuth.getCurrentUser();
                 if(user !=null){
                     //user is signed in
-                    Toast.makeText(applicationContext, user.getEmail()+" is signed in", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(getActivity(), user.getEmail()+" is signed in", Toast.LENGTH_SHORT ).show();
                 } else{
                     //user is signed out
-                    Toast.makeText(applicationContext, "Successfully logged out", Toast.LENGTH_SHORT ).show();
+                    Toast.makeText(getActivity(), "Successfully logged out", Toast.LENGTH_SHORT ).show();
                 }
             }
         };
@@ -202,7 +201,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         if(mAuth.getCurrentUser() == null) {
             //getActivity().getFragmentManager().popBackStack();
             getActivity().onBackPressed(); //finish activity and go to login
-            startActivity(new Intent(applicationContext, MainActivity.class));
+            startActivity(new Intent(getActivity(), MainActivity.class));
         }
     }
 
@@ -225,7 +224,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
                         user.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
-                                Toast.makeText(applicationContext, "Verification Email Sent", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(getActivity(), "Verification Email Sent", Toast.LENGTH_SHORT).show();
                                 emailverifyTextView.setText("Verification Email sent. Click to resend");
                             }
                         });
@@ -250,7 +249,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
-                            Toast.makeText(applicationContext, "Profile Updated", Toast.LENGTH_SHORT ).show();
+                            Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT ).show();
                         }
                     }
                 });

@@ -131,7 +131,7 @@ public class adminApprove extends AppCompatActivity {
                                     if (selectedApprove.isEmpty()) {
                                         Toast.makeText(getApplicationContext(), "Please select an item", Toast.LENGTH_SHORT).show();
 
-                                    } else { Toast.makeText(getApplicationContext(), "Items declined", Toast.LENGTH_SHORT).show(); }
+                                    } else { Toast.makeText(getApplicationContext(), "Item/s declined", Toast.LENGTH_SHORT).show(); }
                                     selectedApprove.clear();
 
                                 }
@@ -158,13 +158,6 @@ public class adminApprove extends AppCompatActivity {
 
     }
 
-    @Override
-    public void onStop() {
-        super.onStop();
-        FirebaseAuth.getInstance().signOut();
-        finish();
-        startActivity(new Intent(this, MainActivity.class));
-    }
 
 
-}
+}//END

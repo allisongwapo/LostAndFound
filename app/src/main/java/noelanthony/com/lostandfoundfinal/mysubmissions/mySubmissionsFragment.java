@@ -1,7 +1,6 @@
 package noelanthony.com.lostandfoundfinal.mysubmissions;
 
 import android.app.Fragment;
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -24,10 +23,9 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 import java.util.List;
 
-import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.newsfeed.items;
 import noelanthony.com.lostandfoundfinal.newsfeed.onItemClickActivity;
-import noelanthony.com.lostandfoundfinal.R;
 
 /**
  * Created by Noel on 10/03/2018.
@@ -37,7 +35,7 @@ public class mySubmissionsFragment extends Fragment{
 
     ListView itemListView;
     List<items> itemList;
-    Context applicationContext = MainActivity.getContextOfApplication();
+    //Context applicationContext = MainActivity.getContextOfApplication();
 
     private FirebaseAuth mAuth;
     private String userID;
