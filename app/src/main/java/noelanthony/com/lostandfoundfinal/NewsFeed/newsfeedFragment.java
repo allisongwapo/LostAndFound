@@ -41,7 +41,7 @@ public class newsfeedFragment extends Fragment {
     private Button submitLostBtn;
     private Button foundItemBtn;
     private EditText theFilterEditText;
-    private DatabaseReference dbLostReference,mDatabase, coordsRef;
+    private DatabaseReference dbLostReference,mDatabase;
     private itemAdapter adapter;
 
     //FOR ON ITEM CLICK LIST

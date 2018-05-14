@@ -102,6 +102,8 @@ public class mySubmissionsFragment extends Fragment{
                             intent.putExtra(KEY_IMAGE_ID,item.getImageID());
                             intent.putExtra(KEY_USER_ID,item.getUid());
                             intent.putExtra(KEY_ITEM_ID,item.getItemID());
+                            intent.putExtra("item_latitude", item.getLatitude());
+                            intent.putExtra("item_longitude", item.getLongitude());
                             if(item.getStatus().equals("Lost")) {
                                 intent.putExtra("visibility", "myLost"); //this extra to to set the setToFoundTextView to Visible
                             }else if(item.getStatus().equals("Found")) {
