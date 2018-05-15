@@ -20,6 +20,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import noelanthony.com.lostandfoundfinal.ChatMessage;
+import noelanthony.com.lostandfoundfinal.ChatMessagesActivity;
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.maps.MapsActivity;
 import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
@@ -125,7 +127,14 @@ public class onItemClickActivity extends AppCompatActivity{
             setToFoundTextView.setVisibility(View.VISIBLE);
             clicktomessageTextView.setVisibility(View.INVISIBLE);
         }
+        clicktomessageTextView.setOnClickListener(new View.OnClickListener(){
 
+            @Override
+            public void onClick(View v) {
+                Intent startIntent = new Intent(getApplication(), ChatMessagesActivity.class);
+                startActivity(startIntent);
+            }
+            });
         RequestOptions options = new RequestOptions();
         options.fitCenter();
         if(imageId==null){

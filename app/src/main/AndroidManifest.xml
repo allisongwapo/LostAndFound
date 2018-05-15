@@ -7,14 +7,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
-
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
          location permissions for the 'MyLocation' functionality. 
     -->
-
-
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -35,24 +32,24 @@
             android:label="@string/title_activity_news_feed"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
-                <action android:name="newsfeed"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
+                <action android:name="newsfeed" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity android:name=".newsfeed.submitLostItemActivity" />
         <activity
             android:name=".newsfeed.lostConfirmPopUp"
             android:theme="@style/AppTheme.PopMe" />
         <activity android:name=".newsfeed.submitFoundItemActivity" />
-        <activity android:name=".admin.adminApprove"
+        <activity
+            android:name=".admin.adminApprove"
             android:theme="@style/AppTheme.Admin">
             <intent-filter>
-                <action android:name="adminApprove"></action>
-                <category android:name="android.intent.category.DEFAULT"></category>
+                <action android:name="adminApprove" />
+
+                <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
-
-
         </activity>
         <activity android:name=".newsfeed.onItemClickActivity" />
         <!--
@@ -69,30 +66,34 @@
 
         <activity
             android:name=".maps.MapsActivity"
-            android:label="@string/title_activity_maps"></activity>
+            android:label="@string/title_activity_maps" />
+
         <service android:name=".FirebaseMessagingService">
 
-
-            <!--NOTIFICATIONS -->
+            <!-- NOTIFICATIONS -->
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-        <!-- Set custom default icon. This is used when no icon is set for incoming notification messages.
-     See README(https://goo.gl/l4GJaQ) for more. -->
+        <!--
+     Set custom default icon. This is used when no icon is set for incoming notification messages.
+     See README(https://goo.gl/l4GJaQ) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_icon"
             android:resource="@drawable/ic_action_user" />
-        <!-- Set color used with incoming notification messages. This is used when no color is set for the incoming
-             notification message. See README(https://goo.gl/6BKBk7) for more. -->
+        <!--
+             Set color used with incoming notification messages. This is used when no color is set for the incoming
+             notification message. See README(https://goo.gl/6BKBk7) for more.
+        -->
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
-        <!--END NOTIFICATIONS-->
-        <activity android:name=".newsfeed.PopupImage"
-            android:theme="@style/AppTheme.PopupImage">
-
-        </activity>
+        <!-- END NOTIFICATIONS -->
+        <activity
+            android:name=".newsfeed.PopupImage"
+            android:theme="@style/AppTheme.PopupImage"></activity>
+        <activity android:name=".ChatMessagesActivity"></activity>
     </application>
 
 </manifest>
