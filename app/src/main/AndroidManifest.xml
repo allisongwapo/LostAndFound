@@ -46,8 +46,7 @@
             android:name=".admin.adminApprove"
             android:theme="@style/AppTheme.Admin">
             <intent-filter>
-                <action android:name="adminApprove" />
-
+                <action android:name="adminApproveRedirect" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>

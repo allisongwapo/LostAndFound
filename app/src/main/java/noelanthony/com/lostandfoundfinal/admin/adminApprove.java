@@ -19,7 +19,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -80,7 +79,7 @@ public class adminApprove extends AppCompatActivity {
 
         //FOR ADMIN NOTIFICATION
         mAuth = FirebaseAuth.getInstance();
-        FirebaseMessaging.getInstance().subscribeToTopic("ADMIN");
+       // FirebaseMessaging.getInstance().subscribeToTopic("ADMIN");
         declineButton = findViewById(R.id.declineButton);
         approveButton = findViewById(R.id.approveButton);
         final List<items> itemApproveList = new ArrayList<>();
@@ -89,6 +88,8 @@ public class adminApprove extends AppCompatActivity {
         dbReference= mDatabase.child("items");
         final ListView checkableItemListView = findViewById(R.id.checkableItemListView);
         Query notApprovedQuery = dbReference.orderByChild("approvalStatus").equalTo(0);
+        String dataMessage = getIntent().getStringExtra("message");
+        String dataFrom = getIntent().getStringExtra("from_user_id");
 
         notApprovedQuery.addValueEventListener(new ValueEventListener() {
             @Override
