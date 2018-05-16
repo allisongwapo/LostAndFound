@@ -59,8 +59,23 @@ public class newsfeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.newsfeed_layout, container, false);
 
-        Firebase.setAndroidContext(getActivity());
 
+
+        Firebase.setAndroidContext(getActivity());
+        /*
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            NotificationManager mNotificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
+            int importance = NotificationManager.IMPORTANCE_HIGH;
+            NotificationChannel mChannel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, importance);
+            mChannel.setDescription(Constants.CHANNEL_DESCRIPTION);
+            mChannel.enableLights(true);
+            mChannel.setLightColor(R.color.startblue);
+            mChannel.enableVibration(true);
+            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
+            mNotificationManager.createNotificationChannel(mChannel);
+        }
+        MyNotificationManager.getInstance(getActivity()).displayNotification("Welcome to News Feed", "Your Local push notification!!");
+    */
 
         //FOR ADMIN NOTIFICATION
         FirebaseMessaging.getInstance().subscribeToTopic("NEWSFEED");

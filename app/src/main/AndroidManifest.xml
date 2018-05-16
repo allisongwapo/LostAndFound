@@ -66,9 +66,14 @@
 
         <activity
             android:name=".maps.MapsActivity"
+<<<<<<< HEAD
             android:label="@string/title_activity_maps" />
 
         <service android:name=".FirebaseMessagingService">
+=======
+            android:label="@string/title_activity_maps"></activity>
+        <service android:name="noelanthony.com.lostandfoundfinal.notifications.FirebaseMessagingService">
+>>>>>>> update notif
 
             <!-- NOTIFICATIONS -->
             <intent-filter>
@@ -89,11 +94,25 @@
         <meta-data
             android:name="com.google.firebase.messaging.default_notification_color"
             android:resource="@color/colorAccent" />
+<<<<<<< HEAD
         <!-- END NOTIFICATIONS -->
         <activity
             android:name=".newsfeed.PopupImage"
             android:theme="@style/AppTheme.PopupImage"></activity>
         <activity android:name=".ChatMessagesActivity"></activity>
+=======
+        <!--END NOTIFICATIONS-->
+        <activity android:name=".newsfeed.PopupImage"
+            android:theme="@style/AppTheme.PopupImage">
+
+        </activity>
+        <service
+            android:name=".MyFirebaseInstanceIdService">
+            <intent-filter>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+            </intent-filter>
+        </service>
+>>>>>>> update notif
     </application>
 
 </manifest>

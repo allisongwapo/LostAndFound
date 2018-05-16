@@ -80,7 +80,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
 
                         mMap.addMarker(new MarkerOptions().position(latLng).title(str));
 
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19.5f));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.2f));
                         // mMap.animateCamera(CameraUpdateFactory.zoomTo(20.2f), 4000, null);
                         // Zoom in, animating the camera.
 
@@ -126,7 +126,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                         str += addressList.get(0).getLocality();
                         mMap.addMarker(new MarkerOptions().position(latLng).title(str));
 
-                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 19.5f));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 18.2f));
                        // mMap.animateCamera(CameraUpdateFactory.zoomTo(16.2f), 4000, null);
                     } catch (IOException e) {
                         e.printStackTrace();

@@ -38,12 +38,14 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
+import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
 import noelanthony.com.lostandfoundfinal.maps.LocationTrack;
 import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.profile.UserInformation;
-import noelanthony.com.lostandfoundfinal.R;
 
 public class submitFoundItemActivity extends AppCompatActivity {
 
@@ -67,6 +69,8 @@ public class submitFoundItemActivity extends AppCompatActivity {
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
     private TextView currentLocationTextView;
+
+    //notifications
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,7 +171,9 @@ public class submitFoundItemActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items");
                 DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID);//to get the poster name
+                DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("admin").child("notifications");//to send admin notification
                 final DatabaseReference item = mDatabase.push();
+                ;
                 String key = item.getKey();
                 item.child("itemName").setValue(itemName);
                 item.child("locationDescription").setValue(locationDescription);
@@ -241,6 +247,14 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(startIntent);
 
+                //FOR NOTIFICATION made on 05/15/2018
+                Map<String,Object> notificationMessage = new HashMap<>();
+                notificationMessage.put("message", itemName + "needs approval");
+                notificationMessage.put("from", userID);
+                DatabaseReference notification = adminRef.push();
+                notification.setValue(notificationMessage);
+
+
             }
         });
         alert.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -278,5 +292,6 @@ public class submitFoundItemActivity extends AppCompatActivity {
             Picasso.get().load(mImageUri).into(displayImageView);
         }
     }
+
 
 }

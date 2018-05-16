@@ -1,4 +1,4 @@
-package noelanthony.com.lostandfoundfinal;
+package noelanthony.com.lostandfoundfinal.notifications;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -16,6 +16,7 @@ import com.google.firebase.messaging.RemoteMessage;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.admin.adminApprove;
 import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
 
@@ -32,13 +33,11 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
     @Override
     public void onMessageReceived(RemoteMessage remoteMessage) {
-
         /*
         String title = remoteMessage.getNotification().getTitle();
         String message = remoteMessage.getNotification().getBody();
         Log.d(TAG,"onMessageReceived: Message Received: \n" + "Title: " + title + "\n" + "Message: " + message);
         sendNotification(title,message);*/
-
         //Check if message contains a data payload
         if(remoteMessage.getData().size() > 0){
             Log.d(TAG,"Message data payload: " + remoteMessage.getData());
@@ -73,6 +72,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
     public void onDeletedMessages() {
 
     }
+
+
     private void sendNotification(String title, String messageBody, String click_action) {
         /*
         Intent intent = new Intent(this, MainActivity.class);
@@ -122,4 +123,6 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
         notificationManager.notify(0 /* ID of notification */, notificationBuilder.build());
     }
+
+
 }
