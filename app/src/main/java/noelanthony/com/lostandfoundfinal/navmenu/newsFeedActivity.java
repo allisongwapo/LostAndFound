@@ -12,17 +12,21 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
+import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.messegesFragment;
 import noelanthony.com.lostandfoundfinal.mysubmissions.mySubmissionsFragment;
 import noelanthony.com.lostandfoundfinal.newsfeed.newsfeedFragment;
 import noelanthony.com.lostandfoundfinal.profile.profileFragment;
-import noelanthony.com.lostandfoundfinal.R;
-import noelanthony.com.lostandfoundfinal.messegesFragment;
 
 public class newsFeedActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +34,8 @@ public class newsFeedActivity extends AppCompatActivity
         setContentView(R.layout.activity_news_feed);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        mAuth = FirebaseAuth.getInstance();
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -103,9 +109,22 @@ public class newsFeedActivity extends AppCompatActivity
     }
 
         else if (id ==R.id.nav_logout){
-            FirebaseAuth.getInstance().signOut();
-            finish();
-            startActivity(new Intent(this, MainActivity.class));
+            String tokenIdRemove;
+            tokenIdRemove="";
+
+            String current_id = mAuth.getCurrentUser().getUid();
+            DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("users").child(current_id).child("token_id");//to send admin notification
+            adminRef.setValue(tokenIdRemove).addOnSuccessListener(new OnSuccessListener<Void>() {
+                @Override
+                public void onSuccess(Void aVoid) {
+                    FirebaseAuth.getInstance().signOut();
+                    Intent backtologin = new Intent(newsFeedActivity.this,MainActivity.class);
+                    startActivity(backtologin);
+                }
+            });
+
+           // finish();
+            //startActivity(new Intent(this, MainActivity.class));
         }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);

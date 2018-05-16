@@ -67,10 +67,7 @@
         <activity
             android:name=".maps.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <service android:name=".notifications.FirebaseMessagingService"
-            android:label="@string/title_activity_maps"/>
         <service android:name="noelanthony.com.lostandfoundfinal.notifications.FirebaseMessagingService">
-
             <!-- NOTIFICATIONS -->
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />

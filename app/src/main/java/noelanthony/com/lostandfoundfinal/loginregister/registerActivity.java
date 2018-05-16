@@ -12,18 +12,20 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 
 
 public class registerActivity extends AppCompatActivity implements View.OnClickListener{
@@ -121,20 +123,26 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
                         Date date = new Date();
                         Date newDate = new Date(date.getTime() + (604800000L * 2) + (24 * 60 * 60));
                         SimpleDateFormat dt = new SimpleDateFormat("yyyy-MM-dd");
-                        String stringdate = dt.format(newDate);
+                        final String stringdate = dt.format(newDate);
 
                         if (task.isSuccessful()) {
-                            finish();
-                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
-                            DatabaseReference currentUserDB = mDatabase.child(mAuth.getCurrentUser().getUid());
-                            currentUserDB.child("name").setValue(name);
-                            currentUserDB.child("image").setValue("default");
-                            currentUserDB.child("datejoined").setValue(stringdate);
-                            currentUserDB.child("email").setValue(email);
-                            currentUserDB.child("itemsreturned").setValue(0);
-                            currentUserDB.child("idnumber").setValue("Update your ID Number");
-
-
+                                    String token_id = FirebaseInstanceId.getInstance().getToken();
+                                    String current_id = mAuth.getCurrentUser().getUid();
+                                    DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("users").child(current_id).child("token_id");//to send admin notification
+                                    adminRef.setValue(token_id).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            finish();
+                                            DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("users");
+                                            DatabaseReference currentUserDB = mDatabase.child(mAuth.getCurrentUser().getUid());
+                                            currentUserDB.child("name").setValue(name);
+                                            currentUserDB.child("image").setValue("default");
+                                            currentUserDB.child("datejoined").setValue(stringdate);
+                                            currentUserDB.child("email").setValue(email);
+                                            currentUserDB.child("itemsreturned").setValue(0);
+                                            currentUserDB.child("idnumber").setValue("Update your ID Number");
+                                        }
+                                    });
                         } else {
                             if (task.getException() instanceof FirebaseAuthUserCollisionException) {
                                 Toast.makeText(getApplicationContext(), "You are already registered", Toast.LENGTH_SHORT).show();

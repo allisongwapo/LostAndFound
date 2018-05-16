@@ -15,9 +15,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.iid.FirebaseInstanceId;
+
+import java.util.HashMap;
+import java.util.Map;
 
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.admin.adminApprove;
@@ -32,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     FirebaseAuth mAuth;
+    private DatabaseReference adminRef, userRef;
     EditText emailEditText, passwordEditText;
     Button loginButton;
     TextView registerTextView;
@@ -106,16 +114,36 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     if(email.equals("admin@admin.com")){
-                        finish();
-                        Intent startIntent = new Intent(getApplicationContext(), adminApprove.class);
-                        startIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(startIntent);
+                                String token_id = FirebaseInstanceId.getInstance().getToken();
+                                //String current_id = mAuth.getCurrentUser().getUid();
+                                DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("users").child("Ui2KIyn7socV7MnPrmp6YCnH1xI2");//to send admin notification
+
+                                Map<String,Object> tokenMap = new HashMap<>();
+                                tokenMap.put("token_id",token_id);
+                                adminRef.setValue(tokenMap).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        finish();
+                                        Intent startIntent = new Intent(getApplicationContext(), adminApprove.class);
+                                        startIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(startIntent);
+                                    }
+                                });
                     }
                     else{
-                        finish();
-                        Intent startIntent = new Intent(getApplicationContext(), newsFeedActivity.class);
-                        startIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(startIntent);
+                                String token_id = FirebaseInstanceId.getInstance().getToken();
+                                String current_id = mAuth.getCurrentUser().getUid();
+                                DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("users").child(current_id).child("token_id");//to send admin notification
+
+                                adminRef.setValue(token_id).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        finish();
+                                        Intent startIntent = new Intent(getApplicationContext(), newsFeedActivity.class);
+                                        startIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                                        startActivity(startIntent);
+                                    }
+                                });
                     }
                 }else{
                     Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_SHORT).show();

@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,9 +25,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
 import noelanthony.com.lostandfoundfinal.newsfeed.items;
-import noelanthony.com.lostandfoundfinal.R;
 
 public class adminApprove extends AppCompatActivity {
 
@@ -36,6 +37,7 @@ public class adminApprove extends AppCompatActivity {
     private Button approveButton;
     private Button declineButton;
     private DatabaseReference dbReference,mDatabase;
+    FirebaseAuth mAuth;
 
 
     @Override
@@ -50,9 +52,21 @@ public class adminApprove extends AppCompatActivity {
         // Handle action bar actions click
         switch (item.getItemId()) {
             case R.id.menuLogout:
-                FirebaseAuth.getInstance().signOut();
-                finish();
-                startActivity(new Intent(this, MainActivity.class));
+                String tokenRemove ="";
+                String current_id = mAuth.getCurrentUser().getUid();
+                DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("users").child(current_id).child("token_id");//to send admin notification
+                adminRef.setValue(tokenRemove).addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        FirebaseAuth.getInstance().signOut();
+                        finish();
+                        Intent backtologin = new Intent(adminApprove.this,MainActivity.class);
+                        startActivity(backtologin);
+                    }
+                });
+                //FirebaseAuth.getInstance().signOut();
+                //finish();
+                //startActivity(new Intent(this, MainActivity.class));
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -65,6 +79,7 @@ public class adminApprove extends AppCompatActivity {
         setContentView(R.layout.activity_admin_approve);
 
         //FOR ADMIN NOTIFICATION
+        mAuth = FirebaseAuth.getInstance();
         FirebaseMessaging.getInstance().subscribeToTopic("ADMIN");
         declineButton = findViewById(R.id.declineButton);
         approveButton = findViewById(R.id.approveButton);
