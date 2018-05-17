@@ -114,8 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                 String token_id = FirebaseInstanceId.getInstance().getToken();
                                 //String current_id = mAuth.getCurrentUser().getUid();
                                 DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("users").child("Ui2KIyn7socV7MnPrmp6YCnH1xI2").child("token_id");//to send admin notification
-
-
                                 adminRef.setValue(token_id).addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
