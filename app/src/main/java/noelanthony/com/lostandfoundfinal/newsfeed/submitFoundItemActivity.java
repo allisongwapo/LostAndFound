@@ -171,7 +171,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items");
                 DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID);//to get the poster name
-                DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("users").child("Ui2KIyn7socV7MnPrmp6YCnH1xI2").child("notifications");//to send admin notification
+                DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("admin").child("Ui2KIyn7socV7MnPrmp6YCnH1xI2").child("notifications");//to send admin notification
                 final DatabaseReference item = mDatabase.push();
                 ;
                 String key = item.getKey();
