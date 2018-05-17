@@ -251,6 +251,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 Map<String,Object> notificationMessage = new HashMap<>();
                 notificationMessage.put("message", itemName + " needs approval");
                 notificationMessage.put("from", userID);
+                notificationMessage.put("type", "toAdmin");
                 DatabaseReference notification = adminRef.push();
                 notification.setValue(notificationMessage);
 

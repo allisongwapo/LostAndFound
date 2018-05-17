@@ -48,9 +48,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         String title = remoteMessage.getNotification().getTitle(); //get title
         String message = remoteMessage.getNotification().getBody(); //get message
         String click_action = remoteMessage.getNotification().getClickAction(); //get click_action
-        String dataMessage = remoteMessage.getData().get("message");
+        String dataMessage = remoteMessage.getData().get("from_message");
         String dataFrom = remoteMessage.getData().get("from_user_id");
-
 
         Log.d(TAG, "Message Notification Title: " + title);
         Log.d(TAG, "Message Notification Body: " + message);
@@ -58,8 +57,8 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
 
         Intent intent = new Intent(click_action);
-        intent.putExtra("message", dataMessage);
-        intent.putExtra("from_user_id",dataFrom);
+        //intent.putExtra("message", dataMessage);
+        //intent.putExtra("from_user_id",dataFrom);
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
