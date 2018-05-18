@@ -77,6 +77,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_found_item);
 
+
         itemnameEditText = findViewById(R.id.itemnameEditText);
         locationdescEditText = findViewById(R.id.locationdescEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
