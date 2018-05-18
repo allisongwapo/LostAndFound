@@ -22,7 +22,9 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
@@ -35,7 +37,7 @@ public class adminApprove extends AppCompatActivity {
     List<String> selectedApprove;
     private Button approveButton;
     private Button declineButton;
-    private DatabaseReference dbReference,mDatabase;
+    private DatabaseReference dbReference,mDatabase,notificationRef;
     FirebaseAuth mAuth;
 
 
@@ -53,6 +55,7 @@ public class adminApprove extends AppCompatActivity {
             case R.id.menuLogout:
                 String tokenRemove ="";
                 String current_id = mAuth.getCurrentUser().getUid();
+
                 DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("admin").child("Ui2KIyn7socV7MnPrmp6YCnH1xI2").child("token_id");//to send admin notification
                 adminRef.setValue(tokenRemove).addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
@@ -84,12 +87,17 @@ public class adminApprove extends AppCompatActivity {
         approveButton = findViewById(R.id.approveButton);
         final List<items> itemApproveList = new ArrayList<>();
         final List<String> selectedApprove = new ArrayList<>();
+        final List<String> itemNameApprove = new ArrayList<>();
+        final List<String> itemStatusApprove = new ArrayList<>();
+        final List<String> itemDescription = new ArrayList<>();
+        final List<String> itemPosterUid = new ArrayList<>();
+        final List<String> itemId = new ArrayList<>();
+
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         dbReference= mDatabase.child("items");
+
         final ListView checkableItemListView = findViewById(R.id.checkableItemListView);
         Query notApprovedQuery = dbReference.orderByChild("approvalStatus").equalTo(0);
-        String dataMessage = getIntent().getStringExtra("message");
-        String dataFrom = getIntent().getStringExtra("from_user_id");
 
         notApprovedQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -111,26 +119,51 @@ public class adminApprove extends AppCompatActivity {
                             if( item.isSelected()){
                                 item.setSelected(false);
                                 selectedApprove.remove(item.getItemID());
+                                itemNameApprove.remove(item.getitemName());
+                                itemStatusApprove.remove(item.getStatus());
+                                itemDescription.remove(item.getDescription());
+                                itemId.remove(item.getItemID());
+                                itemPosterUid.remove(item.getUid());
+
                             }
                             else{ item.setSelected(true);
                             selectedApprove.add(item.getItemID());
-
+                            itemNameApprove.add(item.getitemName());
+                            itemStatusApprove.add(item.getStatus());
+                            itemDescription.add(item.getDescription());
+                            itemId.add(item.getItemID());
+                            itemPosterUid.add(item.getUid());
                             }
                             itemApproveList.set(position,item);
                             adapter.updateRecords(itemApproveList);
                             approveButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
                                 public void onClick(View v) {
+                                    //SETS APPROVAL TO 1 AND NEW NOTICATION ENTRY
                                     for (int i = 0; i < selectedApprove.size(); i++) {
                                         dbReference.child(selectedApprove.get(i)).child("approvalStatus").setValue(1);
+                                        notificationRef =  FirebaseDatabase.getInstance().getReference().child("notifications");
+                                        Map<String,Object> notificationMessage = new HashMap<>();
+                                        notificationMessage.put("status", itemStatusApprove.get(i));
+                                        notificationMessage.put("message",itemStatusApprove.get(i) + " " + itemNameApprove.get(i));
+                                        notificationMessage.put("from", itemPosterUid.get(i));
+                                        notificationMessage.put("description", itemDescription.get(i));
+                                        notificationMessage.put("itemId",itemId.get(i));
+                                        DatabaseReference notification = notificationRef.push();
+                                        notification.setValue(notificationMessage);
+
                                     }
+
                                     if (selectedApprove.isEmpty()) {
                                         Toast.makeText(getApplicationContext(), "Please select an item", Toast.LENGTH_SHORT).show();
-                                    } else { Toast.makeText(getApplicationContext(), "Item/s approved", Toast.LENGTH_SHORT).show(); }
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Item/s approved", Toast.LENGTH_SHORT).show();
+                                    }
                                     selectedApprove.clear();
 
 
                                 }
+
                             });
                             declineButton.setOnClickListener(new View.OnClickListener() {
                                 @Override
@@ -177,3 +210,36 @@ public class adminApprove extends AppCompatActivity {
 
 
 }//END
+
+/*
+
+ usersRef.addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(DataSnapshot dataSnapshot) {
+                                            for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                                                for (DataSnapshot messageSnapshot: snapshot.child("users").getChildren()) {
+                                                    allUsersIdList.add(messageSnapshot.getValue().toString());
+
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(DatabaseError databaseError) {
+
+                                        }
+                                    });
+
+* items Item = itemApproveList.get(i);
+                                        String itemStatus = item.getStatus();
+                                        String itemName = item.getStatus();
+                                        String uid = item.getUid();
+                                        dbReference.child("itemName").child(selectedApprove.get(i));
+                                        for (int c = 0; c < allUsersIdList.size(); c++) {
+                                            Map<String,Object> notificationMessage = new HashMap<>();
+                                            notificationMessage.put("message",itemStatus + itemName + "posted");
+                                            notificationMessage.put("from", uid);
+                                            DatabaseReference userNotifRef=  usersRef.child(allUsersIdList.get(c)).child("notifications").push();
+                                            userNotifRef.setValue(notificationMessage);
+                                        }
+* */

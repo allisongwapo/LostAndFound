@@ -57,8 +57,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
 
         Intent intent = new Intent(click_action);
-        //intent.putExtra("message", dataMessage);
-        //intent.putExtra("from_user_id",dataFrom);
+
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
                 PendingIntent.FLAG_ONE_SHOT);
 
