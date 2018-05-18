@@ -36,6 +36,8 @@ import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
@@ -130,6 +132,9 @@ public class submitLostItemActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items");
                 DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID);
+                DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("admin").child("Ui2KIyn7socV7MnPrmp6YCnH1xI2").child("notifications");//to send admin notification
+
+
                 final DatabaseReference item = mDatabase.push();
                 String key = item.getKey();
                 item.child("itemName").setValue(itemName);
@@ -198,6 +203,13 @@ public class submitLostItemActivity extends AppCompatActivity {
                 Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);
                 startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(startIntent);
+
+                //FOR NOTIFICATION made on 05/15/2018
+                Map<String,Object> notificationMessage = new HashMap<>();
+                notificationMessage.put("message","Lost " + itemName + " needs approval");
+                notificationMessage.put("from", userID);
+                DatabaseReference notification = adminRef.push();
+                notification.setValue(notificationMessage);
                 // FragmentManager fragmentManager = getFragmentManager();
                 //fragmentManager.beginTransaction().replace(R.id.content_frame, new mySubmissionsFragment()).commit();
 
