@@ -24,7 +24,7 @@ public class MyFirebaseInstanceIdService extends FirebaseInstanceIdService{
         //copy it as this method is called only when the new token is generated
         //and usually new token is only generated when the app is reinstalled or the data is cleared
         //Log.d("FCM_TOKEN", token);
-        sendRegistrationToServer(token);
+
         Log.d("Firebase", "token "+ token);
     }
 
