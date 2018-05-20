@@ -52,7 +52,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
     private EditText itemnameEditText;
     private EditText locationdescEditText;
     private EditText descriptionEditText;
-    private ImageButton uploadImageButton,googleMapImageButton;
+    private ImageButton uploadImageButton,googleMapImageButton;//,cameraImageButton;
     private Button submitFoundButton, cancelLocationBtn;
     private ProgressBar progressBar;
     private DatabaseReference mDatabase, nameRef;
@@ -65,6 +65,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
     //for image storage
     private StorageReference mStorage;
     private static final int PICK_IMAGE_REQUEST = 1;
+    //private static final int CAMERA_REQUEST = 1888;
     private Uri mImageUri;
     private StorageReference mStorageRef;
     private StorageTask mUploadTask;
@@ -88,6 +89,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
         googleMapImageButton  = findViewById(R.id.googleMapImageButton);
         currentLocationTextView = findViewById(R.id.currentLocationTextView);
         cancelLocationBtn = findViewById(R.id.cancelLocationBtn);
+        //cameraImageButton = findViewById(R.id.cameraImageButton);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("lostItemImage/");
         mAuth = FirebaseAuth.getInstance();
@@ -134,6 +136,13 @@ public class submitFoundItemActivity extends AppCompatActivity {
             }
         });
 
+       /* cameraImageButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            cameraIntent();
+        }
+    });*/
+
         submitFoundButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -160,6 +169,11 @@ public class submitFoundItemActivity extends AppCompatActivity {
         if(description.isEmpty()){
             descriptionEditText.setError("Description is required");
             descriptionEditText.requestFocus();
+            return;
+        }
+        if(locationDescription.isEmpty()){
+            locationdescEditText.setError("Location Description is required");
+            locationdescEditText.requestFocus();
             return;
         }
         AlertDialog.Builder alert= new AlertDialog.Builder(this);
@@ -213,6 +227,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                             .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                                     mProgressBar.setVisibility(View.VISIBLE);
                                     Handler handler = new Handler(); //to delay progress bar by half a second
                                     handler.postDelayed(new Runnable() {
@@ -225,6 +240,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                                     // items upload = new items (itemnameEditText.getText().toString().trim(),taskSnapshot.getDownloadUrl().toString());
                                     // String uploadId = mDatabaseRef.push().getKey();
                                     item.child("imageID").setValue(taskSnapshot.getDownloadUrl().toString());
+
                                 }
                             })
                             .addOnFailureListener(new OnFailureListener() {
@@ -243,7 +259,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(submitFoundItemActivity.this,"No file selected", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getApplicationContext(), "Submission Successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Submission Successful and awaiting admin approval", Toast.LENGTH_SHORT).show();
                 Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);
                 startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(startIntent);
@@ -290,9 +306,18 @@ public class submitFoundItemActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if(requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data!=null && data.getData() !=null){
             mImageUri = data.getData();
+            displayImageView.setVisibility(View.VISIBLE);
             Picasso.get().load(mImageUri).into(displayImageView);
+
         }
     }
+    /* CAMERA UPLOAD
+    private void cameraIntent(){
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        intent.setType("image/*");
+        startActivityForResult(intent,CAMERA_REQUEST);
+    }*/
+
 
 
 }

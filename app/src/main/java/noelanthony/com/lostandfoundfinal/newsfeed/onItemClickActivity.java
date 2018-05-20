@@ -20,7 +20,6 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import noelanthony.com.lostandfoundfinal.ChatMessage;
 import noelanthony.com.lostandfoundfinal.ChatMessagesActivity;
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.maps.MapsActivity;
@@ -123,7 +122,7 @@ public class onItemClickActivity extends AppCompatActivity{
             setToFoundTextView.setVisibility(View.VISIBLE);
             clicktomessageTextView.setVisibility(View.INVISIBLE);
         }else if(visibility.equals("myFound")){
-            setToFoundTextView.setText("Is this item already claimed by owner? Set to Claimed");
+            setToFoundTextView.setText("Is this item already claimed by the owner? Set to Claimed");
             setToFoundTextView.setVisibility(View.VISIBLE);
             clicktomessageTextView.setVisibility(View.INVISIBLE);
         }
@@ -157,6 +156,39 @@ public class onItemClickActivity extends AppCompatActivity{
                 startActivity(intent);
             }
         });
+          /*
+        posterTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //String posterName;
+                String posterUid;
+                Intent intentFromClick = getIntent();
+                if (null!= intentFromClick) {
+                    //posterName= intentFromClick.getStringExtra("item_poster");
+                    posterUid = intentFromClick.getStringExtra("item_uid");
+                    DatabaseReference dbRef = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
+                    DatabaseReference profRef = dbRef.child("users").child(posterUid);
+                    profRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(DataSnapshot dataSnapshot) {
+                            UserInformation uInfo = new UserInformation();
+                            uInfo.setName(dataSnapshot.getValue(UserInformation.class).getName());//sets name
+                            uInfo.setImage(dataSnapshot.getValue(UserInformation.class).getImage());//sets name
+                            Intent intent = new Intent(onItemClickActivity.this,PopupProfile.class);
+                            intent.putExtra("poster_image",uInfo.getImage());
+                            intent.putExtra("poster_name", uInfo.getName());
+                            startActivity(intent);
+                        }
+
+                        @Override
+                        public void onCancelled(DatabaseError databaseError) {
+
+                        }
+                    });
+                }
+            }
+        });
+        */
 
         lostorfoundStatusTextView.setText(lostOrFoundStatus);
         itemNameTextView.setText(itemName);
@@ -193,7 +225,7 @@ public class onItemClickActivity extends AppCompatActivity{
         AlertDialog.Builder alert= new AlertDialog.Builder(this);
         alert.setCancelable(true);
         alert.setTitle("Set item from lost to found");
-        alert.setMessage("Confirm " + itemNameTextView.getText() + " is now found");
+        alert.setMessage("Confirm " + itemNameTextView.getText() + " is now claimed by the owner");
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -203,7 +235,7 @@ public class onItemClickActivity extends AppCompatActivity{
                 String key = fromPath.getKey().toString();
                 moveFirebaseRecord(fromPath,toPath,key);
 
-                Toast.makeText(onItemClickActivity.this, "Lost "+ itemNameTextView.getText() +" Set to found", Toast.LENGTH_SHORT).show();
+                Toast.makeText(onItemClickActivity.this, "Lost "+ itemNameTextView.getText() +" Set to claimed", Toast.LENGTH_SHORT).show();
                 Intent startIntent = new Intent(onItemClickActivity.this,newsFeedActivity.class);
                 startActivity(startIntent);
 

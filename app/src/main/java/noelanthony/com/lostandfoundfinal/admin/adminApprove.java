@@ -93,6 +93,8 @@ public class adminApprove extends AppCompatActivity {
         final List<String> itemPosterUid = new ArrayList<>();
         final List<String> itemId = new ArrayList<>();
 
+
+
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         dbReference= mDatabase.child("items");
 

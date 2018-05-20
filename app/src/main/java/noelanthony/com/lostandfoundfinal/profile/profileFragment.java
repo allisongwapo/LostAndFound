@@ -250,6 +250,8 @@ public class profileFragment extends Fragment implements View.OnClickListener {
                     public void onComplete(@NonNull Task<Void> task) {
                         if(task.isSuccessful()){
                             Toast.makeText(getActivity(), "Profile Updated", Toast.LENGTH_SHORT ).show();
+                            myRef.child("image").setValue(profileImageURL);
+
                         }
                     }
                 });

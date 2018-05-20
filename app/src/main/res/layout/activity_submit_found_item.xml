@@ -106,15 +106,24 @@
 
     <ImageButton
         android:id="@+id/uploadImageButton"
-        android:layout_width="35dp"
-        android:layout_height="35dp"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
         android:layout_alignEnd="@+id/descriptionEditText"
         android:layout_alignRight="@+id/descriptionEditText"
         android:layout_alignTop="@+id/textView12"
         android:layout_marginEnd="12dp"
         android:layout_marginRight="12dp"
-        app:srcCompat="@android:drawable/ic_menu_upload" />
-
+        android:src="@drawable/ic_file_upload_black_24dp" />
+    <!--
+    <ImageButton
+        android:id="@+id/cameraImageButton"
+        android:layout_width="45dp"
+        android:layout_height="45dp"
+        android:layout_alignTop="@+id/textView12"
+        android:layout_toEndOf="@+id/itemnameEditText"
+        android:layout_toRightOf="@+id/itemnameEditText"
+        app:srcCompat="@drawable/ic_menu_camera" />
+-->
     <Button
         android:id="@+id/submitFoundBtn"
         android:layout_width="250dp"
@@ -146,7 +155,7 @@
         android:layout_below="@+id/textView12"
         android:layout_marginLeft="74dp"
         android:layout_marginRight="122dp"
-        android:visibility="visible" />
+        android:visibility="gone" />
     <ImageView
         android:id="@+id/expanded_image"
         android:layout_width="match_parent"
@@ -195,5 +204,17 @@
         android:layout_toRightOf="@+id/currentLocationTextView"
         android:background="@android:drawable/ic_menu_close_clear_cancel"
         android:visibility="invisible" />
+
+    <TextView
+        android:id="@+id/asd"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignTop="@+id/textview123"
+        android:layout_marginLeft="5dp"
+        android:layout_toEndOf="@+id/textview123"
+        android:layout_toRightOf="@+id/textview123"
+        android:text="(optional)" />
+
+
 
 </RelativeLayout>

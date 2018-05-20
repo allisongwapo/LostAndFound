@@ -95,12 +95,11 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
             emailEditText.requestFocus();
             return;
         }
-
-        if(password.length()<6){
-            passwordEditText.setError("Password should be more than 6 characters");
-            passwordEditText.requestFocus();
+//CHECK if name field is empty
+        if (name.isEmpty()) {
+            nameEditText.setError("Name is required");
+            nameEditText.requestFocus();
             return;
-
         }
 
         //check password field if empty
@@ -108,6 +107,12 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
             passwordEditText.setError("Password is required");
             passwordEditText.requestFocus();
             return;
+        }
+        if(password.length()<6){
+            passwordEditText.setError("Password should be more than 6 characters");
+            passwordEditText.requestFocus();
+            return;
+
         }
         if(!password.equals(confpass)){
             confpassEditText.setError("Password should match");

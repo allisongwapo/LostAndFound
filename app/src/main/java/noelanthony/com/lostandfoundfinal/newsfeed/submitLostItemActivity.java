@@ -199,7 +199,7 @@ public class submitLostItemActivity extends AppCompatActivity {
                 }else{
                     Toast.makeText(submitLostItemActivity.this,"No file selected", Toast.LENGTH_SHORT).show();
                 }
-                Toast.makeText(getApplicationContext(), "Submission Successful", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(), "Submission Successful and awaiting admin approval", Toast.LENGTH_SHORT).show();
                 Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);
                 startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                 startActivity(startIntent);
