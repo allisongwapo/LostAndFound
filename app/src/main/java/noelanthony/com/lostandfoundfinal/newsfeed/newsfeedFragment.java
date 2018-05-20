@@ -21,7 +21,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.messaging.FirebaseMessaging;
 
 import java.util.ArrayList;
 
@@ -78,7 +77,7 @@ public class newsfeedFragment extends Fragment {
     */
 
         //FOR ADMIN NOTIFICATION
-       FirebaseMessaging.getInstance().subscribeToTopic("newsfeed");
+       //FirebaseMessaging.getInstance().subscribeToTopic("newsfeed");
 
         itemListView =  myView.findViewById(R.id.itemListView);
         submitLostBtn = myView.findViewById(R.id.submitFoundBtn);

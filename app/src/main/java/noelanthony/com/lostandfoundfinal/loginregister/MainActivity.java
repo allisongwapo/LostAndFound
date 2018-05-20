@@ -133,6 +133,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                                     @Override
                                     public void onSuccess(Void aVoid) {
                                         finish();
+                                        //FirebaseMessaging.getInstance().subscribeToTopic("newsfeed");
                                         Intent startIntent = new Intent(getApplicationContext(), newsFeedActivity.class);
                                         startIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                                         startActivity(startIntent);

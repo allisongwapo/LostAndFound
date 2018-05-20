@@ -162,6 +162,11 @@ public class adminApprove extends AppCompatActivity {
                                         Toast.makeText(getApplicationContext(), "Item/s approved", Toast.LENGTH_SHORT).show();
                                     }
                                     selectedApprove.clear();
+                                    itemStatusApprove.clear();
+                                    itemNameApprove.clear();
+                                    itemPosterUid.clear();
+                                    itemDescription.clear();
+                                    itemId.clear();
 
 
                                 }
