@@ -148,7 +148,7 @@ public class adminApprove extends AppCompatActivity {
 
                                         Map<String,Object> notificationMessage = new HashMap<>();
                                         notificationMessage.put("status", itemStatusApprove.get(i));
-                                        notificationMessage.put("message","A new" + itemStatusApprove.get(i) + " " + itemNameApprove.get(i));
+                                        notificationMessage.put("message",itemStatusApprove.get(i) + " " + itemNameApprove.get(i));
                                         notificationMessage.put("from", itemPosterUid.get(i));
                                         notificationMessage.put("description", itemDescription.get(i));
                                         notificationMessage.put("itemId",itemId.get(i));
