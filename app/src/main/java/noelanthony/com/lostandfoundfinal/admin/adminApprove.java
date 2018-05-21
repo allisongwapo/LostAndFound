@@ -37,7 +37,7 @@ public class adminApprove extends AppCompatActivity {
     List<String> selectedApprove;
     private Button approveButton;
     private Button declineButton;
-    private DatabaseReference dbReference,mDatabase,notificationRef;
+    private DatabaseReference dbReference,mDatabase,notificationRef, notificationDecRef;
     FirebaseAuth mAuth;
 
 
@@ -145,9 +145,10 @@ public class adminApprove extends AppCompatActivity {
                                     for (int i = 0; i < selectedApprove.size(); i++) {
                                         dbReference.child(selectedApprove.get(i)).child("approvalStatus").setValue(1);
                                         notificationRef =  FirebaseDatabase.getInstance().getReference().child("notifications");
+
                                         Map<String,Object> notificationMessage = new HashMap<>();
                                         notificationMessage.put("status", itemStatusApprove.get(i));
-                                        notificationMessage.put("message",itemStatusApprove.get(i) + " " + itemNameApprove.get(i));
+                                        notificationMessage.put("message","A new" + itemStatusApprove.get(i) + " " + itemNameApprove.get(i));
                                         notificationMessage.put("from", itemPosterUid.get(i));
                                         notificationMessage.put("description", itemDescription.get(i));
                                         notificationMessage.put("itemId",itemId.get(i));
@@ -158,6 +159,7 @@ public class adminApprove extends AppCompatActivity {
 
                                     if (selectedApprove.isEmpty()) {
                                         Toast.makeText(getApplicationContext(), "Please select an item", Toast.LENGTH_SHORT).show();
+
                                     } else {
                                         Toast.makeText(getApplicationContext(), "Item/s approved", Toast.LENGTH_SHORT).show();
                                     }
@@ -183,12 +185,26 @@ public class adminApprove extends AppCompatActivity {
                                             items Item = new items();
                                             declinedItem.child("itemName").setValue((dataSnapshot.getValue(items.class).getitemName()));*/
                                         dbReference.child(selectedApprove.get(i)).child("approvalStatus").setValue(2);
+                                        notificationDecRef =  FirebaseDatabase.getInstance().getReference().child("notifyDecline");
+                                        Map<String,Object> notificationMessage = new HashMap<>();
+                                        notificationMessage.put("status", itemStatusApprove.get(i));
+                                        notificationMessage.put("message",itemStatusApprove.get(i)+ " " + itemNameApprove.get(i));
+                                        notificationMessage.put("from", itemPosterUid.get(i));
+                                        notificationMessage.put("description", itemDescription.get(i));
+                                        notificationMessage.put("itemId",itemId.get(i));
+                                        DatabaseReference notification = notificationDecRef.push();
+                                        notification.setValue(notificationMessage);
                                     }
                                     if (selectedApprove.isEmpty()) {
                                         Toast.makeText(getApplicationContext(), "Please select an item", Toast.LENGTH_SHORT).show();
 
                                     } else { Toast.makeText(getApplicationContext(), "Item/s declined", Toast.LENGTH_SHORT).show(); }
                                     selectedApprove.clear();
+                                    itemStatusApprove.clear();
+                                    itemNameApprove.clear();
+                                    itemPosterUid.clear();
+                                    itemDescription.clear();
+                                    itemId.clear();
 
                                 }
                             });
