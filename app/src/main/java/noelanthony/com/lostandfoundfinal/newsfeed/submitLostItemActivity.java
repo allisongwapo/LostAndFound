@@ -206,7 +206,7 @@ public class submitLostItemActivity extends AppCompatActivity {
 
                 //FOR NOTIFICATION made on 05/15/2018
                 Map<String,Object> notificationMessage = new HashMap<>();
-                notificationMessage.put("message","Lost " + itemName + " needs approval");
+                notificationMessage.put("message","Lost " + itemName);
                 notificationMessage.put("from", userID);
                 DatabaseReference notification = adminRef.push();
                 notification.setValue(notificationMessage);
