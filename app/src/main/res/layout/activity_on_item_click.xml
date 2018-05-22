@@ -6,10 +6,11 @@
     android:background="@color/graylight">
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="300dp">
+        android:layout_height="340dp">
+
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="405dp"
+            android:layout_height="555dp"
             android:background="@drawable/gradientbackground"
             android:orientation="vertical">
 
@@ -18,8 +19,9 @@
                 android:layout_width="165dp"
                 android:layout_height="165dp"
                 android:layout_gravity="center_horizontal"
-                android:scaleType="centerCrop"
-                android:layout_marginTop="10dp" />
+                android:layout_marginTop="10dp"
+                android:scaleType="centerCrop" />
+
             <TextView
                 android:id="@+id/itemNameTextView"
                 android:layout_width="wrap_content"
@@ -27,86 +29,92 @@
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="8dp"
                 android:text="Name of Item"
-                android:textColor="#fff"
-                android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+                android:textAppearance="@style/TextAppearance.AppCompat.Large"
+                android:textColor="#fff" />
         </LinearLayout>
 
         <android.support.v7.widget.CardView
-            android:layout_width="320dp"
-            android:layout_height="100dp"
+            android:layout_width="300dp"
+            android:layout_height="120dp"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="220dp"
-            android:layout_marginBottom="5dp">
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="220dp">
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="horizontal"
                 android:weightSum="3">
+
                 <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="match_parent">
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:text="Status:"
-                   />
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:text="Status:" />
+
                     <TextView
                         android:id="@+id/lostorfoundStatusTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="Lost or Found"
+                        android:layout_marginBottom="5dp"
 
+                        android:text="Lost or Found"
                         android:textColor="@color/startblue"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="match_parent">
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Location:"
-                        />
+                        android:layout_marginTop="5dp"
+                        android:text="Location:" />
+
                     <TextView
                         android:id="@+id/locationTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
+                        android:layout_marginBottom="5dp"
                         android:text="Location"
                         android:textColor="@color/startblue"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
-                    android:gravity="center"
-                    android:orientation="vertical"
                     android:layout_width="0dp"
+                    android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:layout_height="match_parent">
+                    android:gravity="center"
+                    android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="10dp"
-                        android:text="Date and Time:"
-                         />
+                        android:layout_marginTop="5dp"
+                        android:text="Date and Time:" />
+
                     <TextView
                         android:id="@+id/dateandtimeTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="DateTime"
+                        android:layout_marginBottom="5dp"
 
+                        android:text="DateTime"
                         android:textColor="@color/startblue"
-                        android:textStyle="bold"/>
+                        android:textStyle="bold" />
 
                 </LinearLayout>
 

@@ -23,17 +23,15 @@
         android:id="@+id/textView9"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignLeft="@+id/submitFoundBtn"
+        android:layout_alignParentTop="true"
         android:layout_alignStart="@+id/submitFoundBtn"
-        android:layout_below="@+id/textView2"
-        android:layout_marginLeft="15dp"
-        android:layout_marginStart="15dp"
-        android:layout_marginTop="11dp"
+        android:layout_alignLeft="@+id/submitFoundBtn"
+        android:layout_marginTop="116dp"
         android:text="Item Name" />
 
     <EditText
         android:id="@+id/itemnameEditText"
-        android:layout_width="221dp"
+        android:layout_width="275dp"
         android:layout_height="33dp"
         android:layout_alignLeft="@+id/textView9"
         android:layout_alignStart="@+id/textView9"
@@ -43,7 +41,8 @@
         android:ems="10"
         android:hint="(wallet, flash drive)"
         android:inputType="text"
-        android:padding="2dp" />
+        android:padding="2dp"
+        android:maxLength="32"/>
 
     <TextView
         android:id="@+id/textView10"
@@ -55,10 +54,10 @@
         android:layout_marginTop="11dp"
         android:text="Location Description" />
 
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/locationdescEditText"
-        android:layout_width="221dp"
-        android:layout_height="33dp"
+        android:layout_width="275dp"
+        android:layout_height="66dp"
         android:layout_alignLeft="@+id/textView10"
         android:layout_alignStart="@+id/textView10"
         android:layout_below="@+id/textView10"
@@ -66,8 +65,10 @@
         android:background="@drawable/registrationeditext"
         android:ems="10"
         android:hint="(LB443, LRC 3rd Floor)"
-        android:inputType="text"
-        android:padding="2dp" />
+        android:inputType="textMultiLine"
+        android:padding="2dp"
+        android:maxLength="90"
+        android:layout_centerHorizontal="true"/>
 
     <TextView
         android:id="@+id/textView11"
@@ -81,7 +82,7 @@
 
     <EditText
         android:id="@+id/descriptionEditText"
-        android:layout_width="221dp"
+        android:layout_width="275dp"
         android:layout_height="66dp"
         android:layout_alignLeft="@+id/textView11"
         android:layout_alignStart="@+id/textView11"
@@ -91,8 +92,9 @@
         android:ems="10"
         android:gravity="top"
         android:hint="Enter Item Description"
-        android:inputType="text"
-        android:padding="2dp" />
+        android:inputType="textMultiLine|textCapSentences|textAutoCorrect"
+        android:padding="2dp"
+        android:maxLength="100"/>
 
     <TextView
         android:id="@+id/textView12"
@@ -214,6 +216,7 @@
         android:layout_toEndOf="@+id/textview123"
         android:layout_toRightOf="@+id/textview123"
         android:text="(optional)" />
+
 
 
 

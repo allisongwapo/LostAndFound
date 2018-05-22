@@ -12,6 +12,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -50,7 +52,7 @@ import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 public class submitFoundItemActivity extends AppCompatActivity {
 
     private EditText itemnameEditText;
-    private EditText locationdescEditText;
+    private AutoCompleteTextView locationdescEditText;
     private EditText descriptionEditText;
     private ImageButton uploadImageButton,googleMapImageButton;//,cameraImageButton;
     private Button submitFoundButton, cancelLocationBtn;
@@ -90,6 +92,10 @@ public class submitFoundItemActivity extends AppCompatActivity {
         currentLocationTextView = findViewById(R.id.currentLocationTextView);
         cancelLocationBtn = findViewById(R.id.cancelLocationBtn);
         //cameraImageButton = findViewById(R.id.cameraImageButton);
+        String[] talamban_buildings = getResources().getStringArray(R.array.talamban_buildings_array);
+        ArrayAdapter<String> autoCompleteAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, talamban_buildings);
+        locationdescEditText.setAdapter(autoCompleteAdapter);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("lostItemImage/");
         mAuth = FirebaseAuth.getInstance();
@@ -266,7 +272,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
 
                 //FOR NOTIFICATION made on 05/15/2018
                 Map<String,Object> notificationMessage = new HashMap<>();
-                notificationMessage.put("message","Found " + itemName);
+                notificationMessage.put("message","found " + itemName);
                 notificationMessage.put("from", userID);
                 DatabaseReference notification = adminRef.push();
                 notification.setValue(notificationMessage);

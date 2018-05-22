@@ -11,6 +11,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.webkit.MimeTypeMap;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -46,7 +48,6 @@ import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 public class submitLostItemActivity extends AppCompatActivity {
 
     private EditText itemnameEditText;
-    private EditText lastseenEditText;
     private EditText descriptionEditText;
     private ImageButton uploadImageButton;
     private Button submitLostButton;
@@ -54,6 +55,7 @@ public class submitLostItemActivity extends AppCompatActivity {
     private String userID, poster;
     private ProgressBar mProgressBar;
     private ImageView displayImageView;
+    private AutoCompleteTextView locationdescEditText;
    // Context applicationContext = MainActivity.getContextOfApplication();
 
     //for image storage
@@ -72,12 +74,16 @@ public class submitLostItemActivity extends AppCompatActivity {
         setContentView(R.layout.activity_submit_lost_item);
 
         itemnameEditText = findViewById(R.id.itemnameEditText);
-        lastseenEditText = findViewById(R.id.locationdescEditText);
+        locationdescEditText = findViewById(R.id.locationdescEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
         uploadImageButton = findViewById(R.id.uploadImageButton);
         submitLostButton = findViewById(R.id.submitFoundBtn);
         mProgressBar = findViewById(R.id.progressbar);
         displayImageView = findViewById(R.id.displayImageView);
+        String[] talamban_buildings = getResources().getStringArray(R.array.talamban_buildings_array);
+        ArrayAdapter<String> autoCompleteAdapter =
+                new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, talamban_buildings);
+        locationdescEditText.setAdapter(autoCompleteAdapter);
 
         mStorageRef = FirebaseStorage.getInstance().getReference("lostItemImage/");
         mAuth = FirebaseAuth.getInstance();
@@ -106,7 +112,7 @@ public class submitLostItemActivity extends AppCompatActivity {
 
     public void showAlertDialog(View v){
         final String itemName = itemnameEditText.getText().toString().trim();
-        final String lastSeen = lastseenEditText.getText().toString().trim();
+        final String lastSeen = locationdescEditText.getText().toString().trim();
         final String description = descriptionEditText.getText().toString().trim();
         final String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
 
@@ -126,7 +132,7 @@ public class submitLostItemActivity extends AppCompatActivity {
         AlertDialog.Builder alert= new AlertDialog.Builder(this);
         alert.setCancelable(true);
         alert.setTitle("Confirm");
-        alert.setMessage("Item Name: " + itemnameEditText.getText() + "\n Last Seen in: " + lastseenEditText.getText() + "\n Description: " + descriptionEditText.getText());
+        alert.setMessage("Item Name: " + itemnameEditText.getText() + "\n Last Seen in: " + locationdescEditText.getText() + "\n Description: " + descriptionEditText.getText());
         alert.setPositiveButton("Confirm", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -206,7 +212,7 @@ public class submitLostItemActivity extends AppCompatActivity {
 
                 //FOR NOTIFICATION made on 05/15/2018
                 Map<String,Object> notificationMessage = new HashMap<>();
-                notificationMessage.put("message","Lost " + itemName);
+                notificationMessage.put("message","lost " + itemName);
                 notificationMessage.put("from", userID);
                 DatabaseReference notification = adminRef.push();
                 notification.setValue(notificationMessage);

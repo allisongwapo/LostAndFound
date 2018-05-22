@@ -41,6 +41,7 @@ import java.io.IOException;
 
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 
 /**
  * Created by Noel on 16/02/2018.
@@ -203,6 +204,8 @@ public class profileFragment extends Fragment implements View.OnClickListener {
             getActivity().onBackPressed(); //finish activity and go to login
             startActivity(new Intent(getActivity(), MainActivity.class));
         }
+        ((newsFeedActivity) getActivity())
+                .setActionBarTitle("Profile");
     }
 
     private void loadUserInformation() {

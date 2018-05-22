@@ -24,6 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.newsfeed.items;
 import noelanthony.com.lostandfoundfinal.newsfeed.onItemClickActivity;
 
@@ -60,6 +61,8 @@ public class mySubmissionsFragment extends Fragment{
         myView = inflater.inflate(R.layout.mysubmissions_layout, container, false);
 
         Firebase.setAndroidContext(getActivity());
+        ((newsFeedActivity) getActivity())
+                .setActionBarTitle("My Submissions");
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();

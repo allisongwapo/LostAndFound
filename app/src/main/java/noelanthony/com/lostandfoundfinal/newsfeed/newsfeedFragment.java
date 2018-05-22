@@ -25,6 +25,7 @@ import com.google.firebase.database.ValueEventListener;
 import java.util.ArrayList;
 
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 
 /**
  * Created by Noel on 16/02/2018.
@@ -61,6 +62,8 @@ public class newsfeedFragment extends Fragment {
 
 
         Firebase.setAndroidContext(getActivity());
+        ((newsFeedActivity) getActivity())
+                .setActionBarTitle("News Feed");
         /*
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
             NotificationManager mNotificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);

@@ -9,7 +9,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="97dp"
+        android:layout_height="105dp"
         android:layout_marginTop="8dp"
         android:gravity="top"
         android:orientation="horizontal">
@@ -41,8 +41,9 @@
 
             <TextView
                 android:id="@+id/itemNameTextView"
-                android:layout_width="97dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginRight="5dp"
                 android:layout_marginTop="5dp"
                 android:text="TextView"
                 android:textSize="16sp"
@@ -64,7 +65,7 @@
                 android:id="@+id/posterTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="1dp"
+                android:layout_marginBottom="5dp"
                 android:text="Poster Name"
                 android:textSize="13sp" />
 
