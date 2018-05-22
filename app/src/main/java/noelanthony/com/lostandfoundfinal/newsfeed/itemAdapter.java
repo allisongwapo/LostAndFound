@@ -37,8 +37,11 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
     public itemAdapter(Activity context, ArrayList<items> itemList) {
         super(context, R.layout.itemslv_layout, itemList);
         this.context = context;
-        this.itemList = itemList;
-        this.filterList = itemList;
+        this.itemList = new ArrayList<items>();
+        this.itemList.addAll(itemList);
+        this.filterList = new ArrayList<items>();
+        this.filterList.addAll(itemList);
+
 
 
     }
@@ -108,9 +111,9 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
             // Create a FilterResults object
             FilterResults results = new FilterResults();
 
-            if (constraint == null || constraint.length() == 0) {
+            if (constraint == null || constraint.length() == 0 && constraint.equals(isEmpty())) {
                 constraint = constraint.toString().toUpperCase();
-                List<items> filters = new ArrayList<>();
+                List<items> filteredList = new ArrayList<>();
                 results.count = itemList.size();
                 results.values = itemList;
 
@@ -121,7 +124,7 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
                 // We'll go through all the contacts and see
                 // if they contain the supplied string
                 for (items c : itemList ) {
-                    if (c.getitemName().toUpperCase().contains( constraint.toString().toUpperCase() )) {
+                    if (c.getitemName().toUpperCase().contains( constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains( constraint.toString().toUpperCase())  || c.getPoster().toUpperCase().contains( constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains( constraint.toString().toUpperCase())) {
                         // if `contains` == true then add it
                         // to our filtered list
                         filteredItems.add(c);
@@ -133,11 +136,13 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
             }
             Log.e("VALUES", results.values.toString());
 
+
             return results;
         }
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+
             if (results.count == 0) {
                 itemList.clear();
                 notifyDataSetInvalidated();
@@ -145,6 +150,22 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
                 itemList = (ArrayList<items>) results.values;
                 notifyDataSetChanged();
             }
+
+            /*
+            itemList = (ArrayList<items>) results.values;
+            notifyDataSetChanged();
+            clear();
+            for(int i = 0, l = itemList.size(); i < l; i++){
+                add(itemList.get(i));
+            notifyDataSetInvalidated();}
+            */
+            /*
+             itemList = (ArrayList<items>) results.values;
+             clear();
+             notifyDataSetInvalidated();
+             addAll(itemList);
+                */
+
 
         }
     }
@@ -155,5 +176,6 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
 
         return mItemsFilter;
     }
+
 }//END OF CLASS
 

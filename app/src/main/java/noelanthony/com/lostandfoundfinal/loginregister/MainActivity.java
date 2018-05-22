@@ -156,9 +156,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(mAuth.getCurrentUser() != null){
             finish();
             startActivity(new Intent(this, newsFeedActivity.class));
-        }else{
-            finish();
-            startActivity(new Intent(this, MainActivity.class));
         }
     }
 

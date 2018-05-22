@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -83,9 +84,11 @@ public class newsfeedFragment extends Fragment {
        //FirebaseMessaging.getInstance().subscribeToTopic("newsfeed");
 
         itemListView =  myView.findViewById(R.id.itemListView);
+        itemListView.setTextFilterEnabled(true);
         submitLostBtn = myView.findViewById(R.id.submitFoundBtn);
         foundItemBtn = myView.findViewById(R.id.foundItemBtn);
         theFilterEditText = myView.findViewById(R.id.theFilterEditText);
+
 
         itemList = new ArrayList<>();
         //initialize firebase dn
@@ -118,6 +121,8 @@ public class newsfeedFragment extends Fragment {
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
                             adapter.getFilter().filter(s);
+                            Log.d("Constants.TAG", "*** Search value changed: " + s.toString());
+                           // adapter.notifyDataSetChanged();
                         }
 
                         @Override

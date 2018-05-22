@@ -10,7 +10,7 @@
     <color name="lostItemColor">#80d35467</color>
     <color name="foundItemColor">#800670AD</color>
     <color name="lostItemColorApproved">#BFd35467</color>
-    <color name="foundItemColorApproved">#BF0670AD</color>
+    <color name="foundItemColorApproved">#bf0670ad</color>
     <color name="lostItemColorPending">#80d35467</color>
     <color name="foundItemColorPending">#800670AD</color>
     <color name="lostItemColorDeclined">#BFd35467</color>

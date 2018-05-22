@@ -5,7 +5,32 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="noelanthony.com.lostandfoundfinal.admin.adminApprove">
+    <!--
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/linearLayout">
 
+        <Button
+            android:id="@+id/itemListButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="@color/foundItemColorApproved"
+            android:text="Approve/Decline"
+            android:textColor="@android:color/background_dark" />
+
+        <Button
+            android:id="@+id/userListButton"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#DEFFB1"
+            android:text="List of Users"
+            android:textColor="@android:color/background_dark" />
+
+    </LinearLayout>
+-->
     <Button
         android:id="@+id/declineButton"
         android:layout_width="120dp"
