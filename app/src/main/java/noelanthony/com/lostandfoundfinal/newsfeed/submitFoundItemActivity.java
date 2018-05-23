@@ -10,6 +10,7 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.ArrayAdapter;
@@ -30,7 +31,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
@@ -39,8 +42,10 @@ import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import noelanthony.com.lostandfoundfinal.R;
@@ -79,6 +84,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_found_item);
+        FirebaseMessaging.getInstance().subscribeToTopic("matcher");
 
 
         itemnameEditText = findViewById(R.id.itemnameEditText);
@@ -193,10 +199,16 @@ public class submitFoundItemActivity extends AppCompatActivity {
                 DatabaseReference mDatabase = FirebaseDatabase.getInstance().getReference().child("items");
                 DatabaseReference nameRef = FirebaseDatabase.getInstance().getReference().child("users").child(userID);//to get the poster name
                 DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("admin").child("Ui2KIyn7socV7MnPrmp6YCnH1xI2").child("notifications");//to send admin notification
+
                 final DatabaseReference item = mDatabase.push();
-                ;
+                String status = "Found";
                 String key = item.getKey();
                 item.child("itemName").setValue(itemName);
+                //ADDITIONS FOR MATCHING ALGO
+               // matcherItem.child("itemName").setValue(itemName);
+                //matcherItem.child("description").setValue(description);
+                matcher(itemName,description,key,status);
+                //END MATCHER
                 item.child("locationDescription").setValue(locationDescription);
 
                 if(longitude != null && latitude != null ) {
@@ -323,7 +335,61 @@ public class submitFoundItemActivity extends AppCompatActivity {
         intent.setType("image/*");
         startActivityForResult(intent,CAMERA_REQUEST);
     }*/
+    private void matcher(final String itemName, String description,final String key,final String status){
+        final List<items> items = new ArrayList<>();
+        final List<String> allItemNames = new ArrayList<>();
+        final List<String> allItemId = new ArrayList<>();
+
+        DatabaseReference matcherRef = FirebaseDatabase.getInstance().getReference().child("matcher").child("matchedItem");
+        final DatabaseReference matcherItem = matcherRef.push();
 
 
 
-}
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference().child("items");
+        Query similarItemName = ref.orderByChild("status").equalTo("Lost");
+        similarItemName.addListenerForSingleValueEvent(
+                new ValueEventListener() {
+                    @Override
+                    public void onDataChange(DataSnapshot dataSnapshot) {
+                        //Get map of users in datasnapshot
+                        for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
+                            items Items = itemSnapshot.getValue(items.class);
+                            allItemNames.add(Items.getitemName());
+                            allItemId.add(Items.getItemID());
+                        }
+
+                        //add result into array list
+                        for (int i = 0 ; i<allItemNames.size(); i++) {
+
+                            if(!allItemNames.get(i).toUpperCase().contains(itemName.toUpperCase()) || !itemName.toUpperCase().contains(allItemNames.get(i).toUpperCase()) ){
+                                continue;
+
+                            }else{
+                                Log.i("INFO",key + " " + itemName + ": "+ allItemId.get(i));
+                                //ADDITIONS FOR MATCHING ALGO
+                                Map<String,Object> Matching = new HashMap<>();
+                                Matching.put("itemName", itemName);
+                                Matching.put("notifiedOldPosterId", allItemId.get(i));
+                                Matching.put("newItemKey",key);
+                                Matching.put("status",status);
+                                 DatabaseReference matcherItemRef = matcherItem.push();
+                                 matcherItemRef.setValue(Matching);
+                                /*matcherItemRef.child("itemName").setValue(itemName);
+                                matcherItemRef.child("notifiedOldPosterId").setValue(allItemId.get(i));
+                                matcherItemRef.child("newItemKey").setValue(key);
+                                matcherItemRef.child("status").setValue(status);*/
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(DatabaseError databaseError) {
+                        //handle databaseError
+                    }
+                });
+
+    }
+
+
+
+}//ACTIVITY END

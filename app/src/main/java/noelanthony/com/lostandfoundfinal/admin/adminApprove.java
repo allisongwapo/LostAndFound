@@ -144,6 +144,7 @@ public class adminApprove extends AppCompatActivity {
                                     //SETS APPROVAL TO 1 AND NEW NOTICATION ENTRY
                                     for (int i = 0; i < selectedApprove.size(); i++) {
                                         dbReference.child(selectedApprove.get(i)).child("approvalStatus").setValue(1);
+                                       // dbReference.child(selectedApprove.get(i)).child("status_approvalStatus").setValue(itemStatusApprove+"_"+"1");
                                         notificationRef =  FirebaseDatabase.getInstance().getReference().child("notifications");
 
                                         Map<String,Object> notificationMessage = new HashMap<>();
@@ -185,7 +186,7 @@ public class adminApprove extends AppCompatActivity {
                                             items Item = new items();
                                             declinedItem.child("itemName").setValue((dataSnapshot.getValue(items.class).getitemName()));*/
                                         dbReference.child(selectedApprove.get(i)).child("approvalStatus").setValue(2);
-                                        notificationDecRef =  FirebaseDatabase.getInstance().getReference().child("notifyDecline");
+
                                         Map<String,Object> notificationMessage = new HashMap<>();
                                         notificationMessage.put("status", itemStatusApprove.get(i));
                                         notificationMessage.put("message",itemStatusApprove.get(i)+ " " + itemNameApprove.get(i));
