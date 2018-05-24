@@ -186,6 +186,7 @@ public class adminApprove extends AppCompatActivity {
                                             items Item = new items();
                                             declinedItem.child("itemName").setValue((dataSnapshot.getValue(items.class).getitemName()));*/
                                         dbReference.child(selectedApprove.get(i)).child("approvalStatus").setValue(2);
+                                        notificationDecRef =  FirebaseDatabase.getInstance().getReference().child("notifyDecline");
 
                                         Map<String,Object> notificationMessage = new HashMap<>();
                                         notificationMessage.put("status", itemStatusApprove.get(i));

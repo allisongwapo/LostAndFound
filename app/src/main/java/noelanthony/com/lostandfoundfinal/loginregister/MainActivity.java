@@ -153,7 +153,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
 
-        if(mAuth.getCurrentUser() != null){
+        if(mAuth.getUid().equals("Ui2KIyn7socV7MnPrmp6YCnH1xI2")){
+            finish();
+            startActivity(new Intent(this, adminApprove.class));
+        }else{
             finish();
             startActivity(new Intent(this, newsFeedActivity.class));
         }

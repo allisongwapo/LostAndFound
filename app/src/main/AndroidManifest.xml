@@ -43,6 +43,7 @@
         <activity android:name=".newsfeed.submitFoundItemActivity" />
         <activity
             android:name=".admin.adminApprove"
+            android:label="Admin"
             android:theme="@style/AppTheme.Admin">
             <intent-filter>
                 <action android:name="adminApproveRedirect" />
