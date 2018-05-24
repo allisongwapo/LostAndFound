@@ -29,7 +29,7 @@ public class onItemClickActivity extends AppCompatActivity{
 
     private ImageView itemImageView;
     private TextView lostorfoundStatusTextView,itemNameTextView,dateandtimeTextView,locationTextView,descriptionTextView,posterTextView,clicktomessageTextView,setToFoundTextView;
-    private String userID;//,longitude,latitude;
+    private String userID,uid;//,longitude,latitude;
     private ImageButton googleMapImageButton;
     private LinearLayout foundOnlyFrame;
     private Double longitude,latitude;
@@ -52,7 +52,7 @@ public class onItemClickActivity extends AppCompatActivity{
         String description = "";
         String poster = "";
         String imageId = "";
-        String uid = "";
+        uid = "";
         String visibility ="";
          latitude=null;
          longitude=null;
@@ -130,8 +130,10 @@ public class onItemClickActivity extends AppCompatActivity{
 
             @Override
             public void onClick(View v) {
-                Intent startIntent = new Intent(getApplication(), ChatMessagesActivity.class);
-                startActivity(startIntent);
+                Intent intent  =  new Intent(onItemClickActivity.this,ChatMessagesActivity.class);
+                intent.putExtra("item_uid", uid);
+                Toast.makeText(onItemClickActivity.this, uid, Toast.LENGTH_SHORT).show();
+                startActivity(intent);
             }
             });
         RequestOptions options = new RequestOptions();

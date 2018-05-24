@@ -1,9 +1,9 @@
 package noelanthony.com.lostandfoundfinal;
 
-import android.provider.ContactsContract;
+import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,23 +12,26 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.firebase.client.DataSnapshot;
-import com.firebase.client.FirebaseError;
-import com.firebase.client.ValueEventListener;
+import noelanthony.com.lostandfoundfinal.newsfeed.onItemClickActivity;
+import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 import noelanthony.com.lostandfoundfinal.Util.MessagesAdapter;
 
+
 public class ChatMessagesActivity extends AppCompatActivity {
+
     private RecyclerView mChatsRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private EditText mMessageEditText;
@@ -36,19 +39,20 @@ public class ChatMessagesActivity extends AppCompatActivity {
     private DatabaseReference mMessagesDBRef;
     private DatabaseReference mUsersRef;
     private List<ChatMessage> mMessagesList = new ArrayList<>();
-    private MessagesAdapter adapter = null;
-
+    private MessagesAdapter adapter=null;
     private String mReceiverId;
     private String mReceiverName;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_messages);
+
         //initialize the views
-        mChatsRecyclerView = (RecyclerView)findViewById(R.id.messagesRecyclerView);
-        mMessageEditText = (EditText) findViewById(R.id.messageEditText);
-        mSendImageButton = (ImageButton)findViewById(R.id.sendMessageImagebutton);
+        mChatsRecyclerView = findViewById(R.id.messagesRecyclerView);
+        mMessageEditText = findViewById(R.id.messageEditText);
+        mSendImageButton = findViewById(R.id.sendMessageImagebutton);
         mChatsRecyclerView.setHasFixedSize(true);
         // use a linear layout manager
         mLayoutManager = new LinearLayoutManager(this);
@@ -57,12 +61,16 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
         //init Firebase
         mMessagesDBRef = FirebaseDatabase.getInstance().getReference().child("Messages");
-        mUsersRef = FirebaseDatabase.getInstance().getReference().child("UserInformation");
+        mUsersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
         //get receiverId from intent
-        mReceiverId = getIntent().getStringExtra("USER_ID");
+        mReceiverId = getIntent().getStringExtra("item_uid");
+
+
+
 
         /**listen to send message imagebutton click**/
+
         mSendImageButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -70,16 +78,14 @@ public class ChatMessagesActivity extends AppCompatActivity {
                 String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
 
 
-                if(message.isEmpty()){
+                if (message.isEmpty()) {
                     Toast.makeText(ChatMessagesActivity.this, "You must enter a message", Toast.LENGTH_SHORT).show();
-                }else {
+                } else {
                     //message is entered, send
                     sendMessageToFirebase(message, senderId, mReceiverId);
                 }
             }
         });
-
-
 
 
     }
@@ -92,22 +98,21 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
 
         /**sets title bar with recepient name**/
-        //queryRecipientName(mReceiverId);
+        queryRecipientName(mReceiverId);
     }
 
 
-
-    private void sendMessageToFirebase(String message, String senderId, String receiverId){
+    private void sendMessageToFirebase(String message, String senderId, String receiverId) {
         mMessagesList.clear();
 
         ChatMessage newMsg = new ChatMessage(message, senderId, receiverId);
         mMessagesDBRef.push().setValue(newMsg).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
-                if(!task.isSuccessful()){
+                if (!task.isSuccessful()) {
                     //error
                     Toast.makeText(ChatMessagesActivity.this, "Error " + task.getException().getLocalizedMessage(), Toast.LENGTH_SHORT).show();
-                }else{
+                } else {
                     Toast.makeText(ChatMessagesActivity.this, "Message sent successfully!", Toast.LENGTH_SHORT).show();
                     mMessageEditText.setText(null);
                     hideSoftKeyboard();
@@ -119,7 +124,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
     }
 
     public void hideSoftKeyboard() {
-        if(getCurrentFocus()!=null) {
+        if (getCurrentFocus() != null) {
             InputMethodManager inputMethodManager = (InputMethodManager) getSystemService(INPUT_METHOD_SERVICE);
             inputMethodManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), 0);
         }
@@ -127,15 +132,18 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
     private void querymessagesBetweenThisUserAndClickedUser(){
 
-        mMessagesDBRef.addValueEventListener(new com.google.firebase.database.ValueEventListener() {
-
+        mMessagesDBRef.addValueEventListener(new ValueEventListener() {
+            @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                for(DataSnapshot snap: dataSnapshot.getChildren()){
-                    ChatMessage chatMessage = snap.getValue(ChatMessage.class);
-                    if(chatMessage.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()) && chatMessage.getReceiverId().equals(mReceiverId) || chatMessage.getSenderId().equals(mReceiverId) && chatMessage.getReceiverId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                mMessagesList.clear();
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    ChatMessage chatMessage =  snapshot.getValue(ChatMessage.class);
+                    if(chatMessage.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            && chatMessage.getReceiverId().equals(mReceiverId)
+                            || chatMessage.getSenderId().equals(mReceiverId)
+                            && chatMessage.getReceiverId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                         mMessagesList.add(chatMessage);
                     }
-
                 }
 
                 /**populate messages**/
@@ -144,60 +152,37 @@ public class ChatMessagesActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
     }
 
-    private void populateMessagesRecyclerView(){
+    private void populateMessagesRecyclerView() {
         adapter = new MessagesAdapter(mMessagesList, this);
         mChatsRecyclerView.setAdapter(adapter);
-
     }
-
-
-   /* private void queryRecipientName(final String receiverId){
-
+    private void queryRecipientName (final String receiverId){
         mUsersRef.child(receiverId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                User recepient = dataSnapshot.getValue(User.class);
+                UserInformation recepient = dataSnapshot.getValue(UserInformation.class);
                 mReceiverName = recepient.getName();
-
-                try {
+                try{
                     getSupportActionBar().setTitle(mReceiverName);
                     getActionBar().setTitle(mReceiverName);
-                } catch (Exception e) {
+                }catch (Exception e){
                     e.printStackTrace();
                 }
             }
 
             @Override
-            public void onCancelled(FirebaseError firebaseError) {
-
-            }
-
-            @Override
             public void onCancelled(DatabaseError databaseError) {
 
             }
         });
-
     }
+
 
 }
 
-    private void populateMessagesRecyclerView() {
-        adapter = new MessagesAdapter(mMessagesList, this);
-        mChatsRecyclerView.setAdapter(adapter);
-
-    }
-    }
-*/
-}
