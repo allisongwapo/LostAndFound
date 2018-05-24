@@ -20,21 +20,58 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
     private static final int ITEM_TYPE_SENT = 0;
     private static final int ITEM_TYPE_RECEIVED = 1;
     private List<ChatMessage> mMessagesList;
-    private Context mContext;
+    private android.content.Context mContext;
 
 
-    public MessagesAdapter(List<ChatMessage> mMessagesList, ChatMessagesActivity chatMessagesActivity) {
-    }
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    // Provide a reference to the views for each data item
+    // Complex data items may need more than one view per item, and
+    // you provide access to all the views for a data item in a view holder
+    public class ViewHolder extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
         public TextView messageTextView;
 
-        public View Layout;
-        public ViewHolder(View v){
+        public View layout;
+
+        public ViewHolder(View v) {
             super(v);
-            Layout = v;
+            layout = v;
             messageTextView = (TextView) v.findViewById(R.id.chatMsgTextView);
+
         }
     }
+
+    public class ViewHolder2 extends RecyclerView.ViewHolder {
+        // each data item is just a string in this case
+        public TextView messageTextView;
+
+        public View layout;
+
+        public ViewHolder2(View v) {
+            super(v);
+            layout = v;
+            messageTextView = (TextView) v.findViewById(R.id.chatMsgTextView);
+
+        }
+    }
+
+
+    public void add(int position, ChatMessage message) {
+        mMessagesList.add(position, message);
+        notifyItemInserted(position);
+    }
+
+    public void remove(int position) {
+        mMessagesList.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    // Provide a suitable constructor (depends on the kind of dataset)
+    public MessagesAdapter(List<ChatMessage> myDataset, android.content.Context context) {
+        mMessagesList = myDataset;
+        mContext = context;
+
+    }
+
     @Override
     public int getItemViewType(int position) {
         if (mMessagesList.get(position).getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
@@ -44,29 +81,36 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         }
     }
 
-    @Override
-    public int getItemCount() {
-        return 0;
-    }
 
 
+    // Create new views (invoked by the layout manager)
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent,
-                                         int viewType) {
+    public MessagesAdapter.ViewHolder onCreateViewHolder(ViewGroup parent,
+                                                         int viewType) {
         View v = null;
         if (viewType == ITEM_TYPE_SENT) {
-            v = LayoutInflater.from(v.getContext()).inflate(R.layout.sent_msg_row, null);
+            v = LayoutInflater.from(mContext).inflate(R.layout.sent_msg_row, null);
         } else if (viewType == ITEM_TYPE_RECEIVED) {
-            v = LayoutInflater.from(v.getContext()).inflate(R.layout.received_msg_row, null);
+            v = LayoutInflater.from(mContext).inflate(R.layout.received_msg_row, null);
         }
-        return new ViewHolder(v);// view holder for header items
+        return new ViewHolder(v); // view holder for header items
+    }
 
-
-}
-
+    // Replace the contents of a view (invoked by the layout manager)
     @Override
-    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        // - get element from your dataset at this position
+        // - replace the contents of the view with that element
+        ChatMessage msg = mMessagesList.get(position);
+        holder.messageTextView.setText(msg.getMessage());
 
+
+    }
+
+    // Return the size of your dataset (invoked by the layout manager)
+    @Override
+    public int getItemCount() {
+        return mMessagesList.size();
     }
 
 

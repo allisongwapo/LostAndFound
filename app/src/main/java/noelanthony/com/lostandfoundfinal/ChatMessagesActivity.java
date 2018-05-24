@@ -138,10 +138,10 @@ public class ChatMessagesActivity extends AppCompatActivity {
                 mMessagesList.clear();
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     ChatMessage chatMessage =  snapshot.getValue(ChatMessage.class);
-                    if(chatMessage.getSenderId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            && chatMessage.getReceiverId().equals(mReceiverId)
-                            || chatMessage.getSenderId().equals(mReceiverId)
-                            && chatMessage.getReceiverId().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                    if(chatMessage.getSenderId()==(FirebaseAuth.getInstance().getCurrentUser().getUid())
+                            && chatMessage.getReceiverId()==(mReceiverId)
+                            || chatMessage.getSenderId()==(mReceiverId)
+                            && chatMessage.getReceiverId()==(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                         mMessagesList.add(chatMessage);
                     }
                 }
