@@ -132,7 +132,7 @@ public class onItemClickActivity extends AppCompatActivity{
             public void onClick(View v) {
                 Intent intent  =  new Intent(onItemClickActivity.this,ChatMessagesActivity.class);
                 intent.putExtra("item_uid", uid);
-                Toast.makeText(onItemClickActivity.this, uid, Toast.LENGTH_SHORT).show();
+                //Toast.makeText(onItemClickActivity.this, uid, Toast.LENGTH_SHORT).show();
                 startActivity(intent);
             }
             });

@@ -12,11 +12,15 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.newsfeed.onItemClickActivity;
 import noelanthony.com.lostandfoundfinal.profile.UserInformation;
+
+import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +46,9 @@ public class ChatMessagesActivity extends AppCompatActivity {
     private MessagesAdapter adapter=null;
     private String mReceiverId;
     private String mReceiverName;
+    private FirebaseAuth mAuth;
+    private DatabaseReference dbReference,mDatabase;
+    private String userID;
 
 
     @Override
@@ -66,6 +73,9 @@ public class ChatMessagesActivity extends AppCompatActivity {
         //get receiverId from intent
         mReceiverId = getIntent().getStringExtra("item_uid");
 
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
 
 
 
@@ -135,7 +145,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
         mMessagesDBRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                mMessagesList.clear();
+                /*mMessagesList.clear();*/
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     ChatMessage chatMessage =  snapshot.getValue(ChatMessage.class);
                     if(chatMessage.getSenderId()==(FirebaseAuth.getInstance().getCurrentUser().getUid())
@@ -162,17 +172,23 @@ public class ChatMessagesActivity extends AppCompatActivity {
         adapter = new MessagesAdapter(mMessagesList, this);
         mChatsRecyclerView.setAdapter(adapter);
     }
+
     private void queryRecipientName (final String receiverId){
         mUsersRef.child(receiverId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserInformation recepient = dataSnapshot.getValue(UserInformation.class);
-                mReceiverName = recepient.getName();
-                try{
-                    getSupportActionBar().setTitle(mReceiverName);
-                    getActionBar().setTitle(mReceiverName);
-                }catch (Exception e){
-                    e.printStackTrace();
+                if (mReceiverId == userID) {
+                    mReceiverName = recepient.getName();
+                    try {
+                        /*Firebase.setAndroidContext(getActivity());
+                        ((newsFeedActivity) getActivity())
+                                .setActionBarTitle("Messages");*/
+                        getSupportActionBar().setTitle(mReceiverName);
+                        getActionBar().setTitle(mReceiverName);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             }
 

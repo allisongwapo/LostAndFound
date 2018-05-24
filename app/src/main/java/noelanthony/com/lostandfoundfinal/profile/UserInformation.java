@@ -5,6 +5,7 @@ package noelanthony.com.lostandfoundfinal.profile;
  */
 
 public class UserInformation {
+    private String userId;
     private String name;
     private String image;
     private String email;
@@ -18,6 +19,7 @@ public class UserInformation {
     }
 
     public UserInformation(String name, String image, String email, String datejoined, int itemsreturned, String idnumber) {
+        this.userId = userId;
         this.name = name;
         this.image = image;
         this.email = email;
@@ -25,6 +27,14 @@ public class UserInformation {
         this.itemsreturned = itemsreturned;
         this.idnumber = idnumber;
     }
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
 
     public String getName() {
         return name;

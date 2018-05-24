@@ -60,11 +60,11 @@ public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHo
         notifyItemInserted(position);
     }
 
-    public void remove(int position) {
+  /*  public void remove(int position) {
         mMessagesList.remove(position);
         notifyItemRemoved(position);
     }
-
+*/
     // Provide a suitable constructor (depends on the kind of dataset)
     public MessagesAdapter(List<ChatMessage> myDataset, android.content.Context context) {
         mMessagesList = myDataset;
