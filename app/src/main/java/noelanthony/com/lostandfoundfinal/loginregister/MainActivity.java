@@ -19,6 +19,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.iid.FirebaseInstanceId;
@@ -153,10 +154,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     protected void onStart() {
         super.onStart();
 
-        if(mAuth.getUid().equals("Ui2KIyn7socV7MnPrmp6YCnH1xI2")){
+//"Ui2KIyn7socV7MnPrmp6YCnH1xI2"
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if(mAuth.getCurrentUser()!=null && currentUser.getEmail().equals("admin@admin.com")){
             finish();
             startActivity(new Intent(this, adminApprove.class));
-        }else{
+
+        }else if(mAuth.getCurrentUser()!=null ){
             finish();
             startActivity(new Intent(this, newsFeedActivity.class));
         }
