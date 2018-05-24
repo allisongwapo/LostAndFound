@@ -144,6 +144,7 @@ public class adminApprove extends AppCompatActivity {
                                     //SETS APPROVAL TO 1 AND NEW NOTICATION ENTRY
                                     for (int i = 0; i < selectedApprove.size(); i++) {
                                         dbReference.child(selectedApprove.get(i)).child("approvalStatus").setValue(1);
+                                        //dbReference.child(selectedApprove.get(i)).child("status_approvalFlag").setValue(itemStatusApprove.get(i)+"_"+2);
                                        // dbReference.child(selectedApprove.get(i)).child("status_approvalStatus").setValue(itemStatusApprove+"_"+"1");
                                         notificationRef =  FirebaseDatabase.getInstance().getReference().child("notifications");
 

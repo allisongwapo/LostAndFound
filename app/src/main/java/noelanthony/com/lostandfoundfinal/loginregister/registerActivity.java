@@ -174,4 +174,11 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
                 break;
     }
     }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        finish();
+        startActivity(new Intent(this, MainActivity.class));
+    }
 }//end of class
