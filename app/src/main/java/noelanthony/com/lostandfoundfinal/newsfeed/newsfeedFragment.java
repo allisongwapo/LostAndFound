@@ -147,6 +147,7 @@ public class newsfeedFragment extends Fragment {
                             intent.putExtra(KEY_POSTER,item.getPoster());
                             intent.putExtra(KEY_IMAGE_ID,item.getImageID());
                             intent.putExtra(KEY_USER_ID,item.getUid());
+                            intent.putExtra("item_id",item.getItemID());
                             intent.putExtra("item_latitude", item.getLatitude());
                             intent.putExtra("item_longitude", item.getLongitude());
 

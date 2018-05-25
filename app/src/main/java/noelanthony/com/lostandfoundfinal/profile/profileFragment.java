@@ -53,7 +53,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     private static final int CHOOSE_IMAGE = 101;
     View myView;
     ImageView uploadImageView;
-    TextView nameTextView, idnoTextView, datejoinedTextView, emailverifyTextView, itemsreturnedTextView;
+    TextView nameTextView, idnoTextView, datejoinedTextView, emailverifyTextView,emailTextView;// itemsreturnedTextView;
     Uri uriProfileImage;
     //Context applicationContext = MainActivity.getContextOfApplication();
     ProgressBar progressBar;
@@ -123,7 +123,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
         saveBtn = myView.findViewById(R.id.saveBtn);
         nameEditText= myView.findViewById(R.id.nameEditText);
         emailverifyTextView = myView.findViewById(R.id.emailverifyTextView);
-        itemsreturnedTextView = myView.findViewById(R.id.itemsreturnedTextView);
+        emailTextView = myView.findViewById(R.id.emailTextView);
 
 
         mAuth = FirebaseAuth.getInstance();
@@ -181,14 +181,15 @@ public class profileFragment extends Fragment implements View.OnClickListener {
 
         UserInformation uInfo = new UserInformation();
             uInfo.setName(dataSnapshot.getValue(UserInformation.class).getName());//sets name
-            //uInfo.setEmail(ds.child(userID).getValue(UserInformation.class).getEmail());//sets email
+            uInfo.setEmail(dataSnapshot.getValue(UserInformation.class).getEmail());//sets email
             uInfo.setDatejoined(dataSnapshot.getValue(UserInformation.class).getDatejoined());//sets name
-            uInfo.setItemsreturned(dataSnapshot.getValue(UserInformation.class).getItemsreturned());
+          //  uInfo.setItemsreturned(dataSnapshot.getValue(UserInformation.class).getItemsreturned());
            // uInfo.setIdnumber(dataSnapshot.getValue(UserInformation.class).getIdnumber());
 
             nameTextView.setText(uInfo.getName());
             datejoinedTextView.setText("Date Joined: " + uInfo.getDatejoined());
-            itemsreturnedTextView.setText("Items Returned: "+ String.valueOf(uInfo.getItemsreturned()).toString());
+             emailTextView.setText("Email: "+ String.valueOf(uInfo.getEmail()).toString());
+            //itemsreturnedTextView.setText("Items Returned: "+ String.valueOf(uInfo.getItemsreturned()).toString());
            // idnoTextView.setText(uInfo.getIdnumber());
         //}
     }

@@ -47,6 +47,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:orientation="vertical">
+        <!--
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -64,6 +65,26 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginStart="10dp"
                 android:text="itemsreturned"
+                android:textColor="#09c6df"
+                android:textSize="16sp" />
+        </LinearLayout>-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="44dp">
+
+            <ImageView
+                android:layout_width="29dp"
+                android:layout_height="29dp"
+                android:src="@android:drawable/sym_action_email" />
+
+            <TextView
+                android:id="@+id/emailTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginStart="10dp"
+                android:text="email"
                 android:textColor="#09c6df"
                 android:textSize="16sp" />
         </LinearLayout>
