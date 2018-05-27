@@ -112,6 +112,10 @@ public class newsfeedFragment extends Fragment {
                       adapter = new itemAdapter(getActivity(), itemList);
                    // Collections.reverse(itemList); //to order by descending
                     itemListView.setAdapter(adapter);
+                    String filterText = theFilterEditText.getText().toString();
+                    if(filterText.equals("") || filterText.isEmpty()){
+                        adapter.notifyDataSetChanged();
+                    }
                     theFilterEditText.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -120,14 +124,14 @@ public class newsfeedFragment extends Fragment {
 
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            adapter.getFilter().filter(s);
+                            adapter.getFilter().filter(s.toString());
                             Log.d("Constants.TAG", "*** Search value changed: " + s.toString());
-                           // adapter.notifyDataSetChanged();
+
+
                         }
 
                         @Override
                         public void afterTextChanged(Editable s) {
-
 
                         }
                     });

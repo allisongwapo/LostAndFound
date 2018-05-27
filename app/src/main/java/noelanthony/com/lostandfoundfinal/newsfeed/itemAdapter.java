@@ -17,7 +17,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.RequestOptions;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.R;
 
@@ -28,27 +27,25 @@ import noelanthony.com.lostandfoundfinal.R;
 public class itemAdapter extends ArrayAdapter<items> implements Filterable {
 
     private Activity context;
-    private ArrayList<items> itemList;
-    private ArrayList<items> filterList;
+    private ArrayList<items> itemList = null;
+    private ArrayList<items> filterList = null;
    // private Context applicationContext = MainActivity.getContextOfApplication();
-    private ItemsFilter mItemsFilter;
+    private ItemsFilter mItemsFilter = new ItemsFilter();
     //Two data sources, the original data and filtered data
 
     public itemAdapter(Activity context, ArrayList<items> itemList) {
         super(context, R.layout.itemslv_layout, itemList);
         this.context = context;
-        this.itemList = new ArrayList<items>();
-        this.itemList.addAll(itemList);
-        this.filterList = new ArrayList<items>();
-        this.filterList.addAll(itemList);
-
-
+        this.itemList = itemList;
+        this.filterList =  itemList;
 
     }
     @Override
     public int getCount() {
         return itemList.size();
     }
+
+
 
     @Override
     public long getItemId(int position) {
@@ -108,23 +105,26 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
     private class ItemsFilter extends Filter{
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
+
             // Create a FilterResults object
             FilterResults results = new FilterResults();
 
-            if (constraint == null || constraint.length() == 0 && constraint.equals(isEmpty())) {
-                constraint = constraint.toString().toUpperCase();
-                List<items> filteredList = new ArrayList<>();
-                results.count = itemList.size();
-                results.values = itemList;
+            // If the constraint (search string/pattern) is null
+            // or its length is 0, i.e., its empty then
+            // we just set the `values` property to the
+            // original contacts list which contains all of them
 
-            }else {
+            if (constraint == null || constraint.length() == 0 && constraint.equals(isEmpty()) || constraint.toString().isEmpty()) {
+                results.count = filterList.size();
+                results.values = filterList;
+            } else {
                 // Some search constraint has been passed
                 // so let's filter accordingly
-                ArrayList<items> filteredItems = new ArrayList<>();
+                ArrayList<items> filteredItems = new ArrayList<items>();
                 // We'll go through all the contacts and see
                 // if they contain the supplied string
-                for (items c : itemList ) {
-                    if (c.getitemName().toUpperCase().contains( constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains( constraint.toString().toUpperCase())  || c.getPoster().toUpperCase().contains( constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains( constraint.toString().toUpperCase())) {
+                for (items c : itemList) {
+                    if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getPoster().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains(constraint.toString().toUpperCase())) {
                         // if `contains` == true then add it
                         // to our filtered list
                         filteredItems.add(c);
@@ -136,20 +136,50 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
             }
             Log.e("VALUES", results.values.toString());
 
-
+// Return our FilterResults object
             return results;
         }
+/*
+
+            FilterResults results = new FilterResults();
+
+            final List<items> list = filterList;
+
+            int count = list.size();
+            final ArrayList<items> nlist = new ArrayList<items>(count);
+
+            for (items c : itemList ) {
+                if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getPoster().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains(constraint.toString().toUpperCase())) {
+                    // if `contains` == true then add it
+                    // to our filtered list
+                    nlist.add(c);
+                }
+            }
+            results.values = nlist;
+            results.count = nlist.size();
+
+            return results;
+
+        }
+*/
+
+
+
+
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
 
-            if (results.count == 0) {
-                itemList.clear();
-                notifyDataSetInvalidated();
-            } else {
-                itemList = (ArrayList<items>) results.values;
+              itemList = (ArrayList<items>) results.values;
+             notifyDataSetChanged();
+            /*
+            itemList = (ArrayList<items>) results.values;
+            if (results.count >0) {
                 notifyDataSetChanged();
-            }
+            } else {
+                notifyDataSetInvalidated();
+            }*/
+
 
             /*
             itemList = (ArrayList<items>) results.values;
@@ -171,9 +201,9 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
     }
     @Override
     public Filter getFilter() {
-        if(mItemsFilter==null)
+        if(mItemsFilter==null) {
             mItemsFilter = new ItemsFilter();
-
+        }
         return mItemsFilter;
     }
 

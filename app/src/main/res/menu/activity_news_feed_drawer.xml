@@ -6,26 +6,26 @@
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_newsfeed_layout"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_local_library_black_24dp"
             android:title="News Feed" />
         <item
             android:id="@+id/nav_profile"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_person_gray_24dp"
             android:title="Profile" />
         <item
             android:id="@+id/nav_submissions"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_format_list_bulleted_gray_24dp"
             android:title="My Submissions" />
         <item
             android:id="@+id/nav_messages"
-            android:icon="@drawable/ic_menu_gallery"
+            android:icon="@drawable/ic_chat_black_24dp"
             android:title="Messages" />
     </group>
 
     <group android:checkableBehavior="single">
         <item
             android:id="@+id/nav_logout"
-            android:icon="@drawable/ic_menu_camera"
+            android:icon="@drawable/ic_keyboard_return_gray_24dp"
             android:title="Logout" />
 
     </group>

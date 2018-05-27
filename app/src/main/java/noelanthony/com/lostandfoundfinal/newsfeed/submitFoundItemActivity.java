@@ -119,9 +119,13 @@ public class submitFoundItemActivity extends AppCompatActivity {
                             longitude = locationTrack.getLongitude();
                             latitude = locationTrack.getLatitude();
                             locationSelection= "Current Location";
-                            currentLocationTextView.setText("Current Location");
-                            Toast.makeText(submitFoundItemActivity.this, "Item Location set to current location", Toast.LENGTH_SHORT).show();
-                    cancelLocationBtn.setVisibility(View.VISIBLE );
+                            if (longitude!=null && latitude !=null) {
+                                currentLocationTextView.setText("Current Location");
+                                Toast.makeText(submitFoundItemActivity.this, "Item Location set to current location", Toast.LENGTH_SHORT).show();
+                                cancelLocationBtn.setVisibility(View.VISIBLE);
+                            }else{
+                                Toast.makeText(submitFoundItemActivity.this, "Cannot get location", Toast.LENGTH_SHORT).show();
+                            }
                     cancelLocationBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
