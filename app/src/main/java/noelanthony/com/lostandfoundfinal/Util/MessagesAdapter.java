@@ -1,19 +1,16 @@
 package noelanthony.com.lostandfoundfinal.Util;
 
-import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.firebase.client.core.Context;
 import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.ChatMessage;
-import noelanthony.com.lostandfoundfinal.ChatMessagesActivity;
 import noelanthony.com.lostandfoundfinal.R;
 
 public class MessagesAdapter extends RecyclerView.Adapter<MessagesAdapter.ViewHolder> {

@@ -32,5 +32,6 @@
 
 
     </string-array>
+    <string name="title_activity_chat_message">ChatMessageActivity</string>
 
 </resources>

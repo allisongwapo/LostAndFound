@@ -3,18 +3,17 @@ package noelanthony.com.lostandfoundfinal;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
-import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
-import noelanthony.com.lostandfoundfinal.newsfeed.onItemClickActivity;
-import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 
 import com.firebase.client.Firebase;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -25,17 +24,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import noelanthony.com.lostandfoundfinal.Util.MessagesAdapter;
-
+import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 
 public class ChatMessagesActivity extends AppCompatActivity {
-
     private RecyclerView mChatsRecyclerView;
     private LinearLayoutManager mLayoutManager;
     private EditText mMessageEditText;
@@ -46,6 +46,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
     private MessagesAdapter adapter=null;
     private String mReceiverId;
     private String mReceiverName;
+
     private FirebaseAuth mAuth;
     private DatabaseReference dbReference,mDatabase;
     private String userID;
@@ -55,6 +56,8 @@ public class ChatMessagesActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_chat_messages);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         //initialize the views
         mChatsRecyclerView = findViewById(R.id.messagesRecyclerView);
@@ -71,7 +74,11 @@ public class ChatMessagesActivity extends AppCompatActivity {
         mUsersRef = FirebaseDatabase.getInstance().getReference().child("users");
 
         //get receiverId from intent
-        mReceiverId = getIntent().getStringExtra("item_uid");
+        Intent intent = getIntent();
+        if (null!= intent) {
+            mReceiverId = intent.getStringExtra("item_uid");
+            mReceiverName = intent.getStringExtra("item_poster");
+        }
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -86,13 +93,15 @@ public class ChatMessagesActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String message = mMessageEditText.getText().toString();
                 String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-
+                String status = "NOT SEEN";
+                SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                String currentDateTime = dateFormat.format(new Date()); // Find todays date
 
                 if (message.isEmpty()) {
                     Toast.makeText(ChatMessagesActivity.this, "You must enter a message", Toast.LENGTH_SHORT).show();
                 } else {
                     //message is entered, send
-                    sendMessageToFirebase(message, senderId, mReceiverId);
+                    sendMessageToFirebase(message, senderId, mReceiverId, mReceiverName, status, currentDateTime );
                 }
             }
         });
@@ -108,14 +117,14 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
 
         /**sets title bar with recepient name**/
-        queryRecipientName(mReceiverId);
+        queryRecipientName();
     }
 
 
-    private void sendMessageToFirebase(String message, String senderId, String receiverId) {
+    private void sendMessageToFirebase(String message, String senderId, String receiverId, String senderName, String status, String currentDateTime ) {
         mMessagesList.clear();
 
-        ChatMessage newMsg = new ChatMessage(message, senderId, receiverId);
+        ChatMessage newMsg = new ChatMessage(message, senderId, receiverId, senderName, status, currentDateTime);
         mMessagesDBRef.push().setValue(newMsg).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -141,19 +150,32 @@ public class ChatMessagesActivity extends AppCompatActivity {
     }
 
     private void querymessagesBetweenThisUserAndClickedUser(){
-
-        mMessagesDBRef.addValueEventListener(new ValueEventListener() {
+        Query SelectQuery = mMessagesDBRef.orderByChild(mReceiverId);
+        SelectQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 /*mMessagesList.clear();*/
+                String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+                String receiverId = mReceiverId;
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()){
                     ChatMessage chatMessage =  snapshot.getValue(ChatMessage.class);
-                    if(chatMessage.getSenderId()==(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                            && chatMessage.getReceiverId()==(mReceiverId)
-                            || chatMessage.getSenderId()==(mReceiverId)
-                            && chatMessage.getReceiverId()==(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
-                        mMessagesList.add(chatMessage);
+                    try{
+                        if(chatMessage.getSenderId()!=null
+                                && chatMessage.getSenderId().contentEquals(senderId)
+                                && chatMessage.getReceiverId().contentEquals(receiverId)
+                                || chatMessage.getSenderId().contentEquals(receiverId)
+                                && chatMessage.getReceiverId().contentEquals(senderId)){
+                            mMessagesList.add(chatMessage);
+                        }
+                    }catch (Exception e){
+                        e.printStackTrace();
                     }
+                        /*chatMessage.getSenderId()==(senderId)
+                                && chatMessage.getReceiverId()==(receiverId)
+                                || chatMessage.getSenderId()==(receiverId)
+                                && chatMessage.getReceiverId()==(senderId)*/
+
+
                 }
 
                 /**populate messages**/
@@ -173,19 +195,25 @@ public class ChatMessagesActivity extends AppCompatActivity {
         mChatsRecyclerView.setAdapter(adapter);
     }
 
-    private void queryRecipientName (final String receiverId){
-        mUsersRef.child(receiverId).addValueEventListener(new ValueEventListener() {
+    private void queryRecipientName (){
+        Query SelectQuery = mUsersRef.orderByChild("name").equalTo(mReceiverName);
+        SelectQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserInformation recepient = dataSnapshot.getValue(UserInformation.class);
-                if (mReceiverId == userID) {
-                    mReceiverName = recepient.getName();
+               /* if (mReceiverId == userID) {
+                    mReceiverName = recepient.getReceiverId();*/
+                String receiverName = mReceiverName;
+                if(recepient.getName()!=null
+                        && recepient.getName().contentEquals(receiverName)){
                     try {
                         /*Firebase.setAndroidContext(getActivity());
                         ((newsFeedActivity) getActivity())
                                 .setActionBarTitle("Messages");*/
-                        getSupportActionBar().setTitle(mReceiverName);
-                        getActionBar().setTitle(mReceiverName);
+                        getSupportActionBar().setTitle(receiverName);
+                        getActionBar().setTitle(receiverName);
+                        //.setTitle(receiverName));
+                        //getActionBar().setTitle(receiverName);
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
@@ -201,4 +229,3 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
 
 }
-

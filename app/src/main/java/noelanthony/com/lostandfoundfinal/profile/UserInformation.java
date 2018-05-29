@@ -18,7 +18,7 @@ public class UserInformation {
 
     }
 
-    public UserInformation(String name, String image, String email, String datejoined, int itemsreturned, String idnumber) {
+    public UserInformation(String userId, String name, String image, String email, String datejoined, int itemsreturned, String idnumber) {
         this.userId = userId;
         this.name = name;
         this.image = image;
@@ -27,14 +27,15 @@ public class UserInformation {
         this.itemsreturned = itemsreturned;
         this.idnumber = idnumber;
     }
+
+
     public String getUserId() {
         return userId;
     }
 
     public void setUserId(String userId) {
-        this.userId = userId;
+        this.userId = this.userId;
     }
-
 
     public String getName() {
         return name;

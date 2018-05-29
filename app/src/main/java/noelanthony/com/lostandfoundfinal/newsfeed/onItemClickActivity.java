@@ -29,7 +29,7 @@ public class onItemClickActivity extends AppCompatActivity{
 
     private ImageView itemImageView;
     private TextView lostorfoundStatusTextView,itemNameTextView,dateandtimeTextView,locationTextView,descriptionTextView,posterTextView,clicktomessageTextView,setToFoundTextView;
-    private String userID,uid;//,longitude,latitude;
+    private String userID,uid,poster;//,longitude,latitude;
     private ImageButton googleMapImageButton;
     private LinearLayout foundOnlyFrame;
     private Double longitude,latitude;
@@ -50,7 +50,7 @@ public class onItemClickActivity extends AppCompatActivity{
         String date = "";
         String location = "";
         String description = "";
-        String poster = "";
+        poster = "";
         String imageId = "";
         uid = "";
         String visibility ="";
@@ -130,10 +130,20 @@ public class onItemClickActivity extends AppCompatActivity{
 
             @Override
             public void onClick(View v) {
-                Intent intent  =  new Intent(onItemClickActivity.this,ChatMessagesActivity.class);
+                Intent intent  =  new Intent(onItemClickActivity.this,ChatMessagesActivity.class
+                );
+                intent.putExtra("item_poster", poster);
                 intent.putExtra("item_uid", uid);
                 //Toast.makeText(onItemClickActivity.this, uid, Toast.LENGTH_SHORT).show();
                 startActivity(intent);
+               /* Bundle bundle = new Bundle();
+                bundle.putString( "item_uid",uid);
+                bundle.putString("item_poster",poster );
+                messegesFragment myObj = new messegesFragment();
+                myObj.setArguments(bundle);
+                FragmentManager fragmentManager = getFragmentManager();
+
+                fragmentManager.beginTransaction().replace(R.id.content_frame, new messegesFragment()).commit();*/
             }
             });
         RequestOptions options = new RequestOptions();

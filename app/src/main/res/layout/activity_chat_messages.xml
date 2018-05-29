@@ -5,13 +5,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="10dp"
-    tools:context="codestart.info.androidfirebasechat.ChatMessagesActivity">
+    tools:context="noelanthony.com.lostandfoundfinal.ChatMessagesActivity">
+
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/messagesRecyclerView"
-        android:layout_width="match_parent"
-        android:layout_marginBottom="60dp"
-        android:layout_height="match_parent"/>
+        android:layout_width="374dp"
+        android:layout_height="497dp"
+        android:layout_marginBottom="60dp" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,6 +35,7 @@
             android:layout_weight="1"
             android:src="@android:drawable/ic_menu_send"
             android:layout_height="wrap_content" />
+
     </LinearLayout>
 
 </RelativeLayout>

@@ -33,6 +33,7 @@
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="newsfeed" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -47,6 +48,7 @@
             android:theme="@style/AppTheme.Admin">
             <intent-filter>
                 <action android:name="adminApproveRedirect" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
@@ -66,7 +68,9 @@
         <activity
             android:name=".maps.MapsActivity"
             android:label="@string/title_activity_maps" />
-        <service android:name="noelanthony.com.lostandfoundfinal.notifications.FirebaseMessagingService">
+
+        <service android:name=".notifications.FirebaseMessagingService">
+
             <!-- NOTIFICATIONS -->
             <intent-filter>
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
@@ -89,15 +93,18 @@
         <!-- END NOTIFICATIONS -->
         <activity
             android:name=".newsfeed.PopupImage"
-            android:theme="@style/AppTheme.PopupImage"></activity>
-        <activity android:name=".ChatMessagesActivity"></activity>
-        <!--END NOTIFICATIONS-->
-        <service
-            android:name=".MyFirebaseInstanceIdService">
+            android:theme="@style/AppTheme.PopupImage" />
+        <!-- END NOTIFICATIONS -->
+        <service android:name=".MyFirebaseInstanceIdService">
             <intent-filter>
-                <action android:name="com.google.firebase.INSTANCE_ID_EVENT"/>
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
+
+        <activity
+            android:name=".ChatMessagesActivity"
+            android:label="@string/title_activity_chat_message"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

@@ -18,13 +18,15 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="AppTheme.PopMe">
-        <item name ="android:windowIsTranslucent">true</item>
-        <item name ="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
-    <style name="AppTheme.Admin" parent="Theme.AppCompat.Light.DarkActionBar"/>
+
+    <style name="AppTheme.Admin" parent="Theme.AppCompat.Light.DarkActionBar" />
+
     <style name="AppTheme.PopupImage">
-        <item name ="android:windowIsTranslucent">true</item>
-        <item name ="android:windowCloseOnTouchOutside">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowCloseOnTouchOutside">true</item>
     </style>
 
 </resources>
