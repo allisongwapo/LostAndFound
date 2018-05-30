@@ -113,6 +113,9 @@ public class adminApprove extends AppCompatActivity {
                 }
                 if(getApplication()!=null) {
                     final CustomAdapter adapter = new CustomAdapter(adminApprove.this, itemApproveList);
+                    if (adapter.getCount() == 0){
+                        Toast.makeText(adminApprove.this, "No Submissions", Toast.LENGTH_SHORT).show();
+                    }
                     checkableItemListView.setAdapter(adapter);
                     checkableItemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                         @Override
