@@ -23,6 +23,7 @@
     </style>
 
     <style name="AppTheme.Admin" parent="Theme.AppCompat.Light.DarkActionBar" />
+    <style name="AppTheme.ChatMessagesActivity" parent="Theme.AppCompat.Light.DarkActionBar" />
 
     <style name="AppTheme.PopupImage">
         <item name="android:windowIsTranslucent">true</item>

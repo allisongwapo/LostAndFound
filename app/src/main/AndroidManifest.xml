@@ -103,7 +103,6 @@
 
         <activity
             android:name=".ChatMessagesActivity"
-            android:label="@string/title_activity_chat_message"
             android:theme="@style/AppTheme"></activity>
     </application>
 

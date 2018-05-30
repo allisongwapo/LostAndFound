@@ -6,12 +6,28 @@
     android:layout_height="match_parent"
     android:padding="10dp"
     tools:context="noelanthony.com.lostandfoundfinal.ChatMessagesActivity">
+    <android.support.design.widget.AppBarLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/AppTheme.AppBarOverlay"
+        >
 
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            android:background="?attr/colorPrimary"
+            app:popupTheme="@style/AppTheme.PopupOverlay" />
 
-    <android.support.v7.widget.RecyclerView
+    </android.support.design.widget.AppBarLayout>
+
+    <!--<include layout="@layout/content_chat_message" />
+
+-->    <android.support.v7.widget.RecyclerView
         android:id="@+id/messagesRecyclerView"
         android:layout_width="374dp"
         android:layout_height="497dp"
+        android:layout_marginTop="70dp"
         android:layout_marginBottom="60dp" />
 
 

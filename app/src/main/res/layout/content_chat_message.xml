@@ -8,12 +8,12 @@
     tools:context=".ChatMessagesActivity"
     tools:showIn="@layout/activity_chat_message">
 
-    <RelativeLayout
+ <!--   <RelativeLayout
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:padding="10dp"
         >
-    </RelativeLayout>
+    </RelativeLayout>-->
 
 </android.support.constraint.ConstraintLayout>

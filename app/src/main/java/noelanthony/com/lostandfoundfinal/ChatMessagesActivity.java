@@ -55,9 +55,8 @@ public class ChatMessagesActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_chat_messages);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setContentView(R.layout.activity_chat_message);
+
 
         //initialize the views
         mChatsRecyclerView = findViewById(R.id.messagesRecyclerView);
@@ -79,6 +78,11 @@ public class ChatMessagesActivity extends AppCompatActivity {
             mReceiverId = intent.getStringExtra("item_uid");
             mReceiverName = intent.getStringExtra("item_poster");
         }
+        String receiverName = mReceiverName;
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setTitle(receiverName);
+
 
         mAuth = FirebaseAuth.getInstance();
         FirebaseUser user = mAuth.getCurrentUser();
@@ -117,7 +121,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
 
         /**sets title bar with recepient name**/
-        queryRecipientName();
+        //queryRecipientName();
     }
 
 
@@ -194,6 +198,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
         adapter = new MessagesAdapter(mMessagesList, this);
         mChatsRecyclerView.setAdapter(adapter);
     }
+/*
 
     private void queryRecipientName (){
         Query SelectQuery = mUsersRef.orderByChild("name").equalTo(mReceiverName);
@@ -201,15 +206,19 @@ public class ChatMessagesActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 UserInformation recepient = dataSnapshot.getValue(UserInformation.class);
-               /* if (mReceiverId == userID) {
-                    mReceiverName = recepient.getReceiverId();*/
+               */
+/* if (mReceiverId == userID) {
+                    mReceiverName = recepient.getReceiverId();*//*
+
                 String receiverName = mReceiverName;
                 if(recepient.getName()!=null
                         && recepient.getName().contentEquals(receiverName)){
                     try {
-                        /*Firebase.setAndroidContext(getActivity());
+                        */
+/*Firebase.setAndroidContext(getActivity());
                         ((newsFeedActivity) getActivity())
-                                .setActionBarTitle("Messages");*/
+                                .setActionBarTitle("Messages");*//*
+
                         getSupportActionBar().setTitle(receiverName);
                         getActionBar().setTitle(receiverName);
                         //.setTitle(receiverName));
@@ -227,5 +236,6 @@ public class ChatMessagesActivity extends AppCompatActivity {
         });
     }
 
+*/
 
 }
