@@ -1,6 +1,7 @@
 package noelanthony.com.lostandfoundfinal;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -16,10 +17,12 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.firebase.client.Firebase;
+import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -33,6 +36,7 @@ import java.util.Date;
 import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.Util.MessagesAdapter;
+import noelanthony.com.lostandfoundfinal.Util.UserAdapter;
 import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 
 public class ChatMessagesActivity extends AppCompatActivity {
@@ -43,9 +47,11 @@ public class ChatMessagesActivity extends AppCompatActivity {
     private DatabaseReference mMessagesDBRef;
     private DatabaseReference mUsersRef;
     private List<ChatMessage> mMessagesList = new ArrayList<>();
+    private List<UserInformation> mUsersList = new ArrayList<>();
     private MessagesAdapter adapter=null;
     private String mReceiverId;
     private String mReceiverName;
+    private String mSenderName;
 
     private FirebaseAuth mAuth;
     private DatabaseReference dbReference,mDatabase;
@@ -69,8 +75,13 @@ public class ChatMessagesActivity extends AppCompatActivity {
         mChatsRecyclerView.setLayoutManager(mLayoutManager);
 
         //init Firebase
+        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
+        mUsersRef = mDatabase.child("users");
         mMessagesDBRef = FirebaseDatabase.getInstance().getReference().child("Messages");
-        mUsersRef = FirebaseDatabase.getInstance().getReference().child("users");
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+
 
         //get receiverId from intent
         Intent intent = getIntent();
@@ -84,10 +95,35 @@ public class ChatMessagesActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(receiverName);
 
 
-        mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
-        userID = user.getUid();
+        String sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        Query ApprovedQuery = mUsersRef.orderByChild(sender);
 
+        ApprovedQuery.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                //gets all children
+                mUsersList.clear(); //clear listview before populate
+        /*        for (DataSnapshot objSnapshot: dataSnapshot.getChildren()) {
+                    Object obj = objSnapshot.getKey();
+                    //String key = dataSnapshot.getKey();
+                    if (obj.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {*/
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            UserInformation userInformation = snapshot.getValue(UserInformation.class);
+                            mUsersList.add(userInformation);
+                            mSenderName = userInformation.getName();
+                        }
+
+
+                    }
+            /*    }
+
+            }*/
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
 
 
         /**listen to send message imagebutton click**/
@@ -105,7 +141,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
                     Toast.makeText(ChatMessagesActivity.this, "You must enter a message", Toast.LENGTH_SHORT).show();
                 } else {
                     //message is entered, send
-                    sendMessageToFirebase(message, senderId, mReceiverId, mReceiverName, status, currentDateTime );
+                    sendMessageToFirebase(message, senderId, mReceiverId, mReceiverName, mSenderName, status, currentDateTime );
                 }
             }
         });
@@ -125,10 +161,10 @@ public class ChatMessagesActivity extends AppCompatActivity {
     }
 
 
-    private void sendMessageToFirebase(String message, String senderId, String receiverId, String senderName, String status, String currentDateTime ) {
+    private void sendMessageToFirebase(String message, String senderId, String receiverId, String receiverName, String senderName, String status, String currentDateTime ) {
         mMessagesList.clear();
 
-        ChatMessage newMsg = new ChatMessage(message, senderId, receiverId, senderName, status, currentDateTime);
+        ChatMessage newMsg = new ChatMessage(message, senderId, receiverId,  receiverName,senderName, status, currentDateTime);
         mMessagesDBRef.push().setValue(newMsg).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
