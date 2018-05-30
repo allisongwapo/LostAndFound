@@ -11,6 +11,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -31,6 +32,7 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
     private ArrayList<items> filterList = null;
    // private Context applicationContext = MainActivity.getContextOfApplication();
     private ItemsFilter mItemsFilter = new ItemsFilter();
+    private LinearLayout imagebg;
     //Two data sources, the original data and filtered data
 
     public itemAdapter(Activity context, ArrayList<items> itemList) {
@@ -66,6 +68,7 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
         TextView posterTextView = rowView.findViewById(R.id.posterTextView);
         //TextView statusTextView = rowView.findViewById(R.id.statusTextView);
         ImageView itemImageView = rowView.findViewById(R.id.itemImageView);
+        LinearLayout imagebg = rowView.findViewById(R.id.imagebg);
 
         //SET ITEM VALUES HERE
         items Items = itemList.get(position);
@@ -91,12 +94,17 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
 
         //itemImageView.setImageResource(R.drawable.flashdrive);
 
+
         //FOR COLOR CHANGING OF LIST VIEW BASED ON LOST OR FOUND STATUS
         String status = Items.getStatus();
+
         if( status.equals("Found")){
-            rowView.setBackgroundColor(context.getResources().getColor(R.color.foundItemColor));
+            imagebg.setBackgroundColor(context.getResources().getColor(R.color.foundItemColor));
+            itemNameTextView.setTextColor(context.getResources().getColor(R.color.foundItemColorApproved));
         } else if(status.equals("Lost")){
-            rowView.setBackgroundColor(context.getResources().getColor(R.color.lostItemColor));
+            imagebg.setBackgroundColor(context.getResources().getColor(R.color.lostItemColor));
+            itemNameTextView.setTextColor(context.getResources().getColor(R.color.lostItemColorDeclined));
+
         }
         //END COLOR CHANGER
         return rowView;
@@ -139,32 +147,6 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
 // Return our FilterResults object
             return results;
         }
-/*
-
-            FilterResults results = new FilterResults();
-
-            final List<items> list = filterList;
-
-            int count = list.size();
-            final ArrayList<items> nlist = new ArrayList<items>(count);
-
-            for (items c : itemList ) {
-                if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getPoster().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains(constraint.toString().toUpperCase())) {
-                    // if `contains` == true then add it
-                    // to our filtered list
-                    nlist.add(c);
-                }
-            }
-            results.values = nlist;
-            results.count = nlist.size();
-
-            return results;
-
-        }
-*/
-
-
-
 
 
         @Override
@@ -179,8 +161,6 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
             } else {
                 notifyDataSetInvalidated();
             }*/
-
-
             /*
             itemList = (ArrayList<items>) results.values;
             notifyDataSetChanged();
@@ -195,8 +175,6 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
              notifyDataSetInvalidated();
              addAll(itemList);
                 */
-
-
         }
     }
     @Override

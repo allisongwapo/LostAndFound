@@ -33,6 +33,7 @@ public class onItemClickActivity extends AppCompatActivity{
     private ImageButton googleMapImageButton;
     private LinearLayout foundOnlyFrame;
     private Double longitude,latitude;
+    private LinearLayout header;
 
 
     //FOR MYSUBMISSIONS
@@ -84,6 +85,7 @@ public class onItemClickActivity extends AppCompatActivity{
         setToFoundTextView = findViewById(R.id.setToFoundTextView);
         googleMapImageButton = findViewById(R.id.googleMapImageButton);
         foundOnlyFrame = findViewById(R.id.foundOnlyFrame);
+        header= findViewById(R.id.header);
 
 
 
@@ -152,6 +154,19 @@ public class onItemClickActivity extends AppCompatActivity{
             Glide.with(onItemClickActivity.this).load(R.mipmap.ic_noimage).apply(options).into(itemImageView);
         }else {
             Glide.with(onItemClickActivity.this).load(imageId).into(itemImageView); // IMAGE VIEW
+        }
+        //IF ITEM IS LOST, SET COLOR TO RED
+        if(lostOrFoundStatus.equals("Lost")){
+            header.setBackgroundColor(getApplication().getResources().getColor(R.color.lostItemColor));
+            lostorfoundStatusTextView.setTextColor(getApplication().getResources().getColor(R.color.lostItemColor));
+            itemNameTextView.setTextColor(getApplication().getResources().getColor(R.color.colorPrimaryDark));
+            dateandtimeTextView.setTextColor(getApplication().getResources().getColor(R.color.lostItemColor));
+            locationTextView.setTextColor(getApplication().getResources().getColor(R.color.lostItemColor));
+            descriptionTextView.setTextColor(getApplication().getResources().getColor(R.color.colorPrimaryDark));
+            posterTextView.setTextColor(getApplication().getResources().getColor(R.color.colorPrimaryDark));
+            //clicktomessageTextView.setTextColor(getApplication().getResources().getColor(R.color.lostItemColor));
+            //setToFoundTextView.setTextColor(getApplication().getResources().getColor(R.color.lostItemColor));
+
         }
 
         itemImageView.setOnClickListener(new View.OnClickListener() {

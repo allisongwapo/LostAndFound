@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -85,6 +86,9 @@ public class mySubmissionsFragment extends Fragment{
                 if(getActivity()!=null) {
 
                     final mySubmissionsList adapter = new mySubmissionsList(getActivity(), itemList);
+                    if (adapter.getCount() == 0){
+                        Toast.makeText(getActivity(), "No Submissions", Toast.LENGTH_SHORT).show();
+                    }
                     //to order by descending
                     itemListView.setAdapter(adapter);
                     itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -127,6 +131,7 @@ public class mySubmissionsFragment extends Fragment{
                 itemListView.smoothScrollToPosition(0);
             }
         });
+
 
 
 

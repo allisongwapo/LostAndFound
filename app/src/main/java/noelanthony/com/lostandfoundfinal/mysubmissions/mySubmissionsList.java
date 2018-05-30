@@ -110,7 +110,6 @@ public class mySubmissionsList extends ArrayAdapter<items> {
         }
 
 
-
         return rowView;
 
     }
