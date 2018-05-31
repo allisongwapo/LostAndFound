@@ -296,10 +296,7 @@ public class submitLostItemActivity extends AppCompatActivity {
                         //add result into array list
                         for (int i = 0 ; i<allItemNames.size(); i++) {
 
-                            if(!allItemNames.get(i).toUpperCase().contains(itemName.toUpperCase()) || !itemName.toUpperCase().contains(allItemNames.get(i).toUpperCase()) ){
-                                continue;
-
-                            }else{
+                            if(allItemNames.get(i).toUpperCase().contains(itemName.toUpperCase()) || itemName.toUpperCase().contains(allItemNames.get(i).toUpperCase()) ){
                                 Log.i("INFO",key + " " + itemName + ": "+ allItemId.get(i));
                                 //ADDITIONS FOR MATCHING ALGO
                                 Map<String,Object> Matching = new HashMap<>();
@@ -313,7 +310,8 @@ public class submitLostItemActivity extends AppCompatActivity {
                                 matcherItemRef.child("notifiedOldPosterId").setValue(allItemId.get(i));
                                 matcherItemRef.child("newItemKey").setValue(key);
                                 matcherItemRef.child("status").setValue(status);*/
-                            }
+
+                                }
                             }
                         }
 

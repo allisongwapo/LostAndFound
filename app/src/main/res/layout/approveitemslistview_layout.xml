@@ -54,6 +54,12 @@
 
 
             <TextView
+                android:id="@+id/descriptionTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description" />
+
+            <TextView
                 android:id="@+id/posterTextView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

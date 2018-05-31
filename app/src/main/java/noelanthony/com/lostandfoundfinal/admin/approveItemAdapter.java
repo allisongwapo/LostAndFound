@@ -48,7 +48,7 @@ public class approveItemAdapter extends ArrayAdapter<items> {
 
         View rowView = inflater.inflate(R.layout.approveitemslistview_layout, null, true);
 
-
+        TextView descriptionTextView = rowView.findViewById(R.id.descriptionTextView);
         TextView itemNameTextView = rowView.findViewById(R.id.itemNameTextView);
         TextView datetimeTextView = rowView.findViewById(R.id.datetimeTextView);
         TextView locationTextView = rowView.findViewById(R.id.locationTextView);
@@ -62,6 +62,7 @@ public class approveItemAdapter extends ArrayAdapter<items> {
         itemNameTextView.setText(Items.getitemName());
         datetimeTextView.setText(Items.getdateSubmitted());
         locationTextView.setText(Items.getlocationDescription());
+        descriptionTextView.setText(Items.getDescription());
         posterTextView.setText("Posted By " + Items.getPoster());
         //statusTextView.setText(Items.getStatus());
 
