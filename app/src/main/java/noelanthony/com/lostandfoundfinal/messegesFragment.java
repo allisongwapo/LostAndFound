@@ -73,7 +73,7 @@ public class messegesFragment extends Fragment {
 
         }*/
 
-        Query ApprovedQuery = dbLostReference.orderByChild("status").equalTo("NOT SEEN");
+        Query ApprovedQuery = dbLostReference.orderByValue().limitToLast(1);
 
         ApprovedQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -84,7 +84,8 @@ public class messegesFragment extends Fragment {
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
                     /*if (chatMessage.getSenderName().contentEquals(mReceiverName)) {*/
-                        userList.add(0, chatMessage);//remove 0 if ma guba
+
+                    userList.add(0, chatMessage);//remove 0 if ma guba
                    // }
                 }
                 if(getActivity()!=null) {

@@ -50,7 +50,7 @@ public class UserAdapter extends ArrayAdapter<ChatMessage> {
         //SET ITEM VALUES HERE
         ChatMessage users = userList.get(position);
 
-        NameTextView.setText(users.getSenderName());
+        NameTextView.setText(users.getReceiverName());
         messageTextView.setText(users.getMessage());
         datetimeTextView.setText(users.getTime());
         /*RequestOptions options = new RequestOptions();
