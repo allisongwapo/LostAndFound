@@ -15,6 +15,7 @@ import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -25,6 +26,10 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.Util.MessagesAdapter;
 import noelanthony.com.lostandfoundfinal.Util.UserAdapter;
@@ -40,54 +45,58 @@ import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 public class messegesFragment extends Fragment {
     ListView userListView;
     ArrayList<ChatMessage> userList;
+    List<UserInformation> mUsersList = new ArrayList<>();
     private UserAdapter adapter=null;
     private LinearLayout mClick;
     private String mReceiverId;
     private String mReceiverName;
+    private int count;
+    private FirebaseAuth mAuth;
+    private DatabaseReference dbUsserReference,mDatabase, dbLostReference;
+    private String mSenderId;
 
 
     View myView;
-    private DatabaseReference dbLostReference,mDatabase;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        myView = inflater.inflate(R.layout.messeges_layout,container,false);
+        myView = inflater.inflate(R.layout.messeges_layout, container, false);
 
         Firebase.setAndroidContext(getActivity());
         ((newsFeedActivity) getActivity())
                 .setActionBarTitle("Messages");
 
 
-        userListView =  myView.findViewById(R.id.userListView);
+        userListView = myView.findViewById(R.id.userListView);
         mClick = myView.findViewById(R.id.itemDescriptionTextView);
         //itemListView.setTextFilterEnabled(true);
 
         userList = new ArrayList<>();
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
-        dbLostReference= mDatabase.child("Messages");
-       /* Bundle bundle = getArguments();
-                if(null!= bundle){
-            mReceiverId = bundle.getString("item_uid");
-            mReceiverName = bundle.getString("item_poster");
+        dbLostReference = mDatabase.child("Messages");
 
-        }*/
 
-        Query ApprovedQuery = dbLostReference.orderByValue().limitToLast(1);
+        String sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mSenderId = sender;
+
+
+       Query ApprovedQuery = dbLostReference.orderByChild("message");
 
         ApprovedQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
                 userList.clear(); //clear listview before populate
-
+                String senderId = mSenderId;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
-                    /*if (chatMessage.getSenderName().contentEquals(mReceiverName)) {*/
+                    if(chatMessage.getReceiverId().contentEquals(senderId))
+                    userList.add(chatMessage);
 
-                    userList.add(0, chatMessage);//remove 0 if ma guba
-                   // }
                 }
+
+
                 if(getActivity()!=null) {
                     adapter = new UserAdapter(getActivity(), userList);
                     userListView.setAdapter(adapter);

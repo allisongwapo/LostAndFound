@@ -96,7 +96,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
 
         String sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Query ApprovedQuery = mUsersRef.orderByChild(sender);
+        Query ApprovedQuery = mUsersRef.orderByKey().equalTo(sender);
 
         ApprovedQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -234,44 +234,6 @@ public class ChatMessagesActivity extends AppCompatActivity {
         adapter = new MessagesAdapter(mMessagesList, this);
         mChatsRecyclerView.setAdapter(adapter);
     }
-/*
 
-    private void queryRecipientName (){
-        Query SelectQuery = mUsersRef.orderByChild("name").equalTo(mReceiverName);
-        SelectQuery.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                UserInformation recepient = dataSnapshot.getValue(UserInformation.class);
-               */
-/* if (mReceiverId == userID) {
-                    mReceiverName = recepient.getReceiverId();*//*
-
-                String receiverName = mReceiverName;
-                if(recepient.getName()!=null
-                        && recepient.getName().contentEquals(receiverName)){
-                    try {
-                        */
-/*Firebase.setAndroidContext(getActivity());
-                        ((newsFeedActivity) getActivity())
-                                .setActionBarTitle("Messages");*//*
-
-                        getSupportActionBar().setTitle(receiverName);
-                        getActionBar().setTitle(receiverName);
-                        //.setTitle(receiverName));
-                        //getActionBar().setTitle(receiverName);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
-*/
 
 }
