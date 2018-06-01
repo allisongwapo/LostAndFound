@@ -16,8 +16,9 @@
 
         <LinearLayout
             android:id="@+id/imagebg"
-            android:layout_width="48dp"
-            android:layout_height="87dp"
+            android:layout_width="30dp"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
             android:layout_marginLeft="5dp"
             android:layout_marginStart="5dp"
             android:layout_weight="2"
@@ -28,6 +29,8 @@
                 android:id="@+id/itemImageView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="2dp"
+                android:layout_marginTop="2dp"
                 android:adjustViewBounds="true"
                 android:visibility="visible"
                 app:srcCompat="@android:drawable/ic_menu_report_image" />

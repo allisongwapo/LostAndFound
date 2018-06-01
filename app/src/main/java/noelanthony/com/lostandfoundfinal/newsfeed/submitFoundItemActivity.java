@@ -365,10 +365,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                         //add result into array list
                         for (int i = 0 ; i<allItemNames.size(); i++) {
 
-                            if(!allItemNames.get(i).toUpperCase().contains(itemName.toUpperCase()) || !itemName.toUpperCase().contains(allItemNames.get(i).toUpperCase()) ){
-                                continue;
-
-                            }else{
+                            if(allItemNames.get(i).toUpperCase().contains(itemName.toUpperCase()) || itemName.toUpperCase().contains(allItemNames.get(i).toUpperCase()) ){
                                 Log.i("INFO",key + " " + itemName + ": "+ allItemId.get(i));
                                 //ADDITIONS FOR MATCHING ALGO
                                 Map<String,Object> Matching = new HashMap<>();
@@ -376,12 +373,13 @@ public class submitFoundItemActivity extends AppCompatActivity {
                                 Matching.put("notifiedOldPosterId", allItemId.get(i));
                                 Matching.put("newItemKey",key);
                                 Matching.put("status",status);
-                                 DatabaseReference matcherItemRef = matcherItem.push();
-                                 matcherItemRef.setValue(Matching);
+                                DatabaseReference matcherItemRef = matcherItem.push();
+                                matcherItemRef.setValue(Matching);
                                 /*matcherItemRef.child("itemName").setValue(itemName);
                                 matcherItemRef.child("notifiedOldPosterId").setValue(allItemId.get(i));
                                 matcherItemRef.child("newItemKey").setValue(key);
                                 matcherItemRef.child("status").setValue(status);*/
+
                             }
                         }
                     }
