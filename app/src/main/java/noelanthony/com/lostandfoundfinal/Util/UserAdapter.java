@@ -68,6 +68,8 @@ public class UserAdapter extends ArrayAdapter<ChatMessage> {
 
 
         NameTextView.setText(users.getReceiverName());
+        datetimeTextView.setText(users.getTime());
+        messageTextView.setText(users.getMessage());
 
 
             //messageTextView.setText(users.getMessage());

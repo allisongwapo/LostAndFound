@@ -91,16 +91,14 @@ public class messegesFragment extends Fragment {
         ApprovedQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                //gets all children
-                userList.clear(); //clear listview before populate
+                userList.clear();
                 String senderId = mSenderId;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
-                    if(chatMessage.getSenderId().contentEquals(senderId)){}
-                    for(DataSnapshot snapshot1 : dataSnapshot.getChildren()){
-                        userList.add(0,chatMessage);
+                    for(DataSnapshot snapshot1: dataSnapshot.getChildren()) {
+                        ChatMessage chatMessage1 = snapshot1.getValue(ChatMessage.class);
+                        userList.add(0, chatMessage1);
                     }
-
 
                    // for (int i = 0; i < senderIdList.size(); i++) {
                         //Toast.makeText(getActivity(), senderIdList.toString(), Toast.LENGTH_LONG).show();
