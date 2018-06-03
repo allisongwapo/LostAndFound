@@ -8,17 +8,31 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.RequestOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
+import com.google.firebase.database.ValueEventListener;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 import noelanthony.com.lostandfoundfinal.ChatMessage;
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 
 public class UserAdapter extends ArrayAdapter<ChatMessage> {
     private Activity context;
     private ArrayList<ChatMessage> userList = null;
+
 
     public UserAdapter(Activity context, ArrayList<ChatMessage> userList) {
         super(context, R.layout.users_layout, userList);
@@ -30,7 +44,9 @@ public class UserAdapter extends ArrayAdapter<ChatMessage> {
     @Override
     public int getCount() {
         return userList.size();
+       // return mMessagesList.size();
     }
+
 
     @NonNull
     @Override
@@ -45,15 +61,21 @@ public class UserAdapter extends ArrayAdapter<ChatMessage> {
         TextView messageTextView = rowView.findViewById(R.id.messageTextView);
         //TextView posterTextView = rowView.findViewById(R.id.posterTextView);
         //TextView statusTextView = rowView.findViewById(R.id.statusTextView);
-        //ImageView userImageView = rowView.findViewById(R.id.ImageView);
-
+        ImageView userImageView = rowView.findViewById(R.id.ImageView);
+        String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         //SET ITEM VALUES HERE
         ChatMessage users = userList.get(position);
 
+
         NameTextView.setText(users.getReceiverName());
-        messageTextView.setText(users.getMessage());
-        datetimeTextView.setText(users.getTime());
-        /*RequestOptions options = new RequestOptions();
+
+
+            //messageTextView.setText(users.getMessage());
+            //datetimeTextView.setText(users.getTime());
+
+
+
+     /*   RequestOptions options = new RequestOptions();
         options.fitCenter();
         if(users.getImage()==null){
             Glide.with(getContext()).load(R.mipmap.ic_noimagea).apply(options).into(userImageView);

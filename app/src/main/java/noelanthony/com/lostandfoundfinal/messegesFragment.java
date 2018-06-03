@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.Toast;
@@ -36,6 +37,7 @@ import noelanthony.com.lostandfoundfinal.Util.UserAdapter;
 import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 import noelanthony.com.lostandfoundfinal.newsfeed.itemAdapter;
 import noelanthony.com.lostandfoundfinal.newsfeed.items;
+import noelanthony.com.lostandfoundfinal.newsfeed.onItemClickActivity;
 import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 
 /**
@@ -45,11 +47,11 @@ import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 public class messegesFragment extends Fragment {
     ListView userListView;
     ArrayList<ChatMessage> userList;
-    List<UserInformation> mUsersList = new ArrayList<>();
+    //List<UserInformation> mUsersList = new ArrayList<>();
     private UserAdapter adapter=null;
     private LinearLayout mClick;
     private String mReceiverId;
-    private String mReceiverName;
+    private String mReceiverName,userID;
     private int count;
     private FirebaseAuth mAuth;
     private DatabaseReference dbUsserReference,mDatabase, dbLostReference;
@@ -70,7 +72,9 @@ public class messegesFragment extends Fragment {
         userListView = myView.findViewById(R.id.userListView);
         mClick = myView.findViewById(R.id.itemDescriptionTextView);
         //itemListView.setTextFilterEnabled(true);
-
+        mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+        userID = user.getUid();
         userList = new ArrayList<>();
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
@@ -81,7 +85,8 @@ public class messegesFragment extends Fragment {
         mSenderId = sender;
 
 
-       Query ApprovedQuery = dbLostReference.orderByChild("message");
+       Query ApprovedQuery = dbLostReference.orderByChild(mSenderId);
+        final ArrayList<ChatMessage> senderIdList = new ArrayList<>();
 
         ApprovedQuery.addValueEventListener(new ValueEventListener() {
             @Override
@@ -91,15 +96,39 @@ public class messegesFragment extends Fragment {
                 String senderId = mSenderId;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
-                    if(chatMessage.getReceiverId().contentEquals(senderId))
-                    userList.add(chatMessage);
+                    if(chatMessage.getSenderId().contentEquals(senderId)){}
+                    for(DataSnapshot snapshot1 : dataSnapshot.getChildren()){
+                        userList.add(0,chatMessage);
+                    }
 
+
+                   // for (int i = 0; i < senderIdList.size(); i++) {
+                        //Toast.makeText(getActivity(), senderIdList.toString(), Toast.LENGTH_LONG).show();
+                   // }
+
+                    /*List newList = new ArrayList(new LinkedHashSet(userList));
+                    Iterator it = newList.iterator();
+                    while(it.hasNext()){
+                        //Toast.makeText(getActivity(), it.next(), Toast.LENGTH_LONG).show();
+                        Log.i("ASDDAS: ",(it.next()).toString());
+                        userList.add(newList);
+                    }*/
                 }
 
-
+               // Log.i("Sender ID List: ", senderIdList.get(0));
                 if(getActivity()!=null) {
                     adapter = new UserAdapter(getActivity(), userList);
                     userListView.setAdapter(adapter);
+                    /*for(int i=0; i < userList.size(); i++){
+                        for(int j=0; j < userList.size(); j++){
+                            if(userList.get(i).equals(userList.get(j))){
+                                userList.remove(j);
+                                //j;
+                            }
+                        }
+                    }
+                    adapter.notifyDataSetChanged();*/
+
                 }
             }
 
