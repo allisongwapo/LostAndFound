@@ -11,23 +11,12 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.RequestOptions;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
-import java.util.List;
-
 
 import noelanthony.com.lostandfoundfinal.ChatMessage;
 import noelanthony.com.lostandfoundfinal.R;
-import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 
 public class UserAdapter extends ArrayAdapter<ChatMessage> {
     private Activity context;
@@ -67,7 +56,7 @@ public class UserAdapter extends ArrayAdapter<ChatMessage> {
         ChatMessage users = userList.get(position);
 
 
-        NameTextView.setText(users.getReceiverName());
+        NameTextView.setText(users.getSenderName());
         datetimeTextView.setText(users.getTime());
         messageTextView.setText(users.getMessage());
 

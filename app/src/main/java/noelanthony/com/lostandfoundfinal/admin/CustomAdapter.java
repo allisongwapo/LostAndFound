@@ -57,6 +57,7 @@ public class CustomAdapter extends BaseAdapter {
             view = inflater.inflate(R.layout.approveitemslistview_layout,viewGroup,false);
             holder = new ViewHolder();
             holder.itemNameTextView = view.findViewById(R.id.itemNameTextView);
+            holder.descriptionTextView = view.findViewById(R.id.descriptionTextView);
             holder.datetimeTextView = view.findViewById(R.id.datetimeTextView);
             holder.locationTextView = view.findViewById(R.id.locationTextView);
             holder.posterTextView = view.findViewById(R.id.posterTextView);
@@ -69,6 +70,7 @@ public class CustomAdapter extends BaseAdapter {
 
             holder.itemNameTextView.setText(Items.getitemName());
             holder.datetimeTextView.setText(Items.getdateSubmitted());
+            holder.descriptionTextView.setText(Items.getDescription());
             holder.locationTextView.setText(Items.getlocationDescription());
             holder.posterTextView.setText("Posted By " + Items.getPoster());
             //statusTextView.setText(Items.getStatus());
@@ -114,6 +116,7 @@ public class CustomAdapter extends BaseAdapter {
         TextView datetimeTextView;
         TextView locationTextView;
         TextView posterTextView;
+        TextView descriptionTextView;
         //TextView statusTextView = rowView.findViewById(R.id.statusTextView);
         ImageView itemImageView;
         ImageView checkboxImageView;

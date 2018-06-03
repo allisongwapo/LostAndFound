@@ -3,16 +3,11 @@ package noelanthony.com.lostandfoundfinal;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 import com.google.firebase.auth.FirebaseAuth;
@@ -24,21 +19,11 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.List;
 
-import noelanthony.com.lostandfoundfinal.Util.MessagesAdapter;
 import noelanthony.com.lostandfoundfinal.Util.UserAdapter;
 import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
-import noelanthony.com.lostandfoundfinal.newsfeed.itemAdapter;
-import noelanthony.com.lostandfoundfinal.newsfeed.items;
-import noelanthony.com.lostandfoundfinal.newsfeed.onItemClickActivity;
-import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 
 /**
  * Created by Noel on 07/05/2018.
@@ -78,11 +63,12 @@ public class messegesFragment extends Fragment {
         userList = new ArrayList<>();
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
-        dbLostReference = mDatabase.child("Messages");
+        dbLostReference = mDatabase.child("Messages").child(userID);
 
 
         String sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
         mSenderId = sender;
+        //mReceiverId = sender;
 
 
        Query ApprovedQuery = dbLostReference.orderByChild(mSenderId);
@@ -92,12 +78,18 @@ public class messegesFragment extends Fragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userList.clear();
-                String senderId = mSenderId;
+                //String senderId = mSenderId;
+                List<String> receiverIdList = new ArrayList<>();
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                     ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
                     for(DataSnapshot snapshot1: dataSnapshot.getChildren()) {
                         ChatMessage chatMessage1 = snapshot1.getValue(ChatMessage.class);
-                        userList.add(0, chatMessage1);
+                        mReceiverId = chatMessage1.getSenderId();
+                        if (!receiverIdList.contains(mReceiverId)) {
+                            userList.add(0, chatMessage1);
+                            receiverIdList.add(mReceiverId);
+                        }
+
                     }
 
                    // for (int i = 0; i < senderIdList.size(); i++) {

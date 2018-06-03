@@ -1,11 +1,8 @@
 package noelanthony.com.lostandfoundfinal;
 
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -16,13 +13,10 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.firebase.client.Firebase;
-import com.firebase.ui.auth.data.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.auth.UserInfo;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -36,7 +30,6 @@ import java.util.Date;
 import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.Util.MessagesAdapter;
-import noelanthony.com.lostandfoundfinal.Util.UserAdapter;
 import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 
 public class ChatMessagesActivity extends AppCompatActivity {
@@ -82,7 +75,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         mUsersRef = mDatabase.child("users");
-        mMessagesDBRef = FirebaseDatabase.getInstance().getReference().child("Messages").child(userID);
+
 
 
         //get receiverId from intent
@@ -91,6 +84,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
             mReceiverId = intent.getStringExtra("item_uid");
             mReceiverName = intent.getStringExtra("item_poster");
         }
+        mMessagesDBRef = FirebaseDatabase.getInstance().getReference().child("Messages").child(mReceiverId);
         String receiverName = mReceiverName;
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -167,6 +161,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
         mMessagesList.clear();
 
         ChatMessage newMsg = new ChatMessage(message, senderId, receiverId,  receiverName,senderName, status, currentDateTime);
+
         mMessagesDBRef.push().setValue(newMsg).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
