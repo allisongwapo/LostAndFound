@@ -13,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 
 import com.firebase.client.Firebase;
@@ -43,6 +44,7 @@ public class newsfeedFragment extends Fragment {
     private EditText theFilterEditText;
     private DatabaseReference dbLostReference,mDatabase;
     private itemAdapter adapter;
+    private ImageView clearImageView;
 
     //FOR ON ITEM CLICK LIST
     public static final String KEY_ITEM_NAME="item_name";
@@ -88,8 +90,14 @@ public class newsfeedFragment extends Fragment {
         submitLostBtn = myView.findViewById(R.id.submitFoundBtn);
         foundItemBtn = myView.findViewById(R.id.foundItemBtn);
         theFilterEditText = myView.findViewById(R.id.theFilterEditText);
+        clearImageView = myView.findViewById(R.id.clearImageView);
 
-
+        clearImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                theFilterEditText.setText("");
+            }
+        });
         itemList = new ArrayList<>();
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
@@ -128,6 +136,7 @@ public class newsfeedFragment extends Fragment {
                             Log.d("Constants.TAG", "*** Search value changed: " + s.toString());
 
 
+
                         }
 
                         @Override
@@ -136,13 +145,16 @@ public class newsfeedFragment extends Fragment {
                         }
                     });
 
+
                     itemListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            //items item =  adapter.getItem(position);
-                            items item =  (items) parent.getItemAtPosition(position);
-                            
+                            //items item =(items)itemList.get(position);
+                            items item = adapter.getItem(position);
+
+                        //items item =((items) parent.getAdapter().getItem(position));
+                            //items item =  (items) parent.getItemAtPosition(position);
                             Intent intent = new Intent(getActivity(),onItemClickActivity.class);
                             intent.putExtra(KEY_ITEM_NAME,item.getitemName());
                             intent.putExtra(KEY_STATUS,item.getStatus());
