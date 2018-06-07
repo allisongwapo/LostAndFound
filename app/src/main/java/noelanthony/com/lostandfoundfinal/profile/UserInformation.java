@@ -26,15 +26,18 @@ public class UserInformation {
         this.datejoined = datejoined;
         this.itemsreturned = itemsreturned;
         this.idnumber = idnumber;
+
     }
 
 
     public String getUserId() {
+
         return userId;
     }
 
     public void setUserId(String userId) {
-        this.userId = this.userId;
+        this.userId = userId;
+
     }
 
     public String getName() {
@@ -84,4 +87,5 @@ public class UserInformation {
     public void setIdnumber(String idnumber) {
         this.idnumber = idnumber;
     }
+
 }

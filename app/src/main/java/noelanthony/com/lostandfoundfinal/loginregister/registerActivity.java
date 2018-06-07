@@ -132,7 +132,7 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
 
                         if (task.isSuccessful()) {
                                     String token_id = FirebaseInstanceId.getInstance().getToken();
-                                    String current_id = mAuth.getCurrentUser().getUid();
+                                    final String current_id = mAuth.getCurrentUser().getUid();
                                     DatabaseReference adminRef = FirebaseDatabase.getInstance().getReference().child("users").child(current_id).child("token_id");//to send admin notification
                                     adminRef.setValue(token_id).addOnSuccessListener(new OnSuccessListener<Void>() {
                                         @Override
@@ -144,6 +144,7 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
                                             currentUserDB.child("image").setValue("default");
                                             currentUserDB.child("datejoined").setValue(stringdate);
                                             currentUserDB.child("email").setValue(email);
+                                            currentUserDB.child("userId").setValue(current_id);
                                             //currentUserDB.child("itemsreturned").setValue(0);
                                             //currentUserDB.child("idnumber").setValue("Update your ID Number");
                                         }

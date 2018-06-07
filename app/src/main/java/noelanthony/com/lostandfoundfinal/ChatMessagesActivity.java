@@ -74,27 +74,28 @@ public class ChatMessagesActivity extends AppCompatActivity {
         FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
 
-        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
-        mUsersRef = mDatabase.child("users");
-        mMessagesDBREF = mDatabase.child("Messages");
-
-
-
         //get receiverId from intent
         Intent intent = getIntent();
         if (null!= intent) {
             mReceiverId = intent.getStringExtra("item_uid");
             mReceiverName = intent.getStringExtra("item_poster");
-            mmReceiverName = intent.getStringExtra("name");
-            mmReceiverId = intent.getStringExtra("id");
         }
+
+
+        mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
+        mUsersRef = mDatabase.child("users");
+        //mMessagesDBREF = mDatabase.child(userID);
+
+
+
+
 
         convoBetweenUsers = mReceiverId+userID;
         convo = userID+mReceiverId;
         mMessagesDBRef = FirebaseDatabase.getInstance().getReference().child("Messages");
-        String receiverName1 =mmReceiverName;
+
         String receiverName = mReceiverName;
-        if(receiverName!=null || receiverName1!=null) {
+        if(receiverName!=null) {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             setSupportActionBar(toolbar);
             getSupportActionBar().setTitle(receiverName);
@@ -102,18 +103,17 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
 
         sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
-        Query ApprovedQuery = mUsersRef.orderByKey().equalTo(sender);
+        Query ApprovedQuery = mUsersRef.orderByChild("users");
 
         ApprovedQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
                 mUsersList.clear(); //clear listview before populate
-
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             UserInformation userInformation = snapshot.getValue(UserInformation.class);
                             mUsersList.add(userInformation);
-                            mSenderName = userInformation.getName();
+
                         }
 
 
@@ -168,7 +168,6 @@ public class ChatMessagesActivity extends AppCompatActivity {
         mMessagesList.clear();
 
         ChatMessage newMsg = new ChatMessage(message, senderId, receiverId,  receiverName,senderName, status, currentDateTime);
-
         mMessagesDBRef.push().setValue(newMsg).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -202,23 +201,15 @@ public class ChatMessagesActivity extends AppCompatActivity {
                 mMessagesList.clear();
                 String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
                     String receiverId = mReceiverId;
-                    String receiverId1 = mmReceiverId;
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
                         ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
                         try {
-                            if (receiverId!= null
+                            if (receiverId != null
                                     && chatMessage.getSenderId().contentEquals(senderId)
                                     && chatMessage.getReceiverId().contentEquals(receiverId)
                                     || chatMessage.getSenderId().contentEquals(receiverId)
                                     && chatMessage.getReceiverId().contentEquals(senderId)) {
                                 mMessagesList.add(chatMessage);
-                            }else if(receiverId1!= null
-                                    && chatMessage.getSenderId().contentEquals(senderId)
-                                    && chatMessage.getReceiverId().contentEquals(receiverId1)
-                                    || chatMessage.getSenderId().contentEquals(receiverId1)
-                                    && chatMessage.getReceiverId().contentEquals(senderId)) {
-                                mMessagesList.add(chatMessage);
-
                             }
                         } catch (Exception e) {
                             e.printStackTrace();

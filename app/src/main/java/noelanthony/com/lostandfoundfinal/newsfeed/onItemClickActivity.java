@@ -1,5 +1,6 @@
 package noelanthony.com.lostandfoundfinal.newsfeed;
 
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import noelanthony.com.lostandfoundfinal.ChatMessagesActivity;
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.maps.MapsActivity;
+import noelanthony.com.lostandfoundfinal.messegesFragment;
 import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 
 public class onItemClickActivity extends AppCompatActivity{
@@ -138,7 +140,7 @@ public class onItemClickActivity extends AppCompatActivity{
                 intent.putExtra("item_uid", uid);
                 //Toast.makeText(onItemClickActivity.this, uid, Toast.LENGTH_SHORT).show();
                 startActivity(intent);
-               /* Bundle bundle = new Bundle();
+                /*Bundle bundle = new Bundle();
                 bundle.putString( "item_uid",uid);
                 bundle.putString("item_poster",poster );
                 messegesFragment myObj = new messegesFragment();

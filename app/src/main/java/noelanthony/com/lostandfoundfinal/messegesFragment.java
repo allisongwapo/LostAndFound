@@ -3,11 +3,13 @@ package noelanthony.com.lostandfoundfinal;
 import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 
@@ -39,9 +41,9 @@ import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 
 public class messegesFragment extends Fragment {
     ListView userListView;
-    ArrayList<ChatMessage> userList;
+    ArrayList<UserInformation> userList;
     HashSet<ChatMessage> set;
-    ArrayList<ChatMessage> result;
+    ArrayList<String>  result = new ArrayList<>();
     //List<UserInformation> mUsersList = new ArrayList<>();
     private UserAdapter adapter=null;
     private LinearLayout mClick;
@@ -51,10 +53,15 @@ public class messegesFragment extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference dbUsserReference,mDatabase, dbLostReference;
     private String mSenderId;
+    private String uid;
 
 
     View myView;
-    private View itemOnClick;
+
+    public static final String KEY_USER_NAME="item_poster";
+    public static final String KEY_USER_ID="item_uid";
+
+
 
     @Nullable
     @Override
@@ -68,7 +75,6 @@ public class messegesFragment extends Fragment {
 
         userListView = myView.findViewById(R.id.userListView);
         userListView.setTextFilterEnabled(true);
-        itemOnClick = myView.findViewById(R.id.itemOnClick);
         //userListView = myView.findViewById(R.id.itemOnClick);
 
 
@@ -83,7 +89,7 @@ public class messegesFragment extends Fragment {
 
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
-        dbLostReference = mDatabase.child("Messages");
+        dbLostReference = mDatabase.child("users");
 
 
         String sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -101,8 +107,7 @@ public class messegesFragment extends Fragment {
             }
         });
 */
-
-       Query ApprovedQuery = dbLostReference.orderByChild("Messages");
+       Query ApprovedQuery = dbLostReference.orderByChild("messages");
         final ArrayList<ChatMessage> senderIdList = new ArrayList<>();
 
         ApprovedQuery.addValueEventListener(new ValueEventListener() {
@@ -110,52 +115,20 @@ public class messegesFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 userList.clear();
                 //Set<ChatMessage> hs = new HashSet<>();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
-                    if(chatMessage.getReceiverId()!=null
-                            && chatMessage.getSenderId().equals(mSenderId)){
-                        mReceiverName = chatMessage.getReceiverName();
-                        mReceiverId = chatMessage.getReceiverId();
-                        userList.add(chatMessage);
+                for (DataSnapshot uniqueKeySnapshot : dataSnapshot.getChildren()) {
+                    String key = uniqueKeySnapshot.getKey();
+                    result.add(key);
+                    UserInformation userInformation = uniqueKeySnapshot.getValue(UserInformation.class);
+                        if (userInformation.getName() != null
+                                && !key.contains(userID)) {
+                            userList.add(userInformation);
 
-                    }
-
-
-                        //}
-
-
-                   // for (int i = 0; i < senderIdList.size(); i++) {
-                        //Toast.makeText(getActivity(), senderIdList.toString(), Toast.LENGTH_LONG).show();
-                   // }
-
-                    /*List newList = new ArrayList(new LinkedHashSet(userList));
-                    Iterator it = newList.iterator();
-                    while(it.hasNext()){
-                        //Toast.makeText(getActivity(), it.next(), Toast.LENGTH_LONG).show();
-                        Log.i("ASDDAS: ",(it.next()).toString());
-                        userList.add(newList);
-                    }*/
-                }
-               /*Set<ChatMessage> hs = new HashSet<>();
-                hs.addAll(userList);
-                userList.clear();
-                userList.addAll(hs);*/
-                //Log.i("assadf: " ,result.toString());
-
-               // Log.i("Sender ID List: ", senderIdList.get(0));
-                if(getActivity()!=null) {
-                    for(int i = 0; i < userList.size(); i++) {
-                        for (int x = 0; x < userList.size(); x++) {
-                            if (userList.get(i)!= userList.get(x)) {
-
-                            }else{
-                                userList.remove(i);
-                            }
                         }
                     }
+                if(getActivity()!=null) {
 
-                           adapter = new UserAdapter(getActivity(), userList);
-                           userListView.setAdapter(adapter);
+                    adapter = new UserAdapter(getActivity(), userList);
+                    userListView.setAdapter(adapter);
 
 
                 }
@@ -166,16 +139,18 @@ public class messegesFragment extends Fragment {
 
             }
         });
-   /*itemOnClick.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getActivity(),ChatMessagesActivity.class);
-                intent.putExtra("name",mReceiverName);
-                intent.putExtra("id",mReceiverId );
-                startActivity(intent);
+    userListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        @Override
+        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            UserInformation userInformation = adapter.getItem(position);
 
-            }
-        });*/
+            Intent intent = new Intent(getActivity(), ChatMessagesActivity.class);
+            intent.putExtra(KEY_USER_NAME, userInformation.getName());
+            intent.putExtra(KEY_USER_ID, userInformation.getUserId());
+            startActivity(intent);
+
+        }
+    });
 
 
 

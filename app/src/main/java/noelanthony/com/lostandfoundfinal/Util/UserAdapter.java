@@ -33,15 +33,15 @@ import noelanthony.com.lostandfoundfinal.ChatMessage;
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.profile.UserInformation;
 
-public class UserAdapter extends ArrayAdapter<ChatMessage> {
+public class UserAdapter extends ArrayAdapter<UserInformation> {
     private Activity context;
-    private ArrayList<ChatMessage> userList=null;
+    private ArrayList<UserInformation> userList=null;
     /*private List<UserInformation> mUsersList = new ArrayList<>();
     private DatabaseReference mUsersRef;
     private DatabaseReference dbReference,mDatabase;
     private String sender, mSenderName;
 */
-    public UserAdapter(Activity context, ArrayList<ChatMessage> userList) {
+    public UserAdapter(Activity context, ArrayList<UserInformation> userList) {
         super(context, R.layout.users_layout, userList);
         this.context = context;
         this.userList = userList;
@@ -65,12 +65,12 @@ public class UserAdapter extends ArrayAdapter<ChatMessage> {
 
         View rowView = inflater.inflate(R.layout.users_layout, null, true);
 
-        final TextView NameTextView = rowView.findViewById(R.id.NameTextView);
-        TextView datetimeTextView = rowView.findViewById(R.id.dateandtimeTextView);
-        TextView messageTextView = rowView.findViewById(R.id.messageTextView);
+        TextView NameTextView = rowView.findViewById(R.id.NameTextView);
+        //TextView datetimeTextView = rowView.findViewById(R.id.dateandtimeTextView);
+        //TextView messageTextView = rowView.findViewById(R.id.messageTextView);
         //TextView posterTextView = rowView.findViewById(R.id.posterTextView);
         //TextView statusTextView = rowView.findViewById(R.id.statusTextView);
-        //ImageView userImageView = rowView.findViewById(R.id.ImageView);
+        ImageView userImageView = rowView.findViewById(R.id.ImageView);
         //String currentuser = FirebaseAuth.getInstance().getCurrentUser().getUid();
         //SET ITEM VALUES HERE
         //itemOnClick = findViewById(R.id.itemOnClick);
@@ -119,10 +119,9 @@ public class UserAdapter extends ArrayAdapter<ChatMessage> {
             }
         }
 */
-        ChatMessage users = userList.get(position);
-        NameTextView.setText(users.getReceiverName());
-        datetimeTextView.setText(users.getTime());
-        messageTextView.setText(users.getMessage());
+        UserInformation users = userList.get(position);
+        NameTextView.setText(users.getName());
+
 
 
 
@@ -131,13 +130,13 @@ public class UserAdapter extends ArrayAdapter<ChatMessage> {
 
 
 
-       /*RequestOptions options = new RequestOptions();
+       RequestOptions options = new RequestOptions();
         options.fitCenter();
         if(users.getImage()==null){
             Glide.with(getContext()).load(R.mipmap.ic_noimagea).apply(options).into(userImageView);
         }else {
             Glide.with(getContext()).load(users.getImage()).into(userImageView); // IMAGE VIEW
-        }*/
+        }
        // messageTextView.setText(users.getMessage());
         //messageTextView.setText(users.getlocationDescription());
         //posterTextView.setText("Posted By " + Items.getPoster());
