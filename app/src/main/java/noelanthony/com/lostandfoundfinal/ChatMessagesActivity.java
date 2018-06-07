@@ -37,15 +37,16 @@ public class ChatMessagesActivity extends AppCompatActivity {
     private LinearLayoutManager mLayoutManager;
     private EditText mMessageEditText;
     private ImageButton mSendImageButton;
-    private DatabaseReference mMessagesDBRef;
+    private DatabaseReference mMessagesDBRef, mMessagesDBREF;
     private DatabaseReference mUsersRef;
     private List<ChatMessage> mMessagesList = new ArrayList<>();
     private List<UserInformation> mUsersList = new ArrayList<>();
     private MessagesAdapter adapter=null;
-    private String mReceiverId;
-    private String mReceiverName;
+    private String mReceiverId,mmReceiverId;
+    private String mReceiverName,mmReceiverName;
     private String mSenderName;
     private String sender;
+    private String convoBetweenUsers,convo;
 
     private FirebaseAuth mAuth;
     private DatabaseReference dbReference,mDatabase;
@@ -75,6 +76,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         mUsersRef = mDatabase.child("users");
+        mMessagesDBREF = mDatabase.child("Messages");
 
 
 
@@ -83,12 +85,20 @@ public class ChatMessagesActivity extends AppCompatActivity {
         if (null!= intent) {
             mReceiverId = intent.getStringExtra("item_uid");
             mReceiverName = intent.getStringExtra("item_poster");
+            mmReceiverName = intent.getStringExtra("name");
+            mmReceiverId = intent.getStringExtra("id");
         }
-        mMessagesDBRef = FirebaseDatabase.getInstance().getReference().child("Messages").child(mReceiverId);
+
+        convoBetweenUsers = mReceiverId+userID;
+        convo = userID+mReceiverId;
+        mMessagesDBRef = FirebaseDatabase.getInstance().getReference().child("Messages");
+        String receiverName1 =mmReceiverName;
         String receiverName = mReceiverName;
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setTitle(receiverName);
+        if(receiverName!=null || receiverName1!=null) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
+            getSupportActionBar().setTitle(receiverName);
+        }
 
 
         sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
@@ -99,10 +109,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
                 mUsersList.clear(); //clear listview before populate
-        /*        for (DataSnapshot objSnapshot: dataSnapshot.getChildren()) {
-                    Object obj = objSnapshot.getKey();
-                    //String key = dataSnapshot.getKey();
-                    if (obj.equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {*/
+
                         for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
                             UserInformation userInformation = snapshot.getValue(UserInformation.class);
                             mUsersList.add(userInformation);
@@ -186,36 +193,36 @@ public class ChatMessagesActivity extends AppCompatActivity {
         }
     }
 
+
     private void querymessagesBetweenThisUserAndClickedUser(){
-        Query SelectQuery = mMessagesDBRef.orderByChild(sender);
+        Query SelectQuery = mMessagesDBRef.orderByChild("Messages");
         SelectQuery.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                /*mMessagesList.clear();*/
+                mMessagesList.clear();
                 String senderId = FirebaseAuth.getInstance().getCurrentUser().getUid();
-                String receiverId = mReceiverId;
+                    String receiverId = mReceiverId;
+                    String receiverId1 = mmReceiverId;
                 for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
-                    for (DataSnapshot snapshot1: dataSnapshot.getChildren()) {
-                        ChatMessage chatMessage1 = snapshot1.getValue(ChatMessage.class);
+                        ChatMessage chatMessage = snapshot.getValue(ChatMessage.class);
                         try {
-                            if (chatMessage1.getSenderId() != null
-                                    && chatMessage1.getSenderId().contentEquals(senderId)
-                                    && chatMessage1.getReceiverId().contentEquals(receiverId)
-                                    || chatMessage1.getSenderId().contentEquals(receiverId)
-                                    && chatMessage1.getReceiverId().contentEquals(senderId)) {
-                                mMessagesList.add(chatMessage1);
+                            if (receiverId!= null
+                                    && chatMessage.getSenderId().contentEquals(senderId)
+                                    && chatMessage.getReceiverId().contentEquals(receiverId)
+                                    || chatMessage.getSenderId().contentEquals(receiverId)
+                                    && chatMessage.getReceiverId().contentEquals(senderId)) {
+                                mMessagesList.add(chatMessage);
+                            }else if(receiverId1!= null
+                                    && chatMessage.getSenderId().contentEquals(senderId)
+                                    && chatMessage.getReceiverId().contentEquals(receiverId1)
+                                    || chatMessage.getSenderId().contentEquals(receiverId1)
+                                    && chatMessage.getReceiverId().contentEquals(senderId)) {
+                                mMessagesList.add(chatMessage);
+
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
-                        /*chatMessage.getSenderId()==(senderId)
-                                && chatMessage.getReceiverId()==(receiverId)
-                                || chatMessage.getSenderId()==(receiverId)
-                                && chatMessage.getReceiverId()==(senderId)*/
-
-
-                    }
                 }
 
 
