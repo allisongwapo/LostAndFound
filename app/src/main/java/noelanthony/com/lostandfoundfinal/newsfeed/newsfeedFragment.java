@@ -140,8 +140,9 @@ public class newsfeedFragment extends Fragment {
 
                         @Override
                         public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            items item =  adapter.getItem(position);
-
+                            //items item =  adapter.getItem(position);
+                            items item =  (items) parent.getItemAtPosition(position);
+                            
                             Intent intent = new Intent(getActivity(),onItemClickActivity.class);
                             intent.putExtra(KEY_ITEM_NAME,item.getitemName());
                             intent.putExtra(KEY_STATUS,item.getStatus());
