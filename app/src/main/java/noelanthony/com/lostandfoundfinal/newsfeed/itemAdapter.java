@@ -49,6 +49,7 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
 
 
 
+
     @Override
     public long getItemId(int position) {
         return position;
@@ -151,9 +152,14 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+            if (results.count == 0) {
+                notifyDataSetInvalidated();
+            }
+            else {
+                itemList = (ArrayList<items>) results.values;
+                notifyDataSetChanged();
+            }
 
-              itemList = (ArrayList<items>) results.values;
-             notifyDataSetChanged();
             /*
             itemList = (ArrayList<items>) results.values;
             if (results.count >0) {
@@ -177,6 +183,11 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
                 */
         }
     }
+    @Override
+    public items getItem(int position) {
+        return filterList.get(position);
+    }
+
     @Override
     public Filter getFilter() {
         if(mItemsFilter==null) {

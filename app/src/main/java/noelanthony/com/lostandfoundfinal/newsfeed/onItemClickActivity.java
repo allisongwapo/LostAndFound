@@ -75,7 +75,7 @@ public class onItemClickActivity extends AppCompatActivity{
         }
 
 
-            //itemposition = getIntent().getExtras().getInt("position");
+
         itemImageView = findViewById(R.id.itemImageView);
         lostorfoundStatusTextView = findViewById(R.id.lostorfoundStatusTextView);
         itemNameTextView = findViewById(R.id.itemNameTextView);

@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">LostandFoundFinal</string>
+    <string name="app_name">Recap: Lost and Found USC</string>
     <string name="title_activity_news_feed">News Feed</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
