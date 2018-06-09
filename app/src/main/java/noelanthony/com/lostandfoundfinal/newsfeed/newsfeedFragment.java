@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v7.widget.AppCompatCheckBox;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -11,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
@@ -23,6 +26,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.util.ArrayList;
 
@@ -45,6 +49,7 @@ public class newsfeedFragment extends Fragment {
     private DatabaseReference dbLostReference,mDatabase;
     private itemAdapter adapter;
     private ImageView clearImageView;
+    private AppCompatCheckBox foundCheckbox,lostCheckbox;
 
     //FOR ON ITEM CLICK LIST
     public static final String KEY_ITEM_NAME="item_name";
@@ -84,6 +89,21 @@ public class newsfeedFragment extends Fragment {
 
         //FOR ADMIN NOTIFICATION
        //FirebaseMessaging.getInstance().subscribeToTopic("newsfeed");
+        //get the spinner from the xml.
+        BetterSpinner dropdown = myView.findViewById(R.id.sortbySpinner);
+        //create a list of items for the spinner.
+        String[] items = new String[]{"Item Name", "Item Description","Location", "Name of Poster"};
+        //create an adapter to describe how the items are displayed, adapters are used in several places in android.
+        //There are multiple variations of this, but this is the basic variant.
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line ,items);
+
+        //set the spinners adapter to the previously created one.
+        dropdown.setAdapter(spinnerAdapter);
+
+        foundCheckbox = myView.findViewById(R.id.foundCheckbox);
+        lostCheckbox = myView.findViewById(R.id.lostCheckbox);
+        lostCheckbox.setChecked(true);
+        foundCheckbox.setChecked(true);
 
         itemListView =  myView.findViewById(R.id.itemListView);
         itemListView.setTextFilterEnabled(true);
@@ -102,6 +122,37 @@ public class newsfeedFragment extends Fragment {
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         dbLostReference= mDatabase.child("items");
+
+        //CHECKBOX ON CHANGE LSITENER
+         String lostCheckStatus;
+        lostCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Log.i("LOST CHECKBOX: ", "checked");
+                    String lostCheckStatus = "lostChecked";
+                    adapter.getFilter().filter(lostCheckStatus);
+                }else{
+                    Log.i("LOST CHECKBOX: ", "unchecked");
+                    String lostCheckStatus = "lostUnchecked";
+                    adapter.getFilter().filter(lostCheckStatus);
+                }
+            }
+        });
+        foundCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked){
+                    Log.i("FOUND CHECKBOX: ", "checked");
+                    String foundCheckStatus = "lostUnchecked";
+                    adapter.getFilter().filter(foundCheckStatus);
+                }else{
+                    Log.i("FOUND CHECKBOX: ", "unchecked");
+                    String foundCheckStatus = "lostUnchecked";
+                    adapter.getFilter().filter(foundCheckStatus);
+                }
+            }
+        });
 
        // Query DescendingDateQuery = dbLostReference.orderByChild("dateSubmitted"); //Orders items by Descending date
         Query ApprovedQuery = dbLostReference.orderByChild("approvalStatus").equalTo(1); //Only displays approved items 1

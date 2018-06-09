@@ -5,7 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -21,8 +20,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.google.android.gms.tasks.Continuation;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -33,9 +34,7 @@ import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.messaging.FirebaseMessaging;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
-import com.google.firebase.storage.StorageTask;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
@@ -69,7 +68,7 @@ public class submitLostItemActivity extends AppCompatActivity {
     private static final int PICK_IMAGE_REQUEST = 1;
     private Uri mImageUri;
     private StorageReference mStorageRef;
-    private StorageTask mUploadTask;
+    private UploadTask mUploadTask;
 
 
 
@@ -180,12 +179,45 @@ public class submitLostItemActivity extends AppCompatActivity {
 
                 //this block of code prevents multiple image upload
                 if(mUploadTask!=null && mUploadTask.isInProgress()){
+                    mProgressBar.setVisibility(View.VISIBLE);
                     Toast.makeText(submitLostItemActivity.this, "Upload in progress", Toast.LENGTH_SHORT).show();
                 }
-                else if(mImageUri!=null){
-                    StorageReference fileReference = mStorageRef.child(System.currentTimeMillis()+"."+getFileExtension(mImageUri));
-                    mUploadTask = fileReference.putFile(mImageUri)
-                            .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                else if(mImageUri!=null) {
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    final StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() + "." + getFileExtension(mImageUri));
+                    mUploadTask = fileReference.putFile(mImageUri);
+
+                    Task<Uri> urlTask = mUploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                        @Override
+                        public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                            if (!task.isSuccessful()) {
+                                throw task.getException();
+                            }
+                            mProgressBar.setVisibility(View.VISIBLE);
+                            return fileReference.getDownloadUrl();
+                        }
+                    }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Uri> task) {
+                            if (task.isSuccessful()) {
+                                Uri downloadUri = task.getResult();
+                                mProgressBar.setVisibility(View.GONE);
+                                String itemUri = downloadUri.toString();
+                                item.child("imageID").setValue(itemUri.toString());
+                                Toast.makeText(submitLostItemActivity.this, "Upload successful", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(submitLostItemActivity.this, "Upload Failed", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(submitLostItemActivity.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+                }   /*
+
+                    mUploadTask = fileReference.putFile(mImageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                                 @Override
                                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                                     mProgressBar.setVisibility(View.VISIBLE);
@@ -217,7 +249,7 @@ public class submitLostItemActivity extends AppCompatActivity {
                             });
                 }else{
                     Toast.makeText(submitLostItemActivity.this,"No file selected", Toast.LENGTH_SHORT).show();
-                }
+                }*/
                 Toast.makeText(getApplicationContext(), "Submission Successful and awaiting admin approval", Toast.LENGTH_SHORT).show();
                 Intent startIntent = new Intent(getApplicationContext(),newsFeedActivity.class);
                 startIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
@@ -256,6 +288,7 @@ public class submitLostItemActivity extends AppCompatActivity {
         intent.setType("image/*");
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(intent, PICK_IMAGE_REQUEST);
+
     }
     private String getFileExtension(Uri uri){
         ContentResolver cR = getContentResolver();

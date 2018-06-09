@@ -1,6 +1,5 @@
 package noelanthony.com.lostandfoundfinal.newsfeed;
 
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -24,13 +23,12 @@ import com.google.firebase.database.FirebaseDatabase;
 import noelanthony.com.lostandfoundfinal.ChatMessagesActivity;
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.maps.MapsActivity;
-import noelanthony.com.lostandfoundfinal.messegesFragment;
 import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 
 public class onItemClickActivity extends AppCompatActivity{
 
     private ImageView itemImageView;
-    private TextView lostorfoundStatusTextView,itemNameTextView,dateandtimeTextView,locationTextView,descriptionTextView,posterTextView,clicktomessageTextView,setToFoundTextView;
+    private TextView lostorfoundStatusTextView,itemNameTextView,dateandtimeTextView,locationTextView,descriptionTextView,posterTextView,clicktomessageTextView;
     private String userID,uid,poster;//,longitude,latitude;
     private ImageButton googleMapImageButton;
     private LinearLayout foundOnlyFrame;
@@ -57,8 +55,8 @@ public class onItemClickActivity extends AppCompatActivity{
         String imageId = "";
         uid = "";
         String visibility ="";
-         latitude=null;
-         longitude=null;
+        latitude=null;
+        longitude=null;
         Intent intent = getIntent();
         if (null!= intent){
             itemName = intent.getStringExtra("item_name");
@@ -84,7 +82,7 @@ public class onItemClickActivity extends AppCompatActivity{
         descriptionTextView = findViewById(R.id.descriptionTextView);
         posterTextView = findViewById(R.id.posterTextView);
         clicktomessageTextView = findViewById(R.id.clicktomessageTextView);
-        setToFoundTextView = findViewById(R.id.setToFoundTextView);
+        //setToFoundTextView = findViewById(R.id.setToFoundTextView);
         googleMapImageButton = findViewById(R.id.googleMapImageButton);
         foundOnlyFrame = findViewById(R.id.foundOnlyFrame);
         header= findViewById(R.id.header);
@@ -117,18 +115,19 @@ public class onItemClickActivity extends AppCompatActivity{
         if(visibility.equals("newsLost")) {
             clicktomessageTextView.setText("Were you able to find this item? Click to contact the poster");
             clicktomessageTextView.setVisibility(View.VISIBLE);
-            setToFoundTextView.setVisibility(View.INVISIBLE);
+            // setToFoundTextView.setVisibility(View.INVISIBLE);
         } else if (visibility.equals("newsFound")){
             clicktomessageTextView.setText("Do you own this item? Click to message poster");
             clicktomessageTextView.setVisibility(View.VISIBLE);
-            setToFoundTextView.setVisibility(View.INVISIBLE);
+            // setToFoundTextView.setVisibility(View.INVISIBLE);
+            /*
         }else if (visibility.equals("myLost")){
             setToFoundTextView.setVisibility(View.VISIBLE);
             clicktomessageTextView.setVisibility(View.INVISIBLE);
         }else if(visibility.equals("myFound")){
             setToFoundTextView.setText("Is this item already claimed by the owner? Set to Claimed");
             setToFoundTextView.setVisibility(View.VISIBLE);
-            clicktomessageTextView.setVisibility(View.INVISIBLE);
+            clicktomessageTextView.setVisibility(View.INVISIBLE); */
         }
         clicktomessageTextView.setOnClickListener(new View.OnClickListener(){
 
@@ -140,7 +139,7 @@ public class onItemClickActivity extends AppCompatActivity{
                 intent.putExtra("item_uid", uid);
                 //Toast.makeText(onItemClickActivity.this, uid, Toast.LENGTH_SHORT).show();
                 startActivity(intent);
-                /*Bundle bundle = new Bundle();
+               /* Bundle bundle = new Bundle();
                 bundle.putString( "item_uid",uid);
                 bundle.putString("item_poster",poster );
                 messegesFragment myObj = new messegesFragment();
@@ -149,7 +148,7 @@ public class onItemClickActivity extends AppCompatActivity{
 
                 fragmentManager.beginTransaction().replace(R.id.content_frame, new messegesFragment()).commit();*/
             }
-            });
+        });
         RequestOptions options = new RequestOptions();
         options.fitCenter();
         if(imageId==null){
@@ -228,14 +227,15 @@ public class onItemClickActivity extends AppCompatActivity{
 
         if(lostOrFoundStatus.equals("Lost") && uid.equals(userID)){
             clicktomessageTextView.setVisibility(View.INVISIBLE);
-            setToFoundTextView.setVisibility(View.VISIBLE);
+            // setToFoundTextView.setVisibility(View.VISIBLE);
         } else if (lostOrFoundStatus.equals("Found") && uid.equals(userID)){
-            setToFoundTextView.setText("Is this item already claimed by owner? Set to Claimed");
-            setToFoundTextView.setVisibility(View.VISIBLE);
+            // setToFoundTextView.setText("Is this item already claimed by owner? Set to Claimed");
+            //setToFoundTextView.setVisibility(View.VISIBLE);
             clicktomessageTextView.setVisibility(View.INVISIBLE);
         }
 
     }//ONCREATE END
+    /*
     public void onClick(View v)
     {
         switch (v.getId()) {
@@ -244,7 +244,7 @@ public class onItemClickActivity extends AppCompatActivity{
                 break;
         }
     }
-
+*/
     private void showAlertDialog(View v) {
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         dbReference= mDatabase.child("items");
@@ -285,19 +285,19 @@ public class onItemClickActivity extends AppCompatActivity{
             public void onDataChange(com.google.firebase.database.DataSnapshot dataSnapshot) {
                 toPath.child(dataSnapshot.getKey())
                         .setValue(dataSnapshot.getValue(), new DatabaseReference.CompletionListener() {
-                    @Override
-                    public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
-                        if (firebaseError != null) {
+                            @Override
+                            public void onComplete(DatabaseError firebaseError, DatabaseReference firebase) {
+                                if (firebaseError != null) {
 
-                            System.out.println("Copy failed");
+                                    System.out.println("Copy failed");
 
-                        } else {
-                            System.out.println("Success");
-                            fromPath.setValue(null);
-                            toPath.child(key).child("Owner").setValue(userID); //THIS SETS THE FOUNDER TO USER SELF
-                        }
-                    }
-                });
+                                } else {
+                                    System.out.println("Success");
+                                    fromPath.setValue(null);
+                                    toPath.child(key).child("Owner").setValue(userID); //THIS SETS THE FOUNDER TO USER SELF
+                                }
+                            }
+                        });
 
             }
 

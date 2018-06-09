@@ -219,7 +219,7 @@
         android:text="Is this item yours? Click to contact the poster"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@color/colorPrimary" />
-
+<!--
     <TextView
         android:layout_marginTop="1dp"
         android:id="@+id/setToFoundTextView"
@@ -232,6 +232,6 @@
         android:text="Did you find your item? Set it to found"
         android:textAppearance="@style/TextAppearance.AppCompat"
         android:textColor="@color/colorPrimary" />
-
+-->
 
 </LinearLayout>

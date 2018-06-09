@@ -41,6 +41,7 @@
         android:layout_alignParentStart="true"
         android:layout_below="@+id/linearLayout"
         android:layout_marginRight="45dp"
+        android:layout_marginTop="5dp"
         android:drawableLeft="@android:drawable/ic_menu_search"
         android:drawableStart="@android:drawable/ic_menu_search"
         android:ems="10"
@@ -55,7 +56,8 @@
         android:layout_height="match_parent"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_below="@+id/theFilterEditText" />
+        android:layout_below="@+id/theFilterEditText"
+        android:layout_marginTop="40dp" />
 
     <ImageView
         android:id="@+id/clearImageView"
@@ -69,5 +71,37 @@
         android:layout_marginTop="56dp"
         app:srcCompat="@drawable/ic_clear_black_24dp" />
 
+    <com.weiwangcn.betterspinner.library.BetterSpinner
+        android:id="@+id/sortbySpinner"
+        android:layout_width="184dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/theFilterEditText"
+        android:layout_marginLeft="4dp"
+        android:layout_marginStart="11dp"
+        android:hint="Advanced Search:"
+        android:textColorHint="#7b8483" />
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/lostCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/theFilterEditText"
+        android:layout_toRightOf="@id/sortbySpinner"
+        android:layout_toEndOf="@+id/sortbySpinner"
+        android:text="Lost" />
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/foundCheckbox"
+        android:layout_width="wrap_content"
+        android:layout_height="40dp"
+        android:layout_below="@+id/theFilterEditText"
+        android:layout_marginLeft="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_toEndOf="@+id/lostCheckbox"
+        android:layout_toRightOf="@id/lostCheckbox"
+        android:theme="@style/foundCheckboxTheme"
+        android:text="Found" />
 
 </RelativeLayout>

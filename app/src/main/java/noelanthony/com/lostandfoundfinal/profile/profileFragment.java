@@ -21,9 +21,8 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.firebase.client.Firebase;
+import com.google.android.gms.tasks.Continuation;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -85,10 +84,35 @@ public class profileFragment extends Fragment implements View.OnClickListener {
     }
 
     private void uploadImageToFirebaseStorage(){
-        StorageReference profileImageReference = FirebaseStorage.getInstance().getReference("profileimage/"+System.currentTimeMillis()+".jpg");
+        final StorageReference profileImageReference = FirebaseStorage.getInstance().getReference("profileimage/"+System.currentTimeMillis()+".jpg");
         if (uriProfileImage != null){
             progressBar.setVisibility(View.VISIBLE);
-            profileImageReference.putFile(uriProfileImage).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            UploadTask uploadTask =  profileImageReference.putFile(uriProfileImage);
+
+            Task<Uri> urlTask = uploadTask.continueWithTask(new Continuation<UploadTask.TaskSnapshot, Task<Uri>>() {
+                @Override
+                public Task<Uri> then(@NonNull Task<UploadTask.TaskSnapshot> task) throws Exception {
+                    if (!task.isSuccessful()){
+                        throw task.getException();
+                    }
+                    return profileImageReference.getDownloadUrl();
+                }
+            }).addOnCompleteListener(new OnCompleteListener<Uri>() {
+                @Override
+                public void onComplete(@NonNull Task<Uri> task) {
+                    if (task.isSuccessful()){
+                        Uri downloadUri = task.getResult();
+                        progressBar.setVisibility(View.GONE);
+                        profileImageURL = downloadUri.toString();
+                        Toast.makeText(getActivity(),"Upload successful", Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getActivity(), "Upload Failed", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            });
+
+/*
+                    .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                 @Override
                 public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                     progressBar.setVisibility(View.GONE);
@@ -103,7 +127,7 @@ public class profileFragment extends Fragment implements View.OnClickListener {
                     Toast.makeText(getActivity(), e.getMessage(), Toast.LENGTH_SHORT).show();
                     //change applicationContext if mu error //profileFragment.this
                 }
-            });
+            })*/
         }
     }
 
