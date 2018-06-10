@@ -49,8 +49,10 @@ public class newsfeedFragment extends Fragment {
     private DatabaseReference dbLostReference,mDatabase;
     private itemAdapter adapter;
     private ImageView clearImageView;
-    private AppCompatCheckBox foundCheckbox,lostCheckbox;
 
+    //FOR CHECKBOX SORT
+    private AppCompatCheckBox foundCheckbox,lostCheckbox;
+    private String foundCheckStatus, lostCheckStatus,finalCheckStatus;
     //FOR ON ITEM CLICK LIST
     public static final String KEY_ITEM_NAME="item_name";
     public static final String KEY_STATUS="item_status";
@@ -102,8 +104,8 @@ public class newsfeedFragment extends Fragment {
 
         foundCheckbox = myView.findViewById(R.id.foundCheckbox);
         lostCheckbox = myView.findViewById(R.id.lostCheckbox);
-        lostCheckbox.setChecked(true);
-        foundCheckbox.setChecked(true);
+        lostCheckbox.setChecked(false);
+        foundCheckbox.setChecked(false);
 
         itemListView =  myView.findViewById(R.id.itemListView);
         itemListView.setTextFilterEnabled(true);
@@ -123,38 +125,9 @@ public class newsfeedFragment extends Fragment {
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         dbLostReference= mDatabase.child("items");
 
-        //CHECKBOX ON CHANGE LSITENER
-         String lostCheckStatus;
-        lostCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    Log.i("LOST CHECKBOX: ", "checked");
-                    String lostCheckStatus = "lostChecked";
-                    adapter.getFilter().filter(lostCheckStatus);
-                }else{
-                    Log.i("LOST CHECKBOX: ", "unchecked");
-                    String lostCheckStatus = "lostUnchecked";
-                    adapter.getFilter().filter(lostCheckStatus);
-                }
-            }
-        });
-        foundCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
-                    Log.i("FOUND CHECKBOX: ", "checked");
-                    String foundCheckStatus = "lostUnchecked";
-                    adapter.getFilter().filter(foundCheckStatus);
-                }else{
-                    Log.i("FOUND CHECKBOX: ", "unchecked");
-                    String foundCheckStatus = "lostUnchecked";
-                    adapter.getFilter().filter(foundCheckStatus);
-                }
-            }
-        });
 
-       // Query DescendingDateQuery = dbLostReference.orderByChild("dateSubmitted"); //Orders items by Descending date
+
+        // Query DescendingDateQuery = dbLostReference.orderByChild("dateSubmitted"); //Orders items by Descending date
         Query ApprovedQuery = dbLostReference.orderByChild("approvalStatus").equalTo(1); //Only displays approved items 1
 
         ApprovedQuery.addValueEventListener(new ValueEventListener() {
@@ -168,7 +141,166 @@ public class newsfeedFragment extends Fragment {
                     itemList.add(0,Items);//remove 0 if ma guba
                 }
                 if(getActivity()!=null) {
-                      adapter = new itemAdapter(getActivity(), itemList);
+
+                    adapter = new itemAdapter(getActivity(), itemList);
+                    //CHECKBOX ON CHANGE LSITENER
+                    /*lostCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(isChecked){
+                                adapter.getFilter().filter("showLost");
+                                foundCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                        if(isChecked){
+                                            adapter.notifyDataSetChanged();
+                                        }
+
+                                    }
+                                });
+                            }else{
+                                adapter.getFilter().filter("noLost");
+                            }
+
+                        }
+                    });
+                    foundCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(isChecked){
+                                adapter.getFilter().filter("showFound");
+                                lostCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                                    @Override
+                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                        if(isChecked){
+                                          adapter.notifyDataSetChanged();
+                                        }
+
+                                    }
+                                });
+                            }
+                            else{
+                                adapter.getFilter().filter("noFound");
+                            }
+
+                        }
+                    });*/
+
+                    lostCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(isChecked){
+                                theFilterEditText.setText("");
+                                Log.i("FOUND CHECKBOX: ", "checked");
+                                lostCheckStatus = "lostChecked";
+                                //sets found checkbox value
+                                if(foundCheckbox.isChecked()){
+                                    foundCheckStatus = "foundChecked";
+                                }else{
+                                    foundCheckStatus ="foundUnchecked";
+                                }
+                                //end set start comapre
+                                if(  lostCheckStatus.equals("lostChecked") &&  foundCheckStatus.equals("foundChecked")){
+                                    adapter.notifyDataSetInvalidated();
+                                }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
+                                    finalCheckStatus = "showFound";
+                                    adapter.getFilter().filter(finalCheckStatus);
+
+                                }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
+                                    finalCheckStatus = "showLost";
+                                    adapter.getFilter().filter(finalCheckStatus);
+                                }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
+                                    adapter.notifyDataSetInvalidated();
+                                }
+
+                            }else{
+                                theFilterEditText.setText("");
+                                Log.i("FOUND CHECKBOX: ", "unchecked");
+                                lostCheckStatus = "lostUnchecked";
+                                //set value of lost checkbox
+                                if(foundCheckbox.isChecked()){
+                                    foundCheckStatus = "foundChecked";
+                                }else{
+                                    foundCheckStatus ="foundUnchecked";
+                                }
+                                //end set start comapre
+                                if( lostCheckStatus.equals("lostChecked") && foundCheckStatus.equals("foundChecked")){
+                                    adapter.notifyDataSetInvalidated();
+
+                                }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
+                                    finalCheckStatus = "showFound";
+                                    adapter.getFilter().filter(finalCheckStatus);
+                                }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
+                                    finalCheckStatus = "showLost";
+                                    adapter.getFilter().filter(finalCheckStatus);
+                                }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
+                                    adapter.notifyDataSetInvalidated();
+
+                                }
+
+
+                            }
+
+                        }
+
+                    });
+                    foundCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                        @Override
+                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                            if(isChecked){
+                                theFilterEditText.setText("");
+                                Log.i("FOUND CHECKBOX: ", "checked");
+                                foundCheckStatus = "foundChecked";
+                                //sets found checkbox value
+                                if(lostCheckbox.isChecked()){
+                                    lostCheckStatus = "lostChecked";
+                                }else{
+                                    lostCheckStatus ="lostUnchecked";
+                                }
+                                //end set start comapre
+                                if(  lostCheckStatus.equals("lostChecked") &&  foundCheckStatus.equals("foundChecked")){
+                                    adapter.notifyDataSetInvalidated();
+                                }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
+                                    finalCheckStatus = "showFound";
+                                    adapter.getFilter().filter(finalCheckStatus);
+
+                                }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
+                                    finalCheckStatus = "showLost";
+                                    adapter.getFilter().filter(finalCheckStatus);
+                                }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
+                                    adapter.notifyDataSetInvalidated();
+                                }
+
+                            }else{
+                                theFilterEditText.setText("");
+                                Log.i("FOUND CHECKBOX: ", "unchecked");
+                                foundCheckStatus = "foundUnchecked";
+                                //set value of lost checkbox
+                                if(lostCheckbox.isChecked()){
+                                    lostCheckStatus = "lostChecked";
+                                }else{
+                                    lostCheckStatus ="lostUnchecked";
+                                }
+                                //end set start comapre
+                                if( lostCheckStatus.equals("lostChecked") && foundCheckStatus.equals("foundChecked")){
+                                    adapter.notifyDataSetInvalidated();
+
+                                }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
+                                    finalCheckStatus = "showFound";
+                                    adapter.getFilter().filter(finalCheckStatus);
+                                }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
+                                    finalCheckStatus = "showLost";
+                                    adapter.getFilter().filter(finalCheckStatus);
+                                }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
+                                    adapter.notifyDataSetInvalidated();
+
+                                }
+
+
+                            }
+
+                        }
+                    });
                    // Collections.reverse(itemList); //to order by descending
                     itemListView.setAdapter(adapter);
                     String filterText = theFilterEditText.getText().toString();
@@ -183,9 +315,8 @@ public class newsfeedFragment extends Fragment {
 
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
-                            adapter.getFilter().filter(s.toString());
-                            Log.d("Constants.TAG", "*** Search value changed: " + s.toString());
 
+                            adapter.getFilter().filter(s.toString());
 
 
                         }

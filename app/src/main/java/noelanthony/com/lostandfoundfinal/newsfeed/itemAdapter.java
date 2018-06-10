@@ -134,12 +134,45 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
                 // if they contain the supplied string
                 for (items c : itemList) {
 
-                    if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getPoster().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains(constraint.toString().toUpperCase())) {
-
-                        // if `contains` == true then add it
-                        // to our filtered list
-                        filteredItems.add(c);
+                    /*if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getPoster().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains(constraint.toString().toUpperCase())) {*/
+                    if (constraint.toString().contains("showLost")) {
+                        if (c.getStatus().equals("Lost")) {
+                            filteredItems.add(c);
+                        }else{
+                            filteredItems.remove(c);
+                        }
+                    }else if (constraint.toString().contains("showFound")) {
+                        if (c.getStatus().equals("Found")) {
+                            filteredItems.add(c);
+                        }else{
+                            filteredItems.remove(c);
+                        }
+                    }/*else if (constraint.toString().contains("noLost")){
+                        if(c.getStatus().equals("Lost") ) {
+                            filteredItems.remove(c);
+                        }
+                    }else if (constraint.toString().contains("noFound")){
+                        if(c.getStatus().equals("Found") ) {
+                            filteredItems.remove(c);
+                        }
+                    }*/
+                    /*else if (constraint.toString().contains("showFound")){
+                        if(c.getStatus().equals("Found") ) {
+                            filteredItems.add(c);
+                        }else{
+                            filteredItems.remove(c);
+                        }
+                    }else if (constraint.toString().contains("noLost")){
+                        if(c.getStatus().equals("Lost") ) {
+                            filteredItems.remove(c);
+                        }
                     }
+                    else if (constraint.toString().contains("noFound")){
+                        if(c.getStatus().equals("Found") ) {
+                            filteredItems.remove(c);
+                        }
+                    }
+                }*/
                 }
                 // Finally set the filtered values and size/count
                 results.values = filteredItems;
@@ -183,58 +216,6 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
              notifyDataSetInvalidated();
              addAll(itemList);
                 */
-        }
-    }
-    private class LostandFoundFilter extends Filter{
-        @Override
-        protected FilterResults performFiltering(CharSequence constraint) {
-
-            // Create a FilterResults object
-            FilterResults results = new FilterResults();
-
-            // If the constraint (search string/pattern) is null
-            // or its length is 0, i.e., its empty then
-            // we just set the `values` property to the
-            // original contacts list which contains all of them
-
-            if (constraint == null || constraint.length() == 0 && constraint.equals(isEmpty()) || constraint.toString().isEmpty()) {
-                results.count = filterList.size();
-                results.values = filterList;
-            } else {
-                // Some search constraint has been passed
-                // so let's filter accordingly
-                ArrayList<items> filteredItems = new ArrayList<items>();
-                // We'll go through all the contacts and see
-                // if they contain the supplied string
-                for (items c : itemList) {
-
-                    if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getPoster().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains(constraint.toString().toUpperCase())) {
-
-                        // if `contains` == true then add it
-                        // to our filtered list
-                        filteredItems.add(c);
-                    }
-                }
-                // Finally set the filtered values and size/count
-                results.values = filteredItems;
-                results.count = filteredItems.size();
-            }
-            Log.e("VALUES", results.values.toString());
-
-// Return our FilterResults object
-            return results;
-        }
-
-
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            if (results.count == 0) {
-                notifyDataSetInvalidated();
-            }
-            else {
-                itemList = (ArrayList<items>) results.values;
-                notifyDataSetChanged();
-            }
         }
     }
     @Override
