@@ -134,20 +134,21 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
                 // if they contain the supplied string
                 for (items c : itemList) {
 
+
+
                     /*if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getPoster().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains(constraint.toString().toUpperCase())) {*/
-                    if ( constraint.toString().endsWith("showLost")) {
+
+                    if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || constraint.toString().contains("showLost")) {
                         if (c.getStatus().equals("Lost")) {
                             filteredItems.add(c);
-                        }else{
-                            filteredItems.remove(c);
-                        }
-                    }else if (constraint.toString().endsWith("showFound")) {
-                        if (c.getStatus().equals("Found")) {
-                            filteredItems.add(c);
-                        }else{
-                            filteredItems.remove(c);
                         }
                     }
+                    if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || constraint.toString().contains("showFound")) {
+                        if (c.getStatus().equals("Found")) {
+                            filteredItems.add(c);
+                        }
+                    }
+
                 }
                 // Finally set the filtered values and size/count
                 results.values = filteredItems;

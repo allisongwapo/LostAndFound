@@ -42,6 +42,7 @@ public class newsfeedFragment extends Fragment {
 
     ListView itemListView;
     ArrayList<items> itemList;
+    ArrayList<items> itemList2;
     //Context applicationContext = MainActivity.getContextOfApplication();
     View myView;
     private Button submitLostBtn;
@@ -98,12 +99,7 @@ public class newsfeedFragment extends Fragment {
         theFilterEditText = myView.findViewById(R.id.theFilterEditText);
         clearImageView = myView.findViewById(R.id.clearImageView);
 
-        clearImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                theFilterEditText.setText("");
-            }
-        });
+
         itemList = new ArrayList<>();
         //initialize firebase dn
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
@@ -124,6 +120,7 @@ public class newsfeedFragment extends Fragment {
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
                     items Items = itemSnapshot.getValue(items.class);
                     itemList.add(0,Items);//remove 0 if ma guba
+                    
                 }
                 if(getActivity()!=null) {
 
@@ -133,7 +130,9 @@ public class newsfeedFragment extends Fragment {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             if(isChecked){
+                                String entered =  theFilterEditText.getText().toString();
                                 theFilterEditText.setText("");
+                                theFilterEditText.setText(entered);
                                 Log.i("FOUND CHECKBOX: ", "checked");
                                 lostCheckStatus = "lostChecked";
                                 //sets found checkbox value
@@ -145,7 +144,8 @@ public class newsfeedFragment extends Fragment {
                                 }
                                 //end set start comapre
                                 if(  lostCheckStatus.equals("lostChecked") &&  foundCheckStatus.equals("foundChecked")){
-                                    adapter.notifyDataSetInvalidated();
+                                    adapter.notifyDataSetChanged();
+                                    setFinalCheckStatus("showAll");
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
                                     adapter.getFilter().filter(finalCheckStatus);
@@ -156,11 +156,14 @@ public class newsfeedFragment extends Fragment {
                                     adapter.getFilter().filter(finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
-                                    adapter.notifyDataSetInvalidated();
+                                    adapter.notifyDataSetChanged();
+                                    setFinalCheckStatus("showAll");
                                 }
 
                             }else{
+                                String entered =  theFilterEditText.getText().toString();
                                 theFilterEditText.setText("");
+                                theFilterEditText.setText(entered);
                                 Log.i("FOUND CHECKBOX: ", "unchecked");
                                 lostCheckStatus = "lostUnchecked";
                                 //set value of lost checkbox
@@ -171,7 +174,8 @@ public class newsfeedFragment extends Fragment {
                                 }
                                 //end set start comapre
                                 if( lostCheckStatus.equals("lostChecked") && foundCheckStatus.equals("foundChecked")){
-                                    adapter.notifyDataSetInvalidated();
+                                    adapter.notifyDataSetChanged();
+                                    setFinalCheckStatus("showAll");
 
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
@@ -182,7 +186,8 @@ public class newsfeedFragment extends Fragment {
                                     adapter.getFilter().filter(finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
-                                    adapter.notifyDataSetInvalidated();
+                                    adapter.notifyDataSetChanged();
+                                    setFinalCheckStatus("showAll");
 
                                 }
 
@@ -196,7 +201,9 @@ public class newsfeedFragment extends Fragment {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                             if(isChecked){
+                                String entered =  theFilterEditText.getText().toString();
                                 theFilterEditText.setText("");
+                                theFilterEditText.setText(entered);
                                 Log.i("FOUND CHECKBOX: ", "checked");
                                 foundCheckStatus = "foundChecked";
                                 //sets found checkbox value
@@ -207,7 +214,8 @@ public class newsfeedFragment extends Fragment {
                                 }
                                 //end set start comapre
                                 if(  lostCheckStatus.equals("lostChecked") &&  foundCheckStatus.equals("foundChecked")){
-                                    adapter.notifyDataSetInvalidated();
+                                    adapter.notifyDataSetChanged();
+                                    setFinalCheckStatus("showAll");
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
                                     adapter.getFilter().filter(finalCheckStatus);
@@ -218,11 +226,14 @@ public class newsfeedFragment extends Fragment {
                                     adapter.getFilter().filter(finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
-                                    adapter.notifyDataSetInvalidated();
+                                    adapter.notifyDataSetChanged();
+                                    setFinalCheckStatus("showAll");
                                 }
 
                             }else{
+                                String entered =  theFilterEditText.getText().toString();
                                 theFilterEditText.setText("");
+                                theFilterEditText.setText(entered); //DONOT REMOV
                                 Log.i("FOUND CHECKBOX: ", "unchecked");
                                 foundCheckStatus = "foundUnchecked";
                                 //set value of lost checkbox
@@ -233,11 +244,10 @@ public class newsfeedFragment extends Fragment {
                                 }
                                 //end set start comapre
                                 if( lostCheckStatus.equals("lostChecked") && foundCheckStatus.equals("foundChecked")){
-                                    adapter.notifyDataSetInvalidated();
-
+                                    adapter.notifyDataSetChanged();
+                                    setFinalCheckStatus("showAll");
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
-
                                     adapter.getFilter().filter(finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
@@ -245,22 +255,53 @@ public class newsfeedFragment extends Fragment {
                                     adapter.getFilter().filter(finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
-                                    adapter.notifyDataSetInvalidated();
-
+                                    adapter.notifyDataSetChanged();
+                                    setFinalCheckStatus("showAll");
                                 }
 
 
                             }
 
+
                         }
+
                     });
                    // Collections.reverse(itemList); //to order by descending
                     itemListView.setAdapter(adapter);
+                    //FILTER EDIT TEXT
                     String filterText = theFilterEditText.getText().toString();
-                    if(filterText.equals("") || filterText.isEmpty()){
-                        adapter.notifyDataSetChanged();
+                    /*if(theFilterEditText.getText().toString().equals("") || theFilterEditText.getText().toString().isEmpty() || theFilterEditText.getText().toString().equals(null)){
+                        if(!getFinalCheckStatus().equals("showAll")) {
+                            adapter.notifyDataSetChanged();
+                        }
+                        if(getFinalCheckStatus().equals("showFound")) {
+                            adapter.getFilter().filter("showFound");
+                            //adapter.notifyDataSetChanged();
+                        }else if(getFinalCheckStatus().equals("showLost")) {
 
-                    }
+                            adapter.getFilter().filter("showLost");
+                            //adapter.notifyDataSetChanged();
+
+                        }
+                    }*/
+                    clearImageView.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+
+                            String entered =  theFilterEditText.getText().toString();
+                            theFilterEditText.setText("");
+                            if(!getFinalCheckStatus().equals("showAll")) {
+                                adapter.notifyDataSetChanged();
+                            }
+                            if(getFinalCheckStatus().equals("showFound")) {
+
+                                adapter.getFilter().filter(getFinalCheckStatus());
+                            }else if(getFinalCheckStatus().equals("showLost")) {
+                                adapter.getFilter().filter(getFinalCheckStatus());
+                            }
+                        }
+                    });
+
                     theFilterEditText.addTextChangedListener(new TextWatcher() {
                         @Override
                         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -358,6 +399,7 @@ public class newsfeedFragment extends Fragment {
     public String getFinalCheckStatus() {
         return finalCheckStatus;
     }
+
 }//END
 
 /*NOTES Match 25,2018*/
