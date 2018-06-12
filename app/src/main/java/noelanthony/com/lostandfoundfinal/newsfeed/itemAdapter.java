@@ -135,7 +135,7 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
                 for (items c : itemList) {
 
                     /*if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getPoster().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains(constraint.toString().toUpperCase())) {*/
-                    if (constraint.toString().endsWith("showLost")) {
+                    if ( constraint.toString().endsWith("showLost")) {
                         if (c.getStatus().equals("Lost")) {
                             filteredItems.add(c);
                         }else{
@@ -206,12 +206,7 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
         return mItemsFilter;
     }
 
-    public Filter getFilter2() {
-        if(mItemsFilter==null) {
-            mItemsFilter = new ItemsFilter();
-        }
-        return mItemsFilter;
-    }
+
 
 }//END OF CLASS
 

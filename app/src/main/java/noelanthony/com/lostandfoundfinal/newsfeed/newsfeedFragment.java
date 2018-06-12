@@ -71,28 +71,10 @@ public class newsfeedFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
         myView = inflater.inflate(R.layout.newsfeed_layout, container, false);
 
-
-
         Firebase.setAndroidContext(getActivity());
         ((newsFeedActivity) getActivity())
                 .setActionBarTitle("News Feed");
-        /*
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-            NotificationManager mNotificationManager = (NotificationManager) getContext().getSystemService(Context.NOTIFICATION_SERVICE);
-            int importance = NotificationManager.IMPORTANCE_HIGH;
-            NotificationChannel mChannel = new NotificationChannel(Constants.CHANNEL_ID, Constants.CHANNEL_NAME, importance);
-            mChannel.setDescription(Constants.CHANNEL_DESCRIPTION);
-            mChannel.enableLights(true);
-            mChannel.setLightColor(R.color.startblue);
-            mChannel.enableVibration(true);
-            mChannel.setVibrationPattern(new long[]{100, 200, 300, 400, 500, 400, 300, 200, 400});
-            mNotificationManager.createNotificationChannel(mChannel);
-        }
-        MyNotificationManager.getInstance(getActivity()).displayNotification("Welcome to News Feed", "Your Local push notification!!");
-    */
 
-        //FOR ADMIN NOTIFICATION
-       //FirebaseMessaging.getInstance().subscribeToTopic("newsfeed");
         //get the spinner from the xml.
         BetterSpinner dropdown = myView.findViewById(R.id.sortbySpinner);
         //create a list of items for the spinner.
@@ -129,6 +111,7 @@ public class newsfeedFragment extends Fragment {
 
 
 
+
         // Query DescendingDateQuery = dbLostReference.orderByChild("dateSubmitted"); //Orders items by Descending date
         Query ApprovedQuery = dbLostReference.orderByChild("approvalStatus").equalTo(1); //Only displays approved items 1
 
@@ -137,7 +120,7 @@ public class newsfeedFragment extends Fragment {
             public void onDataChange(DataSnapshot dataSnapshot) {
                 //gets all children
                 itemList.clear(); //clear listview before populate
-
+                finalCheckStatus ="";
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
                     items Items = itemSnapshot.getValue(items.class);
                     itemList.add(0,Items);//remove 0 if ma guba
@@ -156,6 +139,7 @@ public class newsfeedFragment extends Fragment {
                                 //sets found checkbox value
                                 if(foundCheckbox.isChecked()){
                                     foundCheckStatus = "foundChecked";
+
                                 }else{
                                     foundCheckStatus ="foundUnchecked";
                                 }
@@ -165,10 +149,12 @@ public class newsfeedFragment extends Fragment {
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
                                     adapter.getFilter().filter(finalCheckStatus);
+                                    setFinalCheckStatus(finalCheckStatus);
 
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
                                     finalCheckStatus = "showLost";
                                     adapter.getFilter().filter(finalCheckStatus);
+                                    setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
                                     adapter.notifyDataSetInvalidated();
                                 }
@@ -190,9 +176,11 @@ public class newsfeedFragment extends Fragment {
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
                                     adapter.getFilter().filter(finalCheckStatus);
+                                    setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
                                     finalCheckStatus = "showLost";
                                     adapter.getFilter().filter(finalCheckStatus);
+                                    setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
                                     adapter.notifyDataSetInvalidated();
 
@@ -223,10 +211,12 @@ public class newsfeedFragment extends Fragment {
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
                                     adapter.getFilter().filter(finalCheckStatus);
+                                    setFinalCheckStatus(finalCheckStatus);
 
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
                                     finalCheckStatus = "showLost";
                                     adapter.getFilter().filter(finalCheckStatus);
+                                    setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
                                     adapter.notifyDataSetInvalidated();
                                 }
@@ -249,9 +239,11 @@ public class newsfeedFragment extends Fragment {
                                     finalCheckStatus = "showFound";
 
                                     adapter.getFilter().filter(finalCheckStatus);
+                                    setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
                                     finalCheckStatus = "showLost";
                                     adapter.getFilter().filter(finalCheckStatus);
+                                    setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
                                     adapter.notifyDataSetInvalidated();
 
@@ -267,6 +259,7 @@ public class newsfeedFragment extends Fragment {
                     String filterText = theFilterEditText.getText().toString();
                     if(filterText.equals("") || filterText.isEmpty()){
                         adapter.notifyDataSetChanged();
+
                     }
                     theFilterEditText.addTextChangedListener(new TextWatcher() {
                         @Override
@@ -276,7 +269,7 @@ public class newsfeedFragment extends Fragment {
 
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
-                                    adapter.getFilter2().filter(s.toString());
+                                    adapter.getFilter().filter(s.toString());
                         }
 
                         @Override
@@ -328,6 +321,7 @@ public class newsfeedFragment extends Fragment {
         });
 
 
+
         itemListView.post(new Runnable() {
             @Override
             public void run() {
@@ -356,8 +350,14 @@ public class newsfeedFragment extends Fragment {
         return myView;
     }
 
+    public void setFinalCheckStatus(String finalCheckStatus) {
+        this.finalCheckStatus = finalCheckStatus;
+        Log.i("final Check Stat: ", finalCheckStatus);
+    }
 
-
+    public String getFinalCheckStatus() {
+        return finalCheckStatus;
+    }
 }//END
 
 /*NOTES Match 25,2018*/
