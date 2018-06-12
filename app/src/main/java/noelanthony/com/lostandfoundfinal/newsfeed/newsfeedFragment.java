@@ -29,6 +29,7 @@ import com.google.firebase.database.ValueEventListener;
 import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import noelanthony.com.lostandfoundfinal.R;
 import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
@@ -63,6 +64,7 @@ public class newsfeedFragment extends Fragment {
     public static final String KEY_IMAGE_ID= "item_image_id";
     public static final String KEY_USER_ID= "item_uid";
 
+    List<CharSequence> charSequences = new ArrayList<>();
 
     @Nullable
     @Override
@@ -144,48 +146,6 @@ public class newsfeedFragment extends Fragment {
 
                     adapter = new itemAdapter(getActivity(), itemList);
                     //CHECKBOX ON CHANGE LSITENER
-                    /*lostCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if(isChecked){
-                                adapter.getFilter().filter("showLost");
-                                foundCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        if(isChecked){
-                                            adapter.notifyDataSetChanged();
-                                        }
-
-                                    }
-                                });
-                            }else{
-                                adapter.getFilter().filter("noLost");
-                            }
-
-                        }
-                    });
-                    foundCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                        @Override
-                        public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                            if(isChecked){
-                                adapter.getFilter().filter("showFound");
-                                lostCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-                                    @Override
-                                    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                                        if(isChecked){
-                                          adapter.notifyDataSetChanged();
-                                        }
-
-                                    }
-                                });
-                            }
-                            else{
-                                adapter.getFilter().filter("noFound");
-                            }
-
-                        }
-                    });*/
-
                     lostCheckbox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
                         @Override
                         public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -287,6 +247,7 @@ public class newsfeedFragment extends Fragment {
 
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
+
                                     adapter.getFilter().filter(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
                                     finalCheckStatus = "showLost";
@@ -315,10 +276,7 @@ public class newsfeedFragment extends Fragment {
 
                         @Override
                         public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-                            adapter.getFilter().filter(s.toString());
-
-
+                                    adapter.getFilter2().filter(s.toString());
                         }
 
                         @Override

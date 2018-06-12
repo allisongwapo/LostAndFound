@@ -11,7 +11,10 @@ import android.util.Log;
 
 import com.google.firebase.messaging.RemoteMessage;
 
+import noelanthony.com.lostandfoundfinal.ChatMessagesActivity;
 import noelanthony.com.lostandfoundfinal.R;
+import noelanthony.com.lostandfoundfinal.loginregister.MainActivity;
+import noelanthony.com.lostandfoundfinal.navmenu.newsFeedActivity;
 
 /**
  * Created by Noel on 12/05/2018.
@@ -48,8 +51,9 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         String title = remoteMessage.getNotification().getTitle(); //get title
         String message = remoteMessage.getNotification().getBody(); //get message
         String click_action = remoteMessage.getNotification().getClickAction(); //get click_action
-        String dataMessage = remoteMessage.getData().get("from_message");
-        String dataFrom = remoteMessage.getData().get("from_user_id");
+        String posterName = remoteMessage.getData().get("item_poster");
+        String posterId = remoteMessage.getData().get("item_uid");
+        String menuFragmentValue = remoteMessage.getData().get("menuFragment");
 
         Log.d(TAG, "Message Notification Title: " + title);
         Log.d(TAG, "Message Notification Body: " + message);
@@ -57,6 +61,24 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
 
 
         Intent intent = new Intent(click_action);
+
+        if (click_action.equals("chatmessage")) {
+            intent = new Intent (this, ChatMessagesActivity.class);
+            intent.putExtra("item_poster", posterName);
+            intent.putExtra("item_uid", posterId);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }else if (click_action.equals("newsfeed")){
+            //intent = new Intent (this, newsFeedActivity.class);
+            intent = new Intent (this, newsFeedActivity.class);
+            if(menuFragmentValue!=null) {
+                intent.putExtra("menuFragment", menuFragmentValue);
+            }
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            // startActivity(intent);
+        }else{
+            intent = new Intent (this, MainActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        }
 
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0 , intent,
                 PendingIntent.FLAG_ONE_SHOT);
@@ -66,7 +88,7 @@ public class FirebaseMessagingService extends com.google.firebase.messaging.Fire
         Uri defaultSoundUri= RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
         NotificationCompat.Builder notificationBuilder =
                 new NotificationCompat.Builder(this, channelId)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.drawable.applogo)
                         .setContentTitle(title)
                         .setContentText(message)
                         //.setAutoCancel(true)

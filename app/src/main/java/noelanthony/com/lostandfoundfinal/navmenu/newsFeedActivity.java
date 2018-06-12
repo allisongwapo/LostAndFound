@@ -1,6 +1,7 @@
 package noelanthony.com.lostandfoundfinal.navmenu;
 
 import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -52,6 +53,24 @@ public class newsFeedActivity extends AppCompatActivity
 
 
 
+       String menuFragment = getIntent().getStringExtra("menuFragment");
+
+        FragmentManager fragmentManager = getFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+
+        // If menuFragment is defined, then this activity was launched with a fragment selection
+        if (menuFragment != null) {
+
+            // Here we can decide what do to -- perhaps load other parameters from the intent extras such as IDs, etc
+            if (menuFragment.equals("mysubmissions")) {
+                mySubmissionsFragment mysubmissions = new mySubmissionsFragment();
+                fragmentTransaction.replace(android.R.id.content, mysubmissions);
+            }
+        } else {
+            // Activity was not launched with a menuFragment selected -- continue as if this activity was opened from a launcher (for example)
+            newsfeedFragment standardFragment = new newsfeedFragment();
+            fragmentTransaction.replace(android.R.id.content, standardFragment);
+        }
     }
 
     @Override

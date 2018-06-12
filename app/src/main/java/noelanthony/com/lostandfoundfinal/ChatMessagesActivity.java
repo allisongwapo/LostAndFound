@@ -45,11 +45,10 @@ public class ChatMessagesActivity extends AppCompatActivity {
     private String mReceiverId,mmReceiverId;
     private String mReceiverName,mmReceiverName;
     private String mSenderName;
-    private String sender;
     private String convoBetweenUsers,convo;
 
     private FirebaseAuth mAuth;
-    private DatabaseReference dbReference,mDatabase;
+    private DatabaseReference dbReference,mDatabase,mMessagesUserNameRef,mMessagesUserIdRef;
     private String userID;
 
 
@@ -71,7 +70,7 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
         //init Firebase
         mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
 
         //get receiverId from intent
@@ -84,7 +83,8 @@ public class ChatMessagesActivity extends AppCompatActivity {
 
         mDatabase = FirebaseDatabase.getInstance().getReferenceFromUrl("https://lostandfoundfinal.firebaseio.com/");
         mUsersRef = mDatabase.child("users");
-        //mMessagesDBREF = mDatabase.child(userID);
+        mMessagesUserIdRef = mUsersRef.child(userID);
+        mMessagesUserNameRef = mMessagesUserIdRef.child("name");
 
 
 
@@ -102,7 +102,18 @@ public class ChatMessagesActivity extends AppCompatActivity {
         }
 
 
-        sender = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        mMessagesUserNameRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                mSenderName = dataSnapshot.getValue().toString();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
         Query ApprovedQuery = mUsersRef.orderByChild("users");
 
         ApprovedQuery.addValueEventListener(new ValueEventListener() {
@@ -115,8 +126,6 @@ public class ChatMessagesActivity extends AppCompatActivity {
                             mUsersList.add(userInformation);
 
                         }
-
-
                     }
             /*    }
 

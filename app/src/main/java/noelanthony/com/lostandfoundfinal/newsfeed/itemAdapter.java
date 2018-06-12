@@ -135,44 +135,19 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
                 for (items c : itemList) {
 
                     /*if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getPoster().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains(constraint.toString().toUpperCase())) {*/
-                    if (constraint.toString().contains("showLost")) {
+                    if (constraint.toString().endsWith("showLost")) {
                         if (c.getStatus().equals("Lost")) {
                             filteredItems.add(c);
                         }else{
                             filteredItems.remove(c);
                         }
-                    }else if (constraint.toString().contains("showFound")) {
+                    }else if (constraint.toString().endsWith("showFound")) {
                         if (c.getStatus().equals("Found")) {
                             filteredItems.add(c);
                         }else{
                             filteredItems.remove(c);
                         }
-                    }/*else if (constraint.toString().contains("noLost")){
-                        if(c.getStatus().equals("Lost") ) {
-                            filteredItems.remove(c);
-                        }
-                    }else if (constraint.toString().contains("noFound")){
-                        if(c.getStatus().equals("Found") ) {
-                            filteredItems.remove(c);
-                        }
-                    }*/
-                    /*else if (constraint.toString().contains("showFound")){
-                        if(c.getStatus().equals("Found") ) {
-                            filteredItems.add(c);
-                        }else{
-                            filteredItems.remove(c);
-                        }
-                    }else if (constraint.toString().contains("noLost")){
-                        if(c.getStatus().equals("Lost") ) {
-                            filteredItems.remove(c);
-                        }
                     }
-                    else if (constraint.toString().contains("noFound")){
-                        if(c.getStatus().equals("Found") ) {
-                            filteredItems.remove(c);
-                        }
-                    }
-                }*/
                 }
                 // Finally set the filtered values and size/count
                 results.values = filteredItems;
@@ -225,6 +200,13 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
 
     @Override
     public Filter getFilter() {
+        if(mItemsFilter==null) {
+            mItemsFilter = new ItemsFilter();
+        }
+        return mItemsFilter;
+    }
+
+    public Filter getFilter2() {
         if(mItemsFilter==null) {
             mItemsFilter = new ItemsFilter();
         }
