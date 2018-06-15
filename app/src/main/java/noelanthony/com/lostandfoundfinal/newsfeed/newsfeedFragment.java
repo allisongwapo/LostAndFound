@@ -120,7 +120,7 @@ public class newsfeedFragment extends Fragment {
                 for (DataSnapshot itemSnapshot : dataSnapshot.getChildren()){
                     items Items = itemSnapshot.getValue(items.class);
                     itemList.add(0,Items);//remove 0 if ma guba
-                    
+
                 }
                 if(getActivity()!=null) {
 

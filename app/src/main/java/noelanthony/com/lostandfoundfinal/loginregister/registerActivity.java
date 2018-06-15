@@ -81,7 +81,19 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
         final String email = emailEditText.getText().toString().trim();
         String password = passwordEditText.getText().toString().trim();
         String confpass = confpassEditText.getText().toString().trim();
+        String[] numbers = {
+                "0",
+                "1",
+                "2",
+                "3",
+                "4",
+                "5",
+                "6",
+                "7",
+                "8",
+                "9"
 
+        };
         //check email field if empty
         if(email.isEmpty()) {
             emailEditText.setError("Email is required");
@@ -147,6 +159,7 @@ public class registerActivity extends AppCompatActivity implements View.OnClickL
                                             currentUserDB.child("userId").setValue(current_id);
                                             //currentUserDB.child("itemsreturned").setValue(0);
                                             //currentUserDB.child("idnumber").setValue("Update your ID Number");
+                                            Toast.makeText(getApplicationContext(), "Registration Successful", Toast.LENGTH_SHORT).show();
                                         }
                                     });
                         } else {

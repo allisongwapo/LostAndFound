@@ -76,6 +76,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
     private UploadTask mUploadTask;
     private TextView currentLocationTextView;
 
+
     //notifications
 
     @Override
@@ -104,7 +105,11 @@ public class submitFoundItemActivity extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference("lostItemImage/");
         mAuth = FirebaseAuth.getInstance();
 
-        FirebaseUser user = mAuth.getCurrentUser();
+
+
+
+
+            FirebaseUser user = mAuth.getCurrentUser();
         userID = user.getUid();
         locationSelection="None";
         googleMapImageButton.setOnClickListener(new View.OnClickListener() {
@@ -172,10 +177,17 @@ public class submitFoundItemActivity extends AppCompatActivity {
         final String locationDescription = locationdescEditText.getText().toString().trim();
         final String description = descriptionEditText.getText().toString().trim();
         final String currentDateTimeString = DateFormat.getDateTimeInstance().format(new Date());
+        //ITEM NAME VALIDATIOn
 
         //check if name is empty
         if(itemName.isEmpty()){
             itemnameEditText.setError("Item name is required");
+            itemnameEditText.requestFocus();
+            return;
+        }
+        //check if item name only contains number and no letter
+        if (itemName.matches("[0-9]+")) {
+            itemnameEditText.setError("Must be a valid input");
             itemnameEditText.requestFocus();
             return;
         }
@@ -422,6 +434,7 @@ public class submitFoundItemActivity extends AppCompatActivity {
                         //handle databaseError
                     }
                 });
+
 
     }
 

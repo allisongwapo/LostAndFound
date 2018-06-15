@@ -17,8 +17,12 @@
             android:id="@+id/submitFoundBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:background="#F9C6A4"
+            android:background="@drawable/redroundedbtnnews"
             android:text="Report Lost Item"
             android:textColor="@android:color/background_dark" />
 
@@ -26,8 +30,12 @@
             android:id="@+id/foundItemBtn"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
+            android:layout_marginBottom="5dp"
+            android:layout_marginLeft="5dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:background="#DEFFB1"
+            android:background="@drawable/blueroundedbtnnws"
             android:text="Report Found Item"
             android:textColor="@android:color/background_dark" />
 
@@ -63,12 +71,12 @@
         android:id="@+id/clearImageView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentTop="true"
-        android:layout_marginRight="16dp"
         android:layout_marginEnd="16dp"
-        android:layout_marginTop="56dp"
+        android:layout_marginRight="16dp"
+        android:layout_marginTop="65dp"
         app:srcCompat="@drawable/ic_clear_black_24dp" />
 
     <com.weiwangcn.betterspinner.library.BetterSpinner

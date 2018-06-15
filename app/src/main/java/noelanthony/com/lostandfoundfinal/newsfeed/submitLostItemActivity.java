@@ -127,6 +127,12 @@ public class submitLostItemActivity extends AppCompatActivity {
             itemnameEditText.requestFocus();
             return;
         }
+        //check if item name only contains number and no letter
+        if (itemName.matches("[0-9]+")) {
+            itemnameEditText.setError("Must be a valid input");
+            itemnameEditText.requestFocus();
+            return;
+        }
 
         if(description.isEmpty()){
             descriptionEditText.setError("Description is required");

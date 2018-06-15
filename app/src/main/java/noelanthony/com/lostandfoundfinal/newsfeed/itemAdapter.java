@@ -47,7 +47,10 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
         return itemList.size();
     }
 
-
+    @Override
+    public items getItem(int position) {
+        return itemList.get(position);
+    }
 
 
     @Override
@@ -110,7 +113,6 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
         //END COLOR CHANGER
         return rowView;
     }
-
     private class ItemsFilter extends Filter{
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
@@ -194,10 +196,7 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
                 */
         }
     }
-    @Override
-    public items getItem(int position) {
-        return filterList.get(position);
-    }
+
 
     @Override
     public Filter getFilter() {
