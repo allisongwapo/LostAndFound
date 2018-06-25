@@ -26,7 +26,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
-import com.weiwangcn.betterspinner.library.BetterSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +76,7 @@ public class newsfeedFragment extends Fragment {
                 .setActionBarTitle("News Feed");
 
         //get the spinner from the xml.
-        BetterSpinner dropdown = myView.findViewById(R.id.sortbySpinner);
+        //BetterSpinner dropdown = myView.findViewById(R.id.sortbySpinner); //UNCOMMENT TO REDO SPINNER
         //create a list of items for the spinner.
         String[] items = new String[]{"Item Name", "Item Description","Location", "Name of Poster"};
         //create an adapter to describe how the items are displayed, adapters are used in several places in android.
@@ -85,7 +84,7 @@ public class newsfeedFragment extends Fragment {
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_dropdown_item_1line ,items);
 
         //set the spinners adapter to the previously created one.
-        dropdown.setAdapter(spinnerAdapter);
+        //dropdown.setAdapter(spinnerAdapter); //UNCOMMENT TO REDO SPINNER
 
         foundCheckbox = myView.findViewById(R.id.foundCheckbox);
         lostCheckbox = myView.findViewById(R.id.lostCheckbox);
@@ -132,7 +131,7 @@ public class newsfeedFragment extends Fragment {
                             if(isChecked){
                                 String entered =  theFilterEditText.getText().toString();
                                 theFilterEditText.setText("");
-                                theFilterEditText.setText(entered);
+                                //theFilterEditText.setText(entered);
                                 Log.i("FOUND CHECKBOX: ", "checked");
                                 lostCheckStatus = "lostChecked";
                                 //sets found checkbox value
@@ -148,12 +147,12 @@ public class newsfeedFragment extends Fragment {
                                     setFinalCheckStatus("showAll");
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
-                                    adapter.getFilter().filter(finalCheckStatus);
+                                    adapter.getFilter().filter(/*entered+*/finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
 
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
                                     finalCheckStatus = "showLost";
-                                    adapter.getFilter().filter(finalCheckStatus);
+                                    adapter.getFilter().filter(/*entered+*/finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
                                     adapter.notifyDataSetChanged();
@@ -163,7 +162,7 @@ public class newsfeedFragment extends Fragment {
                             }else{
                                 String entered =  theFilterEditText.getText().toString();
                                 theFilterEditText.setText("");
-                                theFilterEditText.setText(entered);
+                               // theFilterEditText.setText(entered);
                                 Log.i("FOUND CHECKBOX: ", "unchecked");
                                 lostCheckStatus = "lostUnchecked";
                                 //set value of lost checkbox
@@ -179,11 +178,11 @@ public class newsfeedFragment extends Fragment {
 
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
-                                    adapter.getFilter().filter(finalCheckStatus);
+                                    adapter.getFilter().filter(/*entered+*/finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
                                     finalCheckStatus = "showLost";
-                                    adapter.getFilter().filter(finalCheckStatus);
+                                    adapter.getFilter().filter(/*entered+*/finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
                                     adapter.notifyDataSetChanged();
@@ -203,7 +202,7 @@ public class newsfeedFragment extends Fragment {
                             if(isChecked){
                                 String entered =  theFilterEditText.getText().toString();
                                 theFilterEditText.setText("");
-                                theFilterEditText.setText(entered);
+                                //theFilterEditText.setText(entered);
                                 Log.i("FOUND CHECKBOX: ", "checked");
                                 foundCheckStatus = "foundChecked";
                                 //sets found checkbox value
@@ -218,12 +217,12 @@ public class newsfeedFragment extends Fragment {
                                     setFinalCheckStatus("showAll");
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
-                                    adapter.getFilter().filter(finalCheckStatus);
+                                    adapter.getFilter().filter(/*entered+*/finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
 
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
                                     finalCheckStatus = "showLost";
-                                    adapter.getFilter().filter(finalCheckStatus);
+                                    adapter.getFilter().filter(/*entered+*/finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
                                     adapter.notifyDataSetChanged();
@@ -233,7 +232,7 @@ public class newsfeedFragment extends Fragment {
                             }else{
                                 String entered =  theFilterEditText.getText().toString();
                                 theFilterEditText.setText("");
-                                theFilterEditText.setText(entered); //DONOT REMOV
+                                //theFilterEditText.setText(entered); //DONOT REMOV
                                 Log.i("FOUND CHECKBOX: ", "unchecked");
                                 foundCheckStatus = "foundUnchecked";
                                 //set value of lost checkbox
@@ -248,11 +247,11 @@ public class newsfeedFragment extends Fragment {
                                     setFinalCheckStatus("showAll");
                                 }else if (foundCheckStatus.equals("foundChecked") && lostCheckStatus.equals("lostUnchecked")){
                                     finalCheckStatus = "showFound";
-                                    adapter.getFilter().filter(finalCheckStatus);
+                                    adapter.getFilter().filter(/*entered+*/finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostChecked")){
                                     finalCheckStatus = "showLost";
-                                    adapter.getFilter().filter(finalCheckStatus);
+                                    adapter.getFilter().filter(/*entered+*/finalCheckStatus);
                                     setFinalCheckStatus(finalCheckStatus);
                                 }else if (foundCheckStatus.equals("foundUnchecked") && lostCheckStatus.equals("lostUnchecked")){
                                     adapter.notifyDataSetChanged();
@@ -270,34 +269,18 @@ public class newsfeedFragment extends Fragment {
                     itemListView.setAdapter(adapter);
                     //FILTER EDIT TEXT
                     String filterText = theFilterEditText.getText().toString();
-                    /*if(theFilterEditText.getText().toString().equals("") || theFilterEditText.getText().toString().isEmpty() || theFilterEditText.getText().toString().equals(null)){
-                        if(!getFinalCheckStatus().equals("showAll")) {
-                            adapter.notifyDataSetChanged();
-                        }
-                        if(getFinalCheckStatus().equals("showFound")) {
-                            adapter.getFilter().filter("showFound");
-                            //adapter.notifyDataSetChanged();
-                        }else if(getFinalCheckStatus().equals("showLost")) {
 
-                            adapter.getFilter().filter("showLost");
-                            //adapter.notifyDataSetChanged();
-
-                        }
-                    }*/
                     clearImageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-
                             String entered =  theFilterEditText.getText().toString();
                             theFilterEditText.setText("");
-                            if(!getFinalCheckStatus().equals("showAll")) {
+                            /*if(getFinalCheckStatus().equals("showAll")) {
                                 adapter.notifyDataSetChanged();
-                            }
-                            if(getFinalCheckStatus().equals("showFound")) {
-
-                                adapter.getFilter().filter(getFinalCheckStatus());
+                            }else */if(getFinalCheckStatus().equals("showFound")) {
+                                adapter.getFilter().filter("showFound");
                             }else if(getFinalCheckStatus().equals("showLost")) {
-                                adapter.getFilter().filter(getFinalCheckStatus());
+                                adapter.getFilter().filter("showLost");
                             }
                         }
                     });

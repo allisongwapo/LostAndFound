@@ -22,9 +22,10 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:background="@drawable/redroundedbtnnews"
+            android:background="@drawable/redclick"
             android:text="Report Lost Item"
-            android:textColor="@android:color/background_dark" />
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/foundItemBtn"
@@ -35,9 +36,10 @@
             android:layout_marginRight="10dp"
             android:layout_marginTop="8dp"
             android:layout_weight="1"
-            android:background="@drawable/blueroundedbtnnws"
+            android:background="@drawable/blueclick"
             android:text="Report Found Item"
-            android:textColor="@android:color/background_dark" />
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="15sp" />
 
     </LinearLayout>
 
@@ -76,10 +78,10 @@
         android:layout_alignParentTop="true"
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
-        android:layout_marginTop="65dp"
-        app:srcCompat="@drawable/ic_clear_black_24dp" />
+        android:layout_marginTop="68dp"
+        app:srcCompat="@android:drawable/ic_menu_close_clear_cancel" />
 
-    <com.weiwangcn.betterspinner.library.BetterSpinner
+    <!--<com.weiwangcn.betterspinner.library.BetterSpinner
         android:id="@+id/sortbySpinner"
         android:layout_width="184dp"
         android:layout_height="40dp"
@@ -89,27 +91,29 @@
         android:layout_marginLeft="4dp"
         android:layout_marginStart="11dp"
         android:hint="Advanced Search:"
-        android:textColorHint="#7b8483" />
+        android:textColorHint="#7b8483" />-->
 
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/lostCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/theFilterEditText"
-        android:layout_toRightOf="@id/sortbySpinner"
-        android:layout_toEndOf="@+id/sortbySpinner"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
         android:text="Lost" />
 
     <android.support.v7.widget.AppCompatCheckBox
         android:id="@+id/foundCheckbox"
         android:layout_width="wrap_content"
         android:layout_height="40dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentLeft="true"
         android:layout_below="@+id/theFilterEditText"
-        android:layout_marginLeft="10dp"
-        android:layout_marginStart="10dp"
-        android:layout_toEndOf="@+id/lostCheckbox"
-        android:layout_toRightOf="@id/lostCheckbox"
-        android:theme="@style/foundCheckboxTheme"
-        android:text="Found" />
+        android:layout_marginStart="95dp"
+        android:layout_marginLeft="95dp"
+        android:text="Found"
+        android:theme="@style/foundCheckboxTheme" />
 
 </RelativeLayout>

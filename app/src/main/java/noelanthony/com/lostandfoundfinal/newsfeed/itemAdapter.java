@@ -136,8 +136,6 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
                 // if they contain the supplied string
                 for (items c : itemList) {
 
-
-
                     /*if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getlocationDescription().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getPoster().toUpperCase().contains(constraint.toString().toUpperCase()) || c.getdateSubmitted().toUpperCase().contains(constraint.toString().toUpperCase())) {*/
 
                     if (c.getitemName().toUpperCase().contains(constraint.toString().toUpperCase()) || constraint.toString().contains("showLost")) {
@@ -165,8 +163,9 @@ public class itemAdapter extends ArrayAdapter<items> implements Filterable {
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
+
             if (results.count == 0) {
-                notifyDataSetInvalidated();
+                notifyDataSetChanged();
             }
             else {
                 itemList = (ArrayList<items>) results.values;
